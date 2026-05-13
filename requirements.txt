@@ -1,0 +1,30 @@
+# Core numerical stack
+numpy==2.4.4
+scipy==1.17.1
+pandas==3.0.3
+scikit-learn==1.8.0
+
+# PyTorch stack
+torch==2.11.0
+torch-geometric==2.7.0
+
+# TensorFlow/Keras models
+tensorflow==2.21.0
+keras==3.14.1
+
+# Graphs, clustering metrics, and data utilities
+networkx==3.6.1
+munkres==1.1.4
+h5py==3.14.0
+PyYAML>=6.0.2
+
+# Plotting and experiment utilities used by cloned repositories
+matplotlib==3.10.9
+seaborn==0.13.2
+tqdm==4.67.3
+nltk==3.9.4
+
+# Optional dependencies for original repository paths that are not required
+# by the benchmark flow using --data_pt:
+# dgl
+# python-louvain==0.16
