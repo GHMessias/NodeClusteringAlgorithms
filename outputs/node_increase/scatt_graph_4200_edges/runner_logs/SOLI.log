@@ -1,0 +1,36 @@
+$ /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/SOLI/SOLI_GAE/main.py --dataset cora --device cuda --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_4200_edges --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/node_increase/scatt_graph_4200_edges.pt --epochs 300
+/home/gmessias/NodeClusteringAlgorithms/models/SOLI/SOLI_GAE/process.py:290: UserWarning: torch.sparse.SparseTensor(indices, values, shape, *, device=) is deprecated.  Please use torch.sparse_coo_tensor(indices, values, shape, dtype=, device=). (Triggered internally at /pytorch/torch/csrc/utils/tensor_new.cpp:654.)
+  return torch.sparse.FloatTensor(indices, values, shape)
+Using device: cuda
+Traceback (most recent call last):
+  File "/home/gmessias/NodeClusteringAlgorithms/models/SOLI/SOLI_GAE/main.py", line 155, in <module>
+    loss.backward()
+    ~~~~~~~~~~~~~^^
+  File "/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/_tensor.py", line 631, in backward
+    torch.autograd.backward(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        self, gradient, retain_graph, create_graph, inputs=inputs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/autograd/__init__.py", line 381, in backward
+    _engine_run_backward(
+    ~~~~~~~~~~~~~~~~~~~~^
+        tensors,
+        ^^^^^^^^
+    ...<5 lines>...
+        accumulate_grad=True,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/autograd/graph.py", line 869, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        t_outputs, *args, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )  # Calls into the C++ engine to run the backward pass
+    ^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 7.67 GiB. GPU 0 has a total capacity of 10.57 GiB of which 2.50 GiB is free. Including non-PyTorch memory, this process has 8.01 GiB memory in use. Of the allocated memory 141.82 MiB is allocated by PyTorch, and 7.68 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+
+[exit_status=1]
+

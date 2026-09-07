@@ -1,0 +1,25 @@
+$ /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/UCODE/main.py --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/homogen_heterogen/scatt_graph_hetero_0.6 --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/hetero_increase/scatt_graph_hetero_0.6.pt --epochs 300 --device cuda
+Calculating modularity for undirected graph
+scatt_graph_hetero_0.6.pt
+torch.Size([1, 1200, 512])
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:00<00:00,  1.08it/s]
+100%|██████████| 1/1 [00:00<00:00,  1.08it/s]
+nmi:0.04553006197203485
+
+
+Baseline scores:
+NMI: 0.04553006197203485 0.0
+Fscore: 0.12208846783958971 0.0
+Conductance: 0.5953333377838135 0.0
+Modularity: 0.3185293972492218 0.0
+Kmeans scores:
+NMI: 0.01579011563066816 0.0
+Fscore: 0.39273788887875194 0.0
+Conductance: 0.3453333377838135 0.0
+Modularity: 0.1562626212835312 0.0
+UCODE labels saved in: /home/gmessias/NodeClusteringAlgorithms/outputs/homogen_heterogen/scatt_graph_hetero_0.6/UCODE_20260518_0941_labels.npy
+
+[exit_status=0]
+

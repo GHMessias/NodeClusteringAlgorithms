@@ -1,0 +1,83 @@
+$ /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/DSAGC/main.py --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_0 --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/comm_collapse/graph_comm_colapse_0.pt --epochs 300 --device cuda
+/home/gmessias/NodeClusteringAlgorithms/models/DSAGC/utils.py:94: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  dataset.adj = torch.sparse_coo_tensor(
+use cuda: True
+Namespace(name='Cora', data_pt='/home/gmessias/NodeClusteringAlgorithms/datasets/custom/comm_collapse/graph_comm_colapse_0.pt', output_dir='/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_0', epochs=300, device='cuda', pretrain_path='pretrain/GAE_Cora.pkl', max_epoch=100, lr=0.0001, n_clusters=9, update_interval=1, hidden_size=256, embedding_size=16, weight_decay=0.005, alpha=0.2, cuda=True, k=None, input_dim=60)
+GAT(
+  (conv1): GATLayer (60 -> 256)
+  (conv2): GATLayer (256 -> 16)
+)
+Could not load pretrain weights from pretrain/GAE_Cora.pkl: Error(s) in loading state_dict for GAT:
+	size mismatch for conv1.W: copying a param with shape torch.Size([1433, 256]) from checkpoint, the shape in current model is torch.Size([60, 256]).
+Continuing with randomly initialized GAT weights.
+epoch pretrain-Kmeans:acc 0.8572, nmi 0.7137, ari 0.7069, f1 0.8564
+可信赖样本的个数 1215
+epoch pretrain-可信赖样本:acc 0.9531, nmi 0.8999, ari 0.8960, f1 0.9531
+Counter({1: 182, 5: 168, 2: 156, 6: 136, 3: 128, 0: 127, 8: 121, 7: 114, 4: 83})
+Counter({np.int64(0): 200, np.int64(1): 200, np.int64(2): 200, np.int64(3): 200, np.int64(4): 200, np.int64(5): 200, np.int64(6): 200, np.int64(7): 200, np.int64(8): 200})
+自监督训练开始,  GAT模型结构图：
+GAT(
+  (attention_0): GraphAttentionLayer (60 -> 8)
+  (attention_1): GraphAttentionLayer (60 -> 8)
+  (attention_2): GraphAttentionLayer (60 -> 8)
+  (attention_3): GraphAttentionLayer (60 -> 8)
+  (attention_4): GraphAttentionLayer (60 -> 8)
+  (attention_5): GraphAttentionLayer (60 -> 8)
+  (attention_6): GraphAttentionLayer (60 -> 8)
+  (attention_7): GraphAttentionLayer (60 -> 8)
+  (out_att): GraphAttentionLayer (64 -> 9)
+)
+epoch - Train 0:acc 0.3712, nmi 0.2694, ari 0.1389, f1 0.3352
+epoch 0:acc 0.3450, nmi 0.2189, ari 0.1110, f1 0.3138
+epoch - Train 2:acc 0.4058, nmi 0.3142, ari 0.1835, f1 0.3549
+epoch 2:acc 0.3617, nmi 0.2533, ari 0.1509, f1 0.3250
+epoch - Train 4:acc 0.4823, nmi 0.3627, ari 0.2600, f1 0.4181
+epoch 4:acc 0.4289, nmi 0.3015, ari 0.2052, f1 0.3861
+epoch - Train 5:acc 0.5095, nmi 0.3839, ari 0.2926, f1 0.4396
+epoch 5:acc 0.4656, nmi 0.3308, ari 0.2446, f1 0.4132
+epoch - Train 6:acc 0.5605, nmi 0.4482, ari 0.3648, f1 0.4951
+epoch 6:acc 0.5244, nmi 0.3720, ari 0.2984, f1 0.4718
+epoch - Train 7:acc 0.6321, nmi 0.4907, ari 0.4248, f1 0.5872
+epoch 7:acc 0.5944, nmi 0.4167, ari 0.3453, f1 0.5584
+epoch - Train 8:acc 0.7119, nmi 0.5698, ari 0.5004, f1 0.6882
+epoch 8:acc 0.6617, nmi 0.4796, ari 0.4175, f1 0.6378
+epoch - Train 9:acc 0.7992, nmi 0.6661, ari 0.6127, f1 0.7941
+epoch 9:acc 0.7317, nmi 0.5488, ari 0.4973, f1 0.7224
+epoch - Train 10:acc 0.8642, nmi 0.7373, ari 0.7133, f1 0.8650
+epoch 10:acc 0.8067, nmi 0.6360, ari 0.6094, f1 0.8053
+epoch - Train 11:acc 0.8815, nmi 0.7578, ari 0.7476, f1 0.8815
+epoch 11:acc 0.8261, nmi 0.6571, ari 0.6456, f1 0.8246
+epoch - Train 12:acc 0.9103, nmi 0.8049, ari 0.8060, f1 0.9102
+epoch 12:acc 0.8567, nmi 0.7018, ari 0.7030, f1 0.8558
+epoch - Train 13:acc 0.9202, nmi 0.8208, ari 0.8240, f1 0.9216
+epoch 13:acc 0.8756, nmi 0.7317, ari 0.7371, f1 0.8754
+epoch - Train 14:acc 0.9243, nmi 0.8332, ari 0.8373, f1 0.9232
+epoch 14:acc 0.8883, nmi 0.7550, ari 0.7641, f1 0.8878
+epoch - Train 15:acc 0.9251, nmi 0.8335, ari 0.8356, f1 0.9265
+epoch 15:acc 0.8922, nmi 0.7615, ari 0.7724, f1 0.8919
+epoch - Train 19:acc 0.9325, nmi 0.8472, ari 0.8506, f1 0.9340
+epoch 19:acc 0.9044, nmi 0.7844, ari 0.7957, f1 0.9045
+epoch - Train 22:acc 0.9374, nmi 0.8611, ari 0.8614, f1 0.9386
+epoch 22:acc 0.9061, nmi 0.7947, ari 0.7991, f1 0.9058
+epoch - Train 23:acc 0.9292, nmi 0.8474, ari 0.8433, f1 0.9309
+epoch 23:acc 0.9083, nmi 0.7966, ari 0.8049, f1 0.9078
+epoch - Train 24:acc 0.9457, nmi 0.8743, ari 0.8803, f1 0.9460
+epoch 24:acc 0.9128, nmi 0.8031, ari 0.8123, f1 0.9126
+epoch - Train 30:acc 0.9449, nmi 0.8746, ari 0.8764, f1 0.9463
+epoch 30:acc 0.9133, nmi 0.8022, ari 0.8134, f1 0.9132
+epoch - Train 31:acc 0.9481, nmi 0.8840, ari 0.8851, f1 0.9488
+epoch 31:acc 0.9189, nmi 0.8164, ari 0.8260, f1 0.9184
+epoch - Train 34:acc 0.9424, nmi 0.8690, ari 0.8729, f1 0.9429
+epoch 34:acc 0.9217, nmi 0.8197, ari 0.8316, f1 0.9212
+epoch - Train 35:acc 0.9506, nmi 0.8870, ari 0.8896, f1 0.9513
+epoch 35:acc 0.9256, nmi 0.8271, ari 0.8397, f1 0.9252
+epoch - Train 42:acc 0.9481, nmi 0.8808, ari 0.8844, f1 0.9489
+epoch 42:acc 0.9283, nmi 0.8348, ari 0.8446, f1 0.9282
+epoch - Train 55:acc 0.9473, nmi 0.8777, ari 0.8826, f1 0.9481
+epoch 55:acc 0.9322, nmi 0.8440, ari 0.8524, f1 0.9323
+epoch - Train 91:acc 0.9687, nmi 0.9230, ari 0.9300, f1 0.9687
+epoch 91:acc 0.9328, nmi 0.8467, ari 0.8545, f1 0.9326
+DSAGC labels saved in: /home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_0/DSAGC_20260525_1439_labels.npy
+
+[exit_status=0]
+

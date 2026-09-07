@@ -1,0 +1,61 @@
+$ /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/DSAGC/main.py --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/homogen_heterogen/scatt_graph_hetero_0.4 --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/hetero_increase/scatt_graph_hetero_0.4.pt --epochs 300 --device cuda
+/home/gmessias/NodeClusteringAlgorithms/models/DSAGC/utils.py:94: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  dataset.adj = torch.sparse_coo_tensor(
+use cuda: True
+Namespace(name='Cora', data_pt='/home/gmessias/NodeClusteringAlgorithms/datasets/custom/hetero_increase/scatt_graph_hetero_0.4.pt', output_dir='/home/gmessias/NodeClusteringAlgorithms/outputs/homogen_heterogen/scatt_graph_hetero_0.4', epochs=300, device='cuda', pretrain_path='pretrain/GAE_Cora.pkl', max_epoch=100, lr=0.0001, n_clusters=6, update_interval=1, hidden_size=256, embedding_size=16, weight_decay=0.005, alpha=0.2, cuda=True, k=None, input_dim=512)
+GAT(
+  (conv1): GATLayer (512 -> 256)
+  (conv2): GATLayer (256 -> 16)
+)
+Could not load pretrain weights from pretrain/GAE_Cora.pkl: Error(s) in loading state_dict for GAT:
+	size mismatch for conv1.W: copying a param with shape torch.Size([1433, 256]) from checkpoint, the shape in current model is torch.Size([512, 256]).
+Continuing with randomly initialized GAT weights.
+epoch pretrain-Kmeans:acc 0.4650, nmi 0.2085, ari 0.1870, f1 0.4461
+可信赖样本的个数 483
+epoch pretrain-可信赖样本:acc 0.5694, nmi 0.4050, ari 0.3133, f1 0.5706
+Counter({5: 157, 4: 154, 1: 77, 2: 54, 3: 40, np.int64(0): 1})
+Counter({np.int64(0): 200, np.int64(1): 200, np.int64(2): 200, np.int64(3): 200, np.int64(4): 200, np.int64(5): 200})
+自监督训练开始,  GAT模型结构图：
+GAT(
+  (attention_0): GraphAttentionLayer (512 -> 8)
+  (attention_1): GraphAttentionLayer (512 -> 8)
+  (attention_2): GraphAttentionLayer (512 -> 8)
+  (attention_3): GraphAttentionLayer (512 -> 8)
+  (attention_4): GraphAttentionLayer (512 -> 8)
+  (attention_5): GraphAttentionLayer (512 -> 8)
+  (attention_6): GraphAttentionLayer (512 -> 8)
+  (attention_7): GraphAttentionLayer (512 -> 8)
+  (out_att): GraphAttentionLayer (64 -> 6)
+)
+epoch - Train 0:acc 0.3313, nmi 0.1123, ari 0.0564, f1 0.2528
+epoch 0:acc 0.2867, nmi 0.0751, ari 0.0434, f1 0.2765
+epoch - Train 1:acc 0.4907, nmi 0.2054, ari 0.1860, f1 0.3080
+epoch 1:acc 0.2992, nmi 0.0818, ari 0.0622, f1 0.2404
+epoch - Train 2:acc 0.6190, nmi 0.2799, ari 0.2749, f1 0.4740
+epoch 2:acc 0.3492, nmi 0.1056, ari 0.0721, f1 0.2846
+epoch - Train 3:acc 0.6253, nmi 0.3169, ari 0.2757, f1 0.4161
+epoch 3:acc 0.3567, nmi 0.1139, ari 0.0791, f1 0.2909
+epoch - Train 4:acc 0.6460, nmi 0.3580, ari 0.2883, f1 0.5423
+epoch 4:acc 0.3742, nmi 0.1443, ari 0.0913, f1 0.3171
+epoch - Train 5:acc 0.6584, nmi 0.3919, ari 0.2908, f1 0.5099
+epoch 5:acc 0.4058, nmi 0.1823, ari 0.0964, f1 0.3714
+epoch - Train 6:acc 0.6977, nmi 0.4398, ari 0.3399, f1 0.5647
+epoch 6:acc 0.4375, nmi 0.2194, ari 0.1156, f1 0.4141
+epoch - Train 7:acc 0.7267, nmi 0.4922, ari 0.3778, f1 0.5978
+epoch 7:acc 0.4633, nmi 0.2475, ari 0.1402, f1 0.4476
+epoch - Train 8:acc 0.7516, nmi 0.5240, ari 0.4096, f1 0.7558
+epoch 8:acc 0.4875, nmi 0.2744, ari 0.1582, f1 0.4675
+epoch - Train 9:acc 0.7909, nmi 0.5521, ari 0.4915, f1 0.7963
+epoch 9:acc 0.5158, nmi 0.2859, ari 0.1981, f1 0.4884
+epoch - Train 10:acc 0.7909, nmi 0.5558, ari 0.4963, f1 0.6784
+epoch 10:acc 0.5392, nmi 0.3039, ari 0.2325, f1 0.5073
+epoch - Train 11:acc 0.8282, nmi 0.5871, ari 0.5890, f1 0.6905
+epoch 11:acc 0.5483, nmi 0.3085, ari 0.2571, f1 0.5096
+epoch - Train 12:acc 0.8199, nmi 0.5724, ari 0.5702, f1 0.8217
+epoch 12:acc 0.5533, nmi 0.3207, ari 0.2783, f1 0.5126
+epoch - Train 13:acc 0.8427, nmi 0.6085, ari 0.6215, f1 0.8396
+epoch 13:acc 0.5783, nmi 0.3519, ari 0.3162, f1 0.5332
+DSAGC labels saved in: /home/gmessias/NodeClusteringAlgorithms/outputs/homogen_heterogen/scatt_graph_hetero_0.4/DSAGC_20260518_0929_labels.npy
+
+[exit_status=0]
+

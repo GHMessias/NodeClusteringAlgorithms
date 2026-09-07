@@ -1,0 +1,629 @@
+$ /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/SANECE/main.py --dataset cora --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_4 --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/comm_collapse/graph_comm_colapse_4.pt --epoch 300 --device cuda
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1779732634.290225   31611 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING:tensorflow:From /home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/tensorflow/python/compat/v2_compat.py:98: disable_resource_variables (from tensorflow.python.ops.resource_variables_toggle) is deprecated and will be removed in a future version.
+Instructions for updating:
+non-resource variables are not supported in the long term
+WARNING:tensorflow:From /home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/tensorflow/python/util/dispatch.py:1264: calling dropout (from tensorflow.python.ops.nn_ops) with keep_prob is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use `rate` instead of `keep_prob`. Rate should be set to `rate = 1 - keep_prob`.
+E0000 00:00:1779732638.545174   31611 cuda_platform.cc:52] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
+I0000 00:00:1779732638.545200   31611 cuda_diagnostics.cc:160] env: CUDA_VISIBLE_DEVICES=""
+I0000 00:00:1779732638.545208   31611 cuda_diagnostics.cc:163] CUDA_VISIBLE_DEVICES is set to an empty string - this hides all GPUs from CUDA
+I0000 00:00:1779732638.545219   31611 cuda_diagnostics.cc:171] verbose logging is disabled. Rerun with verbose logging (usually --v=1 or --vmodule=cuda_diagnostics=1) to get more diagnostic output from this module
+I0000 00:00:1779732638.545220   31611 cuda_diagnostics.cc:176] retrieving CUDA diagnostic information for host: rock.dc.ufscar.br
+I0000 00:00:1779732638.545224   31611 cuda_diagnostics.cc:183] hostname: rock.dc.ufscar.br
+I0000 00:00:1779732638.545405   31611 cuda_diagnostics.cc:190] libcuda reported version is: 570.169.0
+I0000 00:00:1779732638.545424   31611 cuda_diagnostics.cc:194] kernel reported version is: 570.169.0
+I0000 00:00:1779732638.545427   31611 cuda_diagnostics.cc:284] kernel version seems to match DSO: 570.169.0
+I0000 00:00:1779732638.569422   31611 mlir_graph_optimization_pass.cc:437] MLIR V1 optimization pass is not enabled
+SANECE requested CUDA, but TensorFlow is forced to CPU because this environment is missing GPU libdevice support.
+generating negative sample by aa in 3-hop neighbors......
+generating random walks
+simulating random walk...
+Epoch = 1 Loss = 3.74993
+node clustering generated 9 clusters
+Epoch = 2 Loss = 2.47795
+node clustering generated 9 clusters
+Epoch = 3 Loss = 2.53381
+node clustering generated 9 clusters
+Epoch = 4 Loss = 2.44413
+node clustering generated 9 clusters
+Epoch = 5 Loss = 2.94126
+node clustering generated 9 clusters
+Epoch = 6 Loss = 2.26755
+node clustering generated 9 clusters
+Epoch = 7 Loss = 2.91957
+node clustering generated 9 clusters
+Epoch = 8 Loss = 3.03469
+node clustering generated 9 clusters
+Epoch = 9 Loss = 2.44908
+node clustering generated 9 clusters
+Epoch = 10 Loss = 2.40897
+node clustering generated 9 clusters
+Epoch = 11 Loss = 2.30319
+node clustering generated 9 clusters
+Epoch = 12 Loss = 2.52492
+node clustering generated 9 clusters
+Epoch = 13 Loss = 2.54263
+node clustering generated 9 clusters
+Epoch = 14 Loss = 2.18963
+node clustering generated 9 clusters
+Epoch = 15 Loss = 2.23000
+node clustering generated 9 clusters
+Epoch = 16 Loss = 2.17659
+node clustering generated 9 clusters
+Epoch = 17 Loss = 2.38720
+node clustering generated 9 clusters
+Epoch = 18 Loss = 2.68463
+node clustering generated 9 clusters
+Epoch = 19 Loss = 2.87622
+node clustering generated 9 clusters
+Epoch = 20 Loss = 2.42991
+node clustering generated 9 clusters
+Epoch = 21 Loss = 2.98772
+node clustering generated 9 clusters
+Epoch = 22 Loss = 2.41201
+node clustering generated 9 clusters
+Epoch = 23 Loss = 2.97196
+node clustering generated 9 clusters
+Epoch = 24 Loss = 2.37088
+node clustering generated 9 clusters
+Epoch = 25 Loss = 2.11936
+node clustering generated 9 clusters
+Epoch = 26 Loss = 2.04073
+node clustering generated 9 clusters
+Epoch = 27 Loss = 2.13612
+node clustering generated 9 clusters
+Epoch = 28 Loss = 2.14805
+node clustering generated 9 clusters
+Epoch = 29 Loss = 3.15172
+node clustering generated 9 clusters
+Epoch = 30 Loss = 2.43721
+node clustering generated 9 clusters
+Epoch = 31 Loss = 1.98152
+node clustering generated 9 clusters
+Epoch = 32 Loss = 2.34430
+node clustering generated 9 clusters
+Epoch = 33 Loss = 1.89648
+node clustering generated 9 clusters
+Epoch = 34 Loss = 2.64940
+node clustering generated 9 clusters
+Epoch = 35 Loss = 2.49166
+node clustering generated 9 clusters
+Epoch = 36 Loss = 2.12770
+node clustering generated 9 clusters
+Epoch = 37 Loss = 2.29496
+node clustering generated 9 clusters
+Epoch = 38 Loss = 2.21159
+node clustering generated 9 clusters
+Epoch = 39 Loss = 2.90437
+node clustering generated 9 clusters
+Epoch = 40 Loss = 2.40282
+node clustering generated 9 clusters
+Epoch = 41 Loss = 2.30192
+node clustering generated 9 clusters
+Epoch = 42 Loss = 1.63607
+node clustering generated 9 clusters
+Epoch = 43 Loss = 2.10189
+node clustering generated 9 clusters
+Epoch = 44 Loss = 1.62333
+node clustering generated 9 clusters
+Epoch = 45 Loss = 1.39357
+node clustering generated 9 clusters
+Epoch = 46 Loss = 2.07253
+node clustering generated 9 clusters
+Epoch = 47 Loss = 1.60531
+node clustering generated 9 clusters
+Epoch = 48 Loss = 2.35285
+node clustering generated 9 clusters
+Epoch = 49 Loss = 1.96206
+node clustering generated 9 clusters
+Epoch = 50 Loss = 1.77712
+node clustering generated 9 clusters
+Epoch = 51 Loss = 2.12431
+node clustering generated 9 clusters
+Epoch = 52 Loss = 2.18006
+node clustering generated 9 clusters
+Epoch = 53 Loss = 1.87154
+node clustering generated 9 clusters
+Epoch = 54 Loss = 2.12477
+node clustering generated 9 clusters
+Epoch = 55 Loss = 1.61050
+node clustering generated 9 clusters
+Epoch = 56 Loss = 1.78029
+node clustering generated 9 clusters
+Epoch = 57 Loss = 1.65724
+node clustering generated 9 clusters
+Epoch = 58 Loss = 2.26959
+node clustering generated 9 clusters
+Epoch = 59 Loss = 1.89062
+node clustering generated 9 clusters
+Epoch = 60 Loss = 2.11901
+node clustering generated 9 clusters
+Epoch = 61 Loss = 2.03684
+node clustering generated 9 clusters
+Epoch = 62 Loss = 1.81480
+node clustering generated 9 clusters
+Epoch = 63 Loss = 2.02073
+node clustering generated 9 clusters
+Epoch = 64 Loss = 1.34270
+node clustering generated 9 clusters
+Epoch = 65 Loss = 2.51595
+node clustering generated 9 clusters
+Epoch = 66 Loss = 2.04444
+node clustering generated 9 clusters
+Epoch = 67 Loss = 1.20103
+node clustering generated 9 clusters
+Epoch = 68 Loss = 2.14808
+node clustering generated 9 clusters
+Epoch = 69 Loss = 2.17220
+node clustering generated 9 clusters
+Epoch = 70 Loss = 2.15745
+node clustering generated 9 clusters
+Epoch = 71 Loss = 2.08657
+node clustering generated 9 clusters
+Epoch = 72 Loss = 1.31883
+node clustering generated 9 clusters
+Epoch = 73 Loss = 1.25279
+node clustering generated 9 clusters
+Epoch = 74 Loss = 1.33615
+node clustering generated 9 clusters
+Epoch = 75 Loss = 1.84084
+node clustering generated 9 clusters
+Epoch = 76 Loss = 1.28401
+node clustering generated 9 clusters
+Epoch = 77 Loss = 1.60724
+node clustering generated 9 clusters
+Epoch = 78 Loss = 1.99262
+node clustering generated 9 clusters
+Epoch = 79 Loss = 1.75505
+node clustering generated 9 clusters
+Epoch = 80 Loss = 1.01410
+node clustering generated 9 clusters
+Epoch = 81 Loss = 1.86145
+node clustering generated 9 clusters
+Epoch = 82 Loss = 1.67961
+node clustering generated 9 clusters
+Epoch = 83 Loss = 1.92097
+node clustering generated 9 clusters
+Epoch = 84 Loss = 1.31607
+node clustering generated 9 clusters
+Epoch = 85 Loss = 1.33591
+node clustering generated 9 clusters
+Epoch = 86 Loss = 1.95348
+node clustering generated 9 clusters
+Epoch = 87 Loss = 1.39999
+node clustering generated 9 clusters
+Epoch = 88 Loss = 1.93830
+node clustering generated 9 clusters
+Epoch = 89 Loss = 1.53689
+node clustering generated 9 clusters
+Epoch = 90 Loss = 1.33683
+node clustering generated 9 clusters
+Epoch = 91 Loss = 1.31699
+node clustering generated 9 clusters
+Epoch = 92 Loss = 1.34989
+node clustering generated 9 clusters
+Epoch = 93 Loss = 1.65999
+node clustering generated 9 clusters
+Epoch = 94 Loss = 1.34467
+node clustering generated 9 clusters
+Epoch = 95 Loss = 1.93509
+node clustering generated 9 clusters
+Epoch = 96 Loss = 1.29499
+node clustering generated 9 clusters
+Epoch = 97 Loss = 1.60749
+node clustering generated 9 clusters
+Epoch = 98 Loss = 1.75019
+node clustering generated 9 clusters
+Epoch = 99 Loss = 1.55101
+node clustering generated 9 clusters
+Epoch = 100 Loss = 1.81700
+node clustering generated 9 clusters
+Epoch = 101 Loss = 1.45084
+node clustering generated 9 clusters
+Epoch = 102 Loss = 1.49822
+node clustering generated 9 clusters
+Epoch = 103 Loss = 1.29510
+node clustering generated 9 clusters
+Epoch = 104 Loss = 0.85785
+node clustering generated 9 clusters
+Epoch = 105 Loss = 0.65157
+node clustering generated 9 clusters
+Epoch = 106 Loss = 1.38513
+node clustering generated 9 clusters
+Epoch = 107 Loss = 1.41189
+node clustering generated 9 clusters
+Epoch = 108 Loss = 1.46270
+node clustering generated 9 clusters
+Epoch = 109 Loss = 0.93519
+node clustering generated 9 clusters
+Epoch = 110 Loss = 1.24895
+node clustering generated 9 clusters
+Epoch = 111 Loss = 1.29197
+node clustering generated 9 clusters
+Epoch = 112 Loss = 1.61304
+node clustering generated 9 clusters
+Epoch = 113 Loss = 1.84834
+node clustering generated 9 clusters
+Epoch = 114 Loss = 1.14270
+node clustering generated 9 clusters
+Epoch = 115 Loss = 0.96934
+node clustering generated 9 clusters
+Epoch = 116 Loss = 1.22573
+node clustering generated 9 clusters
+Epoch = 117 Loss = 1.31754
+node clustering generated 9 clusters
+Epoch = 118 Loss = 1.83255
+node clustering generated 9 clusters
+Epoch = 119 Loss = 1.16613
+node clustering generated 9 clusters
+Epoch = 120 Loss = 1.40030
+node clustering generated 9 clusters
+Epoch = 121 Loss = 1.39799
+node clustering generated 9 clusters
+Epoch = 122 Loss = 1.81154
+node clustering generated 9 clusters
+Epoch = 123 Loss = 1.32554
+node clustering generated 9 clusters
+Epoch = 124 Loss = 1.36496
+node clustering generated 9 clusters
+Epoch = 125 Loss = 1.36750
+node clustering generated 9 clusters
+Epoch = 126 Loss = 1.07764
+node clustering generated 9 clusters
+Epoch = 127 Loss = 1.35213
+node clustering generated 9 clusters
+Epoch = 128 Loss = 1.38823
+node clustering generated 9 clusters
+Epoch = 129 Loss = 1.68131
+node clustering generated 9 clusters
+Epoch = 130 Loss = 0.84937
+node clustering generated 9 clusters
+Epoch = 131 Loss = 1.59592
+node clustering generated 9 clusters
+Epoch = 132 Loss = 1.66934
+node clustering generated 9 clusters
+Epoch = 133 Loss = 1.44551
+node clustering generated 9 clusters
+Epoch = 134 Loss = 1.53573
+node clustering generated 9 clusters
+Epoch = 135 Loss = 0.77584
+node clustering generated 9 clusters
+Epoch = 136 Loss = 1.63687
+node clustering generated 9 clusters
+Epoch = 137 Loss = 1.72872
+node clustering generated 9 clusters
+Epoch = 138 Loss = 1.60036
+node clustering generated 9 clusters
+Epoch = 139 Loss = 1.16731
+node clustering generated 9 clusters
+Epoch = 140 Loss = 0.60523
+node clustering generated 9 clusters
+Epoch = 141 Loss = 1.93608
+node clustering generated 9 clusters
+Epoch = 142 Loss = 1.18167
+node clustering generated 9 clusters
+Epoch = 143 Loss = 1.60995
+node clustering generated 9 clusters
+Epoch = 144 Loss = 0.76781
+node clustering generated 9 clusters
+Epoch = 145 Loss = 0.96919
+node clustering generated 9 clusters
+Epoch = 146 Loss = 1.57930
+node clustering generated 9 clusters
+Epoch = 147 Loss = 0.89145
+node clustering generated 9 clusters
+Epoch = 148 Loss = 1.58480
+node clustering generated 9 clusters
+Epoch = 149 Loss = 1.55381
+node clustering generated 9 clusters
+Epoch = 150 Loss = 1.52328
+node clustering generated 9 clusters
+Epoch = 151 Loss = 0.98684
+node clustering generated 9 clusters
+Epoch = 152 Loss = 0.90861
+node clustering generated 9 clusters
+Epoch = 153 Loss = 1.27016
+node clustering generated 9 clusters
+Epoch = 154 Loss = 1.06055
+node clustering generated 9 clusters
+Epoch = 155 Loss = 0.97593
+node clustering generated 9 clusters
+Epoch = 156 Loss = 1.01833
+node clustering generated 9 clusters
+Epoch = 157 Loss = 0.60374
+node clustering generated 9 clusters
+Epoch = 158 Loss = 1.16796
+node clustering generated 9 clusters
+Epoch = 159 Loss = 1.34307
+node clustering generated 9 clusters
+Epoch = 160 Loss = 1.54896
+node clustering generated 9 clusters
+Epoch = 161 Loss = 1.18145
+node clustering generated 9 clusters
+Epoch = 162 Loss = 1.18117
+node clustering generated 9 clusters
+Epoch = 163 Loss = 1.40214
+node clustering generated 9 clusters
+Epoch = 164 Loss = 1.36033
+node clustering generated 9 clusters
+Epoch = 165 Loss = 1.37507
+node clustering generated 9 clusters
+Epoch = 166 Loss = 0.71905
+node clustering generated 9 clusters
+Epoch = 167 Loss = 1.55607
+node clustering generated 9 clusters
+Epoch = 168 Loss = 1.00424
+node clustering generated 9 clusters
+Epoch = 169 Loss = 0.83918
+node clustering generated 9 clusters
+Epoch = 170 Loss = 1.43038
+node clustering generated 9 clusters
+Epoch = 171 Loss = 0.96658
+node clustering generated 9 clusters
+Epoch = 172 Loss = 1.04406
+node clustering generated 9 clusters
+Epoch = 173 Loss = 0.82057
+node clustering generated 9 clusters
+Epoch = 174 Loss = 1.40902
+node clustering generated 9 clusters
+Epoch = 175 Loss = 1.38647
+node clustering generated 9 clusters
+Epoch = 176 Loss = 1.57017
+node clustering generated 9 clusters
+Epoch = 177 Loss = 0.93986
+node clustering generated 9 clusters
+Epoch = 178 Loss = 1.48226
+node clustering generated 9 clusters
+Epoch = 179 Loss = 0.81523
+node clustering generated 9 clusters
+Epoch = 180 Loss = 1.24418
+node clustering generated 9 clusters
+Epoch = 181 Loss = 1.23035
+node clustering generated 9 clusters
+Epoch = 182 Loss = 0.95395
+node clustering generated 9 clusters
+Epoch = 183 Loss = 0.96056
+node clustering generated 9 clusters
+Epoch = 184 Loss = 1.17674
+node clustering generated 9 clusters
+Epoch = 185 Loss = 0.96091
+node clustering generated 9 clusters
+Epoch = 186 Loss = 1.14237
+node clustering generated 9 clusters
+Epoch = 187 Loss = 0.69160
+node clustering generated 9 clusters
+Epoch = 188 Loss = 0.89574
+node clustering generated 9 clusters
+Epoch = 189 Loss = 1.59494
+node clustering generated 9 clusters
+Epoch = 190 Loss = 1.72259
+node clustering generated 9 clusters
+Epoch = 191 Loss = 1.32909
+node clustering generated 9 clusters
+Epoch = 192 Loss = 1.06524
+node clustering generated 9 clusters
+Epoch = 193 Loss = 1.03709
+node clustering generated 9 clusters
+Epoch = 194 Loss = 0.76715
+node clustering generated 9 clusters
+Epoch = 195 Loss = 1.34323
+node clustering generated 9 clusters
+Epoch = 196 Loss = 2.00539
+node clustering generated 9 clusters
+Epoch = 197 Loss = 1.05428
+node clustering generated 9 clusters
+Epoch = 198 Loss = 1.28940
+node clustering generated 9 clusters
+Epoch = 199 Loss = 0.74321
+node clustering generated 9 clusters
+Epoch = 200 Loss = 1.01681
+node clustering generated 9 clusters
+Epoch = 201 Loss = 1.51506
+node clustering generated 9 clusters
+Epoch = 202 Loss = 1.01511
+node clustering generated 9 clusters
+Epoch = 203 Loss = 0.88567
+node clustering generated 9 clusters
+Epoch = 204 Loss = 1.21150
+node clustering generated 9 clusters
+Epoch = 205 Loss = 1.44481
+node clustering generated 9 clusters
+Epoch = 206 Loss = 1.44229
+node clustering generated 9 clusters
+Epoch = 207 Loss = 1.67007
+node clustering generated 9 clusters
+Epoch = 208 Loss = 0.74291
+node clustering generated 9 clusters
+Epoch = 209 Loss = 1.44374
+node clustering generated 9 clusters
+Epoch = 210 Loss = 1.49618
+node clustering generated 9 clusters
+Epoch = 211 Loss = 1.24594
+node clustering generated 9 clusters
+Epoch = 212 Loss = 0.92928
+node clustering generated 9 clusters
+Epoch = 213 Loss = 1.16013
+node clustering generated 9 clusters
+Epoch = 214 Loss = 0.90035
+node clustering generated 9 clusters
+Epoch = 215 Loss = 1.09346
+node clustering generated 9 clusters
+Epoch = 216 Loss = 1.10991
+node clustering generated 9 clusters
+Epoch = 217 Loss = 1.06512
+node clustering generated 9 clusters
+Epoch = 218 Loss = 1.38682
+node clustering generated 9 clusters
+Epoch = 219 Loss = 1.30816
+node clustering generated 9 clusters
+Epoch = 220 Loss = 0.84409
+node clustering generated 9 clusters
+Epoch = 221 Loss = 1.29894
+node clustering generated 9 clusters
+Epoch = 222 Loss = 1.15782
+node clustering generated 9 clusters
+Epoch = 223 Loss = 1.14794
+node clustering generated 9 clusters
+Epoch = 224 Loss = 0.72926
+node clustering generated 9 clusters
+Epoch = 225 Loss = 1.26601
+node clustering generated 9 clusters
+Epoch = 226 Loss = 0.78961
+node clustering generated 9 clusters
+Epoch = 227 Loss = 1.22203
+node clustering generated 9 clusters
+Epoch = 228 Loss = 1.18747
+node clustering generated 9 clusters
+Epoch = 229 Loss = 0.82799
+node clustering generated 9 clusters
+Epoch = 230 Loss = 1.38493
+node clustering generated 9 clusters
+Epoch = 231 Loss = 1.05117
+node clustering generated 9 clusters
+Epoch = 232 Loss = 1.38661
+node clustering generated 9 clusters
+Epoch = 233 Loss = 1.15485
+node clustering generated 9 clusters
+Epoch = 234 Loss = 0.92111
+node clustering generated 9 clusters
+Epoch = 235 Loss = 0.93032
+node clustering generated 9 clusters
+Epoch = 236 Loss = 1.23162
+node clustering generated 9 clusters
+Epoch = 237 Loss = 0.77582
+node clustering generated 9 clusters
+Epoch = 238 Loss = 1.39836
+node clustering generated 9 clusters
+Epoch = 239 Loss = 1.07572
+node clustering generated 9 clusters
+Epoch = 240 Loss = 0.76860
+node clustering generated 9 clusters
+Epoch = 241 Loss = 1.11841
+node clustering generated 9 clusters
+Epoch = 242 Loss = 1.68912
+node clustering generated 9 clusters
+Epoch = 243 Loss = 0.71967
+node clustering generated 9 clusters
+Epoch = 244 Loss = 1.27781
+node clustering generated 9 clusters
+Epoch = 245 Loss = 1.49256
+node clustering generated 9 clusters
+Epoch = 246 Loss = 0.94307
+node clustering generated 9 clusters
+Epoch = 247 Loss = 1.27582
+node clustering generated 9 clusters
+Epoch = 248 Loss = 0.87960
+node clustering generated 9 clusters
+Epoch = 249 Loss = 0.59525
+node clustering generated 9 clusters
+Epoch = 250 Loss = 0.75041
+node clustering generated 9 clusters
+Epoch = 251 Loss = 0.59746
+node clustering generated 9 clusters
+Epoch = 252 Loss = 1.11192
+node clustering generated 9 clusters
+Epoch = 253 Loss = 1.03729
+node clustering generated 9 clusters
+Epoch = 254 Loss = 1.05759
+node clustering generated 9 clusters
+Epoch = 255 Loss = 1.15395
+node clustering generated 9 clusters
+Epoch = 256 Loss = 0.94087
+node clustering generated 9 clusters
+Epoch = 257 Loss = 0.94433
+node clustering generated 9 clusters
+Epoch = 258 Loss = 0.63135
+node clustering generated 9 clusters
+Epoch = 259 Loss = 1.27486
+node clustering generated 9 clusters
+Epoch = 260 Loss = 1.12653
+node clustering generated 9 clusters
+Epoch = 261 Loss = 1.76252
+node clustering generated 9 clusters
+Epoch = 262 Loss = 1.42520
+node clustering generated 9 clusters
+Epoch = 263 Loss = 1.16270
+node clustering generated 9 clusters
+Epoch = 264 Loss = 1.72830
+node clustering generated 9 clusters
+Epoch = 265 Loss = 1.46610
+node clustering generated 9 clusters
+Epoch = 266 Loss = 1.09020
+node clustering generated 9 clusters
+Epoch = 267 Loss = 1.28280
+node clustering generated 9 clusters
+Epoch = 268 Loss = 0.90397
+node clustering generated 9 clusters
+Epoch = 269 Loss = 1.38267
+node clustering generated 9 clusters
+Epoch = 270 Loss = 1.00162
+node clustering generated 9 clusters
+Epoch = 271 Loss = 1.32323
+node clustering generated 9 clusters
+Epoch = 272 Loss = 1.49169
+node clustering generated 9 clusters
+Epoch = 273 Loss = 1.48249
+node clustering generated 9 clusters
+Epoch = 274 Loss = 0.99936
+node clustering generated 9 clusters
+Epoch = 275 Loss = 1.67122
+node clustering generated 9 clusters
+Epoch = 276 Loss = 1.44353
+node clustering generated 9 clusters
+Epoch = 277 Loss = 1.40485
+node clustering generated 9 clusters
+Epoch = 278 Loss = 1.46844
+node clustering generated 9 clusters
+Epoch = 279 Loss = 1.25647
+node clustering generated 9 clusters
+Epoch = 280 Loss = 0.92613
+node clustering generated 9 clusters
+Epoch = 281 Loss = 0.47357
+node clustering generated 9 clusters
+Epoch = 282 Loss = 0.79942
+node clustering generated 9 clusters
+Epoch = 283 Loss = 0.76296
+node clustering generated 9 clusters
+Epoch = 284 Loss = 0.78684
+node clustering generated 9 clusters
+Epoch = 285 Loss = 1.11142
+node clustering generated 9 clusters
+Epoch = 286 Loss = 1.33202
+node clustering generated 9 clusters
+Epoch = 287 Loss = 1.23657
+node clustering generated 9 clusters
+Epoch = 288 Loss = 1.58507
+node clustering generated 9 clusters
+Epoch = 289 Loss = 1.17468
+node clustering generated 9 clusters
+Epoch = 290 Loss = 0.83947
+node clustering generated 9 clusters
+Epoch = 291 Loss = 0.79654
+node clustering generated 9 clusters
+Epoch = 292 Loss = 0.66997
+node clustering generated 9 clusters
+Epoch = 293 Loss = 1.20120
+node clustering generated 9 clusters
+Epoch = 294 Loss = 1.22026
+node clustering generated 9 clusters
+Epoch = 295 Loss = 1.22143
+node clustering generated 9 clusters
+Epoch = 296 Loss = 1.52312
+node clustering generated 9 clusters
+Epoch = 297 Loss = 0.78008
+node clustering generated 9 clusters
+Epoch = 298 Loss = 1.83488
+node clustering generated 9 clusters
+Epoch = 299 Loss = 1.14625
+node clustering generated 9 clusters
+Epoch = 300 Loss = 0.88170
+node clustering generated 9 clusters
+Learning finished.....
+SANECE labels saved in: /home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_4/SANECE_20260525_1511_labels.npy
+
+[exit_status=0]
+

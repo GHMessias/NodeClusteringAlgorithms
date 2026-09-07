@@ -1,0 +1,25 @@
+$ /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/UCODE/main.py --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_1800_edges --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/node_increase/scatt_graph_1800_edges.pt --epochs 300 --device cuda
+Calculating modularity for undirected graph
+scatt_graph_1800_edges.pt
+torch.Size([1, 1800, 512])
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:01<00:00,  1.06s/it]
+100%|██████████| 1/1 [00:01<00:00,  1.06s/it]
+nmi:0.2801418378076107
+
+
+Baseline scores:
+NMI: 0.2801418378076107 0.0
+Fscore: 0.36861250744686985 0.0
+Conductance: 0.3795555531978607 0.0
+Modularity: 0.4865649342536926 0.0
+Kmeans scores:
+NMI: 0.07815158632116505 0.0
+Fscore: 0.36449570475203 0.0
+Conductance: 0.3199999928474426 0.0
+Modularity: 0.2535736858844757 0.0
+UCODE labels saved in: /home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_1800_edges/UCODE_20260518_1051_labels.npy
+
+[exit_status=0]
+

@@ -1,0 +1,112 @@
+{
+  "results": [
+    {
+      "runner_model": "coane",
+      "model": "CoANE",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/CoANE_20260518_1436_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/runner_logs/CoANE.log"
+    },
+    {
+      "runner_model": "coane_topk",
+      "model": "CoANE_topk",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/CoANE_topk_20260518_1445_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/runner_logs/CoANE_topk.log"
+    },
+    {
+      "runner_model": "dgc_efr",
+      "model": "DGC",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/DGC_20260518_1449_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/runner_logs/DGC.log"
+    },
+    {
+      "runner_model": "soli",
+      "model": "SOLI",
+      "ok": false,
+      "outputs": [],
+      "error": "exit status 1: /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/SOLI/SOLI_GAE/main.py --dataset cora --device cuda --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/node_increase/scatt_graph_6000_edges.pt --epochs 300\n    )\n    ^\n  File \"/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/autograd/__init__.py\", line 381, in backward\n    _engine_run_backward(\n    ~~~~~~~~~~~~~~~~~~~~^\n        tensors,\n        ^^^^^^^^\n    ...<5 lines>...\n        accumulate_grad=True,\n        ^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/autograd/graph.py\", line 869, in _engine_run_backward\n    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        t_outputs, *args, **kwargs\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )  # Calls into the C++ engine to run the backward pass\n    ^\ntorch.OutOfMemoryError: CUDA out of memory. Tried to allocate 10.95 GiB. GPU 0 has a total capacity of 10.57 GiB of which 10.11 GiB is free. Including non-PyTorch memory, this process has 406.00 MiB memory in use. Of the allocated memory 172.21 MiB is allocated by PyTorch, and 45.79 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/runner_logs/SOLI.log"
+    },
+    {
+      "runner_model": "ucode",
+      "model": "UCODE",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/UCODE_20260518_1455_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/runner_logs/UCODE.log"
+    },
+    {
+      "runner_model": "ns4gc",
+      "model": "NS4GC",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/NS4GC_20260518_1455_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/runner_logs/NS4GC.log"
+    },
+    {
+      "runner_model": "dgcluster",
+      "model": "DGCluster",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/DGCluster_20260518_1455_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/runner_logs/DGCluster.log"
+    },
+    {
+      "runner_model": "sanece",
+      "model": "SANECE",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/SANECE_20260518_1502_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/runner_logs/SANECE.log"
+    },
+    {
+      "runner_model": "egc_vgae",
+      "model": "EGC_VGAE",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/EGC_VGAE_20260518_1539_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/runner_logs/EGC_VGAE.log"
+    },
+    {
+      "runner_model": "dsagc",
+      "model": "DSAGC",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/DSAGC_20260518_1539_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/runner_logs/DSAGC.log"
+    },
+    {
+      "runner_model": "scgc",
+      "model": "SCGC",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/SCGC_20260518_1540_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/runner_logs/SCGC.log"
+    }
+  ]
+}

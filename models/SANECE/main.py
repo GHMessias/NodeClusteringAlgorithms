@@ -1,10 +1,27 @@
 from config import *
 import argparse
 import os
+import sys
 import time
 import numpy as np
 from utils import *
 import networkx as nx
+
+
+def requested_device(argv):
+    for index, token in enumerate(argv):
+        if token == '--device' and index + 1 < len(argv):
+            return argv[index + 1]
+        if token.startswith('--device='):
+            return token.split('=', 1)[1]
+    return 'cpu'
+
+
+RAW_DEVICE = requested_device(sys.argv[1:])
+if RAW_DEVICE == 'cuda' and os.environ.get('SANECE_ALLOW_TF_GPU') != '1':
+    os.environ['CUDA_VISIBLE_DEVICES'] = ''
+    os.environ['SANECE_TF_FALLBACK_CPU'] = '1'
+
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 from model import *
@@ -120,6 +137,7 @@ def main():
     parser.add_argument('--seed', default=0, type=int)
     parser.add_argument('--output_dir', default='outputs')
     parser.add_argument('--classification_eval', action='store_true')
+    parser.add_argument('--device', default='cpu', choices=['cpu', 'cuda'])
     args = parser.parse_args()
     neg_mean_map = {
         'random': 'R',
@@ -135,6 +153,8 @@ def main():
     }
     args.neg_mean = neg_mean_map.get(args.neg_mean, args.neg_mean)
     config = Config()
+    if args.device == 'cuda' and os.environ.get('SANECE_TF_FALLBACK_CPU') == '1':
+        print('SANECE requested CUDA, but TensorFlow is forced to CPU because this environment is missing GPU libdevice support.')
 
     G, X, y = load_dataset(args, config)
     Adj = nx.to_numpy_array(G, nodelist=range(config.n))

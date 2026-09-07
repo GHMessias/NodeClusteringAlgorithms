@@ -1,0 +1,3 @@
+dataset,dataset_path,run,seed,epoch,loss,argmax_nmi,kmeans_nmi,layer1_neurons,layer2_neurons,hid_units,hid_dimension,kmeans_clusters,learning_rate,weight_decay
+scatt_graph,/home/gmessias/NodeClusteringAlgorithms/datasets/custom/scatt_graph.pt,1,42,1,0.6740022897720337,0.09632858183594023,0.027462952786004597,512,16,16,512,3,0.005,0.01
+scatt_graph,/home/gmessias/NodeClusteringAlgorithms/datasets/custom/scatt_graph.pt,1,42,2,0.6720026731491089,0.08675512736154334,0.03557526025522795,512,16,16,512,3,0.005,0.01

@@ -1,0 +1,23 @@
+{
+  "results": [
+    {
+      "runner_model": "dgc_efr",
+      "model": "DGC",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/tmp_results/DGC_20260527_1436_labels.npy"
+      ],
+      "metrics": [
+        {
+          "file": "/home/gmessias/NodeClusteringAlgorithms/outputs/tmp_results/DGC_20260527_1436_labels.npy",
+          "acc": 0.3675,
+          "f1": 0.3656501505489873,
+          "nmi": 0.13961113171087658
+        }
+      ],
+      "metrics_error": [],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/tmp_results/runner_logs/DGC.log"
+    }
+  ]
+}

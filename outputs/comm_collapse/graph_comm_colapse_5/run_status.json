@@ -1,0 +1,213 @@
+{
+  "results": [
+    {
+      "runner_model": "coane",
+      "model": "CoANE",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/CoANE_20260525_1514_labels.npy"
+      ],
+      "metrics": [
+        {
+          "file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/CoANE_20260525_1514_labels.npy",
+          "acc": 0.8475,
+          "f1": 0.8390931970279915,
+          "nmi": 0.7177828697322235
+        }
+      ],
+      "metrics_error": [],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/runner_logs/CoANE.log"
+    },
+    {
+      "runner_model": "coane_topk",
+      "model": "CoANE_topk",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/CoANE_topk_20260525_1515_labels.npy"
+      ],
+      "metrics": [
+        {
+          "file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/CoANE_topk_20260525_1515_labels.npy",
+          "acc": 0.8591666666666666,
+          "f1": 0.8506733036420767,
+          "nmi": 0.7256789429537323
+        }
+      ],
+      "metrics_error": [],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/runner_logs/CoANE_topk.log"
+    },
+    {
+      "runner_model": "dgc_efr",
+      "model": "DGC",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/DGC_20260525_1516_labels.npy"
+      ],
+      "metrics": [
+        {
+          "file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/DGC_20260525_1516_labels.npy",
+          "acc": 0.8325,
+          "f1": 0.8229030906490676,
+          "nmi": 0.6977594836896361
+        }
+      ],
+      "metrics_error": [],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/runner_logs/DGC.log"
+    },
+    {
+      "runner_model": "soli",
+      "model": "SOLI",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/SOLI_20260525_1517_labels.npy"
+      ],
+      "metrics": [
+        {
+          "file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/SOLI_20260525_1517_labels.npy",
+          "acc": 0.5825,
+          "f1": 0.5449421036316396,
+          "nmi": 0.5565177511014993
+        }
+      ],
+      "metrics_error": [],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/runner_logs/SOLI.log"
+    },
+    {
+      "runner_model": "ucode",
+      "model": "UCODE",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/UCODE_20260525_1517_labels.npy"
+      ],
+      "metrics": [
+        {
+          "file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/UCODE_20260525_1517_labels.npy",
+          "acc": 0.30083333333333334,
+          "f1": 0.23895048074466618,
+          "nmi": 0.13057185315446218
+        }
+      ],
+      "metrics_error": [],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/runner_logs/UCODE.log"
+    },
+    {
+      "runner_model": "ns4gc",
+      "model": "NS4GC",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/NS4GC_20260525_1517_labels.npy"
+      ],
+      "metrics": [
+        {
+          "file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/NS4GC_20260525_1517_labels.npy",
+          "acc": 0.645,
+          "f1": 0.6012398092547652,
+          "nmi": 0.6910536440782433
+        }
+      ],
+      "metrics_error": [],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/runner_logs/NS4GC.log"
+    },
+    {
+      "runner_model": "dgcluster",
+      "model": "DGCluster",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/DGCluster_20260525_1517_labels.npy"
+      ],
+      "metrics": [
+        {
+          "file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/DGCluster_20260525_1517_labels.npy",
+          "acc": 0.8016666666666666,
+          "f1": 0.738086312938959,
+          "nmi": 0.7501313874921544
+        }
+      ],
+      "metrics_error": [],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/runner_logs/DGCluster.log"
+    },
+    {
+      "runner_model": "sanece",
+      "model": "SANECE",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/SANECE_20260525_1518_labels.npy"
+      ],
+      "metrics": [
+        {
+          "file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/SANECE_20260525_1518_labels.npy",
+          "acc": 0.5941666666666666,
+          "f1": 0.5617393624577223,
+          "nmi": 0.6014198262419453
+        }
+      ],
+      "metrics_error": [],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/runner_logs/SANECE.log"
+    },
+    {
+      "runner_model": "egc_vgae",
+      "model": "EGC_VGAE",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/EGC_VGAE_20260525_1520_labels.npy"
+      ],
+      "metrics": [
+        {
+          "file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/EGC_VGAE_20260525_1520_labels.npy",
+          "acc": 0.8166666666666667,
+          "f1": 0.8093838731785274,
+          "nmi": 0.7181174581598356
+        }
+      ],
+      "metrics_error": [],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/runner_logs/EGC_VGAE.log"
+    },
+    {
+      "runner_model": "dsagc",
+      "model": "DSAGC",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/DSAGC_20260525_1520_labels.npy"
+      ],
+      "metrics": [
+        {
+          "file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/DSAGC_20260525_1520_labels.npy",
+          "acc": 0.6716666666666666,
+          "f1": 0.6485485321163842,
+          "nmi": 0.6449810537874153
+        }
+      ],
+      "metrics_error": [],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/runner_logs/DSAGC.log"
+    },
+    {
+      "runner_model": "scgc",
+      "model": "SCGC",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/SCGC_20260525_1521_labels.npy"
+      ],
+      "metrics": [
+        {
+          "file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/SCGC_20260525_1521_labels.npy",
+          "acc": 0.5858333333333333,
+          "f1": 0.4678837038710686,
+          "nmi": 0.6814178162267891
+        }
+      ],
+      "metrics_error": [],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_5/runner_logs/SCGC.log"
+    }
+  ]
+}

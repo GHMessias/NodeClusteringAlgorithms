@@ -1,0 +1,60 @@
+$ /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/CoANE/CoANE topk with attributes preservation/main_CoANE_topk.py --dataset cora --device cuda --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_4800_edges --kmeans --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/node_increase/scatt_graph_4800_edges.pt --num_epochs 300
+Loading PyG data.pt:  /home/gmessias/NodeClusteringAlgorithms/datasets/custom/node_increase/scatt_graph_4800_edges.pt
+Data with node:  4800 feature: 512 classes:  6
+Loading Done...
+Spliting...
+seed:  0
+preprocessing...
+generating test/val sets...
+creating false test edges...
+creating false val edges...
+creating false train edges...
+final checks for disjointness...
+creating adj_train...
+Done with train-test split!
+
+Random Walking...
+Walk iteration:
+1 / 1
+Scaning Contexts...
+
+  0%|          | 0/4800 [00:00<?, ?it/s]
+ 12%|█▏        | 556/4800 [00:00<00:00, 5555.13it/s]
+ 28%|██▊       | 1346/4800 [00:00<00:00, 6930.46it/s]
+ 48%|████▊     | 2311/4800 [00:00<00:00, 8171.07it/s]
+ 70%|██████▉   | 3343/4800 [00:00<00:00, 9016.97it/s]
+ 91%|█████████▏| 4386/4800 [00:00<00:00, 9525.74it/s]
+100%|██████████| 4800/4800 [00:00<00:00, 8877.53it/s]
+Counting Contexts...
+Neg.Sampling...
+Summarizing...
+Contexts Generating Done!
+Save.....
+Initial......
+Training...
+ Epoch [1/300], 
+ Avg. Loss:  {:53.60} -p {:18.20} -n {:0.17} -m {:35.23}
+ Epoch [2/300], 
+ Avg. Loss:  {:34.42} -p {:1.06} -n {:0.38} -m {:32.98}
+ Epoch [3/300], 
+ Avg. Loss:  {:32.52} -p {:0.16} -n {:0.25} -m {:32.11}
+ Epoch [4/300], 
+ Avg. Loss:  {:32.06} -p {:0.21} -n {:0.21} -m {:31.64}
+ Epoch [5/300], 
+ Avg. Loss:  {:31.84} -p {:0.19} -n {:0.22} -m {:31.43}
+Traceback (most recent call last):
+  File "/home/gmessias/NodeClusteringAlgorithms/models/CoANE/CoANE topk with attributes preservation/main_CoANE_topk.py", line 97, in <module>
+    PAR_emb, CoANE = Train(PAR, Context, args)
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/gmessias/NodeClusteringAlgorithms/models/CoANE/CoANE topk with attributes preservation/CoANE/CoANE_Train.py", line 225, in Train
+    PAR = eval_emb(model, x[0], x[2], nb_filter, V_BATCH_SIZE, PAR, n_c_)
+  File "/home/gmessias/NodeClusteringAlgorithms/models/CoANE/CoANE topk with attributes preservation/CoANE/CoANE_Train.py", line 247, in eval_emb
+    v_win_list_b, labels_b, labels_b_set, _ = win_b_extract(index_b, x_win, x_tar, n_c_, n_c_s, rand = False)
+                                              ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gmessias/NodeClusteringAlgorithms/models/CoANE/CoANE topk with attributes preservation/CoANE/CoANE_Train.py", line 50, in win_b_extract
+    index_w = np.concatenate(index_w, 0).astype(int)
+              ~~~~~~~~~~~~~~^^^^^^^^^^^^
+ValueError: need at least one array to concatenate
+
+[exit_status=1]
+

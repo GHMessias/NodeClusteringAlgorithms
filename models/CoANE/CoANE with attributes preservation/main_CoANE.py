@@ -64,6 +64,7 @@ def parse_args():
 if __name__ == "__main__":
     args = parse_args()
     args.data = args.dataset
+    par_cache_path = os.path.join(args.data_dir, args.dataset, "PAR", "PAR_{0}".format(args.num_walks))
     #Data Processing
     if args.data_pt:
         network_tuple = read_dataset(args)
@@ -74,8 +75,8 @@ if __name__ == "__main__":
             network_tuple = read_dataset(args)
     #Random Walk
     try:
-        PAR = load_obj(args.data_dir+"/{0}/PAR/PAR_{1}".format(args.dataset))
-        print("loading PAR: ", args.data_dir+"/{0}/PAR/PAR_{1}".format(args.dataset))
+        PAR = load_obj(par_cache_path)
+        print("loading PAR: ", par_cache_path)
     except:
         PAR = random_walk(network_tuple, args)
   #Generating Contexts

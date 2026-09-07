@@ -450,7 +450,9 @@ def random_walk(network_tuple, args):
         cata_sentences.append(sens)
         i += 1
 
-    cata_sentences = np.array(cata_sentences)
+    # Keep the raw sentences list; custom graphs can produce variable-length
+    # walks that do not fit in a rectangular NumPy array.
+    cata_sentences = sentences
     
     
     output_k = ['cata_sentences', 'edges', 'gl', 'dict_NtoC', 'id2word', 'word2id', 'subsamples', 'sentences', 'adj_train', 'feat', 'adj', 'nb_id']

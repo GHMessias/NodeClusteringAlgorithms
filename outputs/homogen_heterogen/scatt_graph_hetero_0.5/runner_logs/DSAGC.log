@@ -1,0 +1,45 @@
+$ /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/DSAGC/main.py --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/homogen_heterogen/scatt_graph_hetero_0.5 --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/hetero_increase/scatt_graph_hetero_0.5.pt --epochs 300 --device cuda
+/home/gmessias/NodeClusteringAlgorithms/models/DSAGC/utils.py:94: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  dataset.adj = torch.sparse_coo_tensor(
+use cuda: True
+Namespace(name='Cora', data_pt='/home/gmessias/NodeClusteringAlgorithms/datasets/custom/hetero_increase/scatt_graph_hetero_0.5.pt', output_dir='/home/gmessias/NodeClusteringAlgorithms/outputs/homogen_heterogen/scatt_graph_hetero_0.5', epochs=300, device='cuda', pretrain_path='pretrain/GAE_Cora.pkl', max_epoch=100, lr=0.0001, n_clusters=6, update_interval=1, hidden_size=256, embedding_size=16, weight_decay=0.005, alpha=0.2, cuda=True, k=None, input_dim=512)
+GAT(
+  (conv1): GATLayer (512 -> 256)
+  (conv2): GATLayer (256 -> 16)
+)
+Could not load pretrain weights from pretrain/GAE_Cora.pkl: Error(s) in loading state_dict for GAT:
+	size mismatch for conv1.W: copying a param with shape torch.Size([1433, 256]) from checkpoint, the shape in current model is torch.Size([512, 256]).
+Continuing with randomly initialized GAT weights.
+epoch pretrain-Kmeans:acc 0.3192, nmi 0.0834, ari 0.0672, f1 0.3118
+可信赖样本的个数 380
+epoch pretrain-可信赖样本:acc 0.4605, nmi 0.2055, ari 0.2006, f1 0.4009
+Counter({3: 142, 0: 69, 4: 63, 1: 56, 2: 35, 5: 15})
+Counter({np.int64(0): 200, np.int64(1): 200, np.int64(2): 200, np.int64(3): 200, np.int64(4): 200, np.int64(5): 200})
+自监督训练开始,  GAT模型结构图：
+GAT(
+  (attention_0): GraphAttentionLayer (512 -> 8)
+  (attention_1): GraphAttentionLayer (512 -> 8)
+  (attention_2): GraphAttentionLayer (512 -> 8)
+  (attention_3): GraphAttentionLayer (512 -> 8)
+  (attention_4): GraphAttentionLayer (512 -> 8)
+  (attention_5): GraphAttentionLayer (512 -> 8)
+  (attention_6): GraphAttentionLayer (512 -> 8)
+  (attention_7): GraphAttentionLayer (512 -> 8)
+  (out_att): GraphAttentionLayer (64 -> 6)
+)
+epoch - Train 0:acc 0.2842, nmi 0.0678, ari 0.0128, f1 0.2173
+epoch 0:acc 0.2558, nmi 0.0296, ari 0.0148, f1 0.2254
+epoch - Train 1:acc 0.5474, nmi 0.2124, ari 0.2426, f1 0.3958
+epoch 1:acc 0.3325, nmi 0.0899, ari 0.0522, f1 0.3042
+epoch - Train 6:acc 0.0000, nmi 0.3656, ari 0.4014, f1 0.0000
+epoch 6:acc 0.3842, nmi 0.1527, ari 0.1038, f1 0.3222
+epoch - Train 8:acc 0.0000, nmi 0.4434, ari 0.4944, f1 0.0000
+epoch 8:acc 0.4017, nmi 0.1610, ari 0.1281, f1 0.3329
+epoch - Train 9:acc 0.7342, nmi 0.4741, ari 0.5321, f1 0.5773
+epoch 9:acc 0.4075, nmi 0.1666, ari 0.1384, f1 0.3437
+epoch - Train 11:acc 0.7553, nmi 0.5112, ari 0.5620, f1 0.6260
+epoch 11:acc 0.4208, nmi 0.1836, ari 0.1411, f1 0.3671
+DSAGC labels saved in: /home/gmessias/NodeClusteringAlgorithms/outputs/homogen_heterogen/scatt_graph_hetero_0.5/DSAGC_20260518_0937_labels.npy
+
+[exit_status=0]
+

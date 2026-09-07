@@ -173,12 +173,22 @@ from tqdm import tqdm
 from time import time
 import numpy as np
 import keras.backend as K
+import tensorflow as tf
 from keras.layers import Dense, Input, InputSpec, Layer
 from keras.models import Model
 from keras.optimizers import SGD
 from keras import callbacks
 from keras.initializers import VarianceScaling
 from sklearn.cluster import KMeans
+
+tf_device = '/CPU:0'
+if args.device == 'cuda':
+    tf.config.optimizer.set_jit(False)
+    try:
+        tf.config.set_visible_devices([], 'GPU')
+    except RuntimeError:
+        pass
+
 kmeans = KMeans(n_clusters=n_clusters, n_init=20)
 y_pred_kmeans = kmeans.fit_predict(x)
 print("Kmeans NMI",normalized_mutual_info_score(emd_lbls.cpu().detach().numpy(),y_pred_kmeans))
@@ -189,24 +199,28 @@ dims = [x.shape[-1], 700,32]
 init = VarianceScaling(scale=1., mode='fan_in',
                            distribution='uniform')
 pretrain_optimizer = SGD(learning_rate=1.0, momentum=0.9)
-pretrain_epochs = 300
+pretrain_epochs = args.epochs
 batch_size = 64
 save_dir = os.path.join(args.output_dir, "soli_results")
 os.makedirs(save_dir, exist_ok=True)
-autoencoder, encoder = autoencoder(dims, init=init)
-autoencoder.compile(optimizer=pretrain_optimizer, loss='mse')
-autoencoder.fit(x, x, batch_size=batch_size, epochs=pretrain_epochs) #, callbacks=cb)
-autoencoder_weights_path = os.path.join(save_dir, 'ae_weights2.weights.h5')
-autoencoder.save_weights(autoencoder_weights_path)
-autoencoder.load_weights(autoencoder_weights_path)
+with tf.device(tf_device):
+    autoencoder, encoder = autoencoder(dims, init=init)
+    autoencoder.compile(optimizer=pretrain_optimizer, loss='mse', jit_compile=False)
+    autoencoder.fit(x, x, batch_size=batch_size, epochs=pretrain_epochs) #, callbacks=cb)
+    autoencoder_weights_path = os.path.join(save_dir, 'ae_weights2.weights.h5')
+    autoencoder.save_weights(autoencoder_weights_path)
+    autoencoder.load_weights(autoencoder_weights_path)
 
-clustering_layer = ClusteringLayer(n_clusters, name='clustering')(encoder.output)
-model1 = Model(inputs=encoder.input, outputs=clustering_layer)
-model1.compile(optimizer=SGD(learning_rate=0.01, momentum=0.9), loss='kld')
+    clustering_layer = ClusteringLayer(n_clusters, name='clustering')(encoder.output)
+    model1 = Model(inputs=encoder.input, outputs=clustering_layer)
+    model1.compile(optimizer=SGD(learning_rate=0.01, momentum=0.9), loss='kld', jit_compile=False)
 
+def eager_predict(model, data):
+    tensor = tf.convert_to_tensor(data, dtype=tf.float32)
+    return model(tensor, training=False).numpy()
 
 kmeans = KMeans(n_clusters=n_clusters, n_init=20)
-y_pred = kmeans.fit_predict(encoder.predict(x))
+y_pred = kmeans.fit_predict(eager_predict(encoder, x))
 y_pred_last = np.copy(y_pred)
 model1.get_layer(name='clustering').set_weights([kmeans.cluster_centers_])
 # computing an auxiliary target distribution
@@ -222,7 +236,7 @@ index_array = np.arange(x.shape[0])
 tol = 0.0001 # tolerance threshold to stop training
 for ite in range(int(maxiter)):
     if ite % update_interval == 0:
-        q = model1.predict(x, verbose=0)
+        q = eager_predict(model1, x)
         p = target_distribution(q)  # update the auxiliary target distribution p
 
         # evaluate the clustering performance
@@ -249,7 +263,7 @@ soli_weights_path = os.path.join(save_dir, 'Soli.weights.h5')
 model1.save_weights(soli_weights_path)
 model1.load_weights(soli_weights_path)
 
-q = model1.predict(x, verbose=0)
+q = eager_predict(model1, x)
 p = target_distribution(q)  # update the auxiliary target distribution p
 
 # evaluate the clustering performance

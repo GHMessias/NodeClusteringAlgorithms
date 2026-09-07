@@ -1,0 +1,1 @@
+$ /home/gmessias/NodeClusteringAlgorithms/venv/bin/python /home/gmessias/NodeClusteringAlgorithms/models/DGC-EFR/preae.py --name cora --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/hetero_increase/scatt_graph_hetero_0.9.pt --epochs 300 --preae_path /home/gmessias/NodeClusteringAlgorithms/outputs/tmp_dgc_2400/dgc_efr_pretrain/preae_cora.pkl

@@ -1,0 +1,12 @@
+{
+  "results": [
+    {
+      "runner_model": "soli",
+      "model": "SOLI",
+      "ok": false,
+      "outputs": [],
+      "error": "exit status 1: /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/SOLI/SOLI_GAE/main.py --dataset cora --device cuda --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/node_increase/scatt_graph_6000_edges.pt --epochs 300\n    )\n    ^\n  File \"/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/autograd/__init__.py\", line 381, in backward\n    _engine_run_backward(\n    ~~~~~~~~~~~~~~~~~~~~^\n        tensors,\n        ^^^^^^^^\n    ...<5 lines>...\n        accumulate_grad=True,\n        ^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/autograd/graph.py\", line 869, in _engine_run_backward\n    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        t_outputs, *args, **kwargs\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )  # Calls into the C++ engine to run the backward pass\n    ^\ntorch.OutOfMemoryError: CUDA out of memory. Tried to allocate 10.95 GiB. GPU 0 has a total capacity of 10.57 GiB of which 10.11 GiB is free. Including non-PyTorch memory, this process has 406.00 MiB memory in use. Of the allocated memory 172.21 MiB is allocated by PyTorch, and 45.79 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/runner_logs/SOLI.log"
+    }
+  ]
+}

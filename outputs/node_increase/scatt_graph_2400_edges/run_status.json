@@ -1,0 +1,114 @@
+{
+  "results": [
+    {
+      "runner_model": "coane",
+      "model": "CoANE",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/CoANE_20260518_1100_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/runner_logs/CoANE.log"
+    },
+    {
+      "runner_model": "coane_topk",
+      "model": "CoANE_topk",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/CoANE_topk_20260518_1103_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/runner_logs/CoANE_topk.log"
+    },
+    {
+      "runner_model": "dgc_efr",
+      "model": "DGC",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/DGC_20260518_1104_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/runner_logs/DGC.log"
+    },
+    {
+      "runner_model": "soli",
+      "model": "SOLI",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/SOLI_20260518_1105_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/runner_logs/SOLI.log"
+    },
+    {
+      "runner_model": "ucode",
+      "model": "UCODE",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/UCODE_20260518_1106_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/runner_logs/UCODE.log"
+    },
+    {
+      "runner_model": "ns4gc",
+      "model": "NS4GC",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/NS4GC_20260518_1106_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/runner_logs/NS4GC.log"
+    },
+    {
+      "runner_model": "dgcluster",
+      "model": "DGCluster",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/DGCluster_20260518_1106_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/runner_logs/DGCluster.log"
+    },
+    {
+      "runner_model": "sanece",
+      "model": "SANECE",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/SANECE_20260518_1108_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/runner_logs/SANECE.log"
+    },
+    {
+      "runner_model": "egc_vgae",
+      "model": "EGC_VGAE",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/EGC_VGAE_20260518_1116_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/runner_logs/EGC_VGAE.log"
+    },
+    {
+      "runner_model": "dsagc",
+      "model": "DSAGC",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/DSAGC_20260518_1116_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/runner_logs/DSAGC.log"
+    },
+    {
+      "runner_model": "scgc",
+      "model": "SCGC",
+      "ok": true,
+      "outputs": [
+        "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/SCGC_20260518_1117_labels.npy"
+      ],
+      "error": "",
+      "log_file": "/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_2400_edges/runner_logs/SCGC.log"
+    }
+  ]
+}

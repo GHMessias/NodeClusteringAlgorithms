@@ -1,0 +1,101 @@
+# source_csv: outputs/csvs/node_increase_results.csv
+# metric: nmi
+# x_column: scenario_value
+# x_label: Edges
+# columns: panel_index taxonomy_class taxonomy_slug model display_model x y
+panel_index	taxonomy_class	taxonomy_slug	model	display_model	x	y
+1	Reformulation Model	reformulation_model	CoANE	CoANE	600	0.5947659691478574
+1	Reformulation Model	reformulation_model	CoANE	CoANE	1200	0.5489895099102682
+1	Reformulation Model	reformulation_model	CoANE	CoANE	1800	0.5257547195279104
+1	Reformulation Model	reformulation_model	CoANE	CoANE	2400	0.5421498325353729
+1	Reformulation Model	reformulation_model	CoANE	CoANE	3000	0.470071861910416
+1	Reformulation Model	reformulation_model	CoANE	CoANE	3600	0.2622566165537972
+1	Reformulation Model	reformulation_model	CoANE	CoANE	4200	0.495009704730136
+1	Reformulation Model	reformulation_model	CoANE	CoANE	4800	0.4486497602493169
+1	Reformulation Model	reformulation_model	CoANE	CoANE	5400	0.4860102455953367
+1	Reformulation Model	reformulation_model	CoANE	CoANE	6000	0.454219059347712
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	600	0.694764946491231
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	1200	0.6754266841091281
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	1800	0.6932499424734955
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	2400	0.6901781430162609
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	3000	0.710761941628068
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	3600	0.6987885918747291
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	4200	0.6952590746596103
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	5400	0.6885598315433799
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	6000	0.5973904741082481
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	600	0.6004187786197369
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	1200	0.5340414259464199
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	1800	0.5638898746898869
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	2400	0.4862893335593181
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	3000	0.5946721205906044
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	3600	0.4955300954173088
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	4200	0.5634735585327114
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	4800	0.433184286439789
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	5400	0.4534327415709351
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	6000	0.5872097194925228
+1	Reformulation Model	reformulation_model	SANECE	SANECE	600	0.7401710785070856
+1	Reformulation Model	reformulation_model	SANECE	SANECE	1200	0.6863626318095934
+1	Reformulation Model	reformulation_model	SANECE	SANECE	1800	0.7148482818757641
+1	Reformulation Model	reformulation_model	SANECE	SANECE	2400	0.7002989660231289
+1	Reformulation Model	reformulation_model	SANECE	SANECE	3000	0.6864153247192739
+1	Reformulation Model	reformulation_model	SANECE	SANECE	3600	0.6504610749638502
+1	Reformulation Model	reformulation_model	SANECE	SANECE	4200	0.6638958089273945
+1	Reformulation Model	reformulation_model	SANECE	SANECE	4800	0.6532214887096245
+1	Reformulation Model	reformulation_model	SANECE	SANECE	5400	0.6536996758965646
+1	Reformulation Model	reformulation_model	SANECE	SANECE	6000	0.6465090578570666
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	600	0.6330737620251086
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	1200	0.7920819255390139
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	1800	0.7733271083351769
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	2400	0.7017029483511524
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	3000	0.765741362547128
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	3600	0.7422018533009324
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	4200	0.7587150338260684
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	4800	0.7377589876125942
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	5400	0.7523520876296644
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	6000	0.730634430948361
+3	Topological Model	topological_model	NS4GC	NS4GC	600	0.6876148963659487
+3	Topological Model	topological_model	NS4GC	NS4GC	1200	0.6670040163637787
+3	Topological Model	topological_model	NS4GC	NS4GC	1800	0.6838878806178088
+3	Topological Model	topological_model	NS4GC	NS4GC	2400	0.6831433363999476
+3	Topological Model	topological_model	NS4GC	NS4GC	3000	0.6753572075936967
+3	Topological Model	topological_model	NS4GC	NS4GC	3600	0.6644022146424431
+3	Topological Model	topological_model	NS4GC	NS4GC	4200	0.6657328230523949
+3	Topological Model	topological_model	NS4GC	NS4GC	4800	0.6728975131952892
+3	Topological Model	topological_model	NS4GC	NS4GC	5400	0.6671973054027031
+3	Topological Model	topological_model	NS4GC	NS4GC	6000	0.6574440986903813
+3	Topological Model	topological_model	SOLI	SOLI	600	0.5856890245218804
+3	Topological Model	topological_model	SOLI	SOLI	1200	0.5992963143711618
+3	Topological Model	topological_model	SOLI	SOLI	1800	0.5640909142220762
+3	Topological Model	topological_model	SOLI	SOLI	2400	0.5741727887274767
+3	Topological Model	topological_model	SOLI	SOLI	3600	0.5538198309353534
+3	Topological Model	topological_model	SOLI	SOLI	5400	0.5679635425143529
+4	Optimization Model	optimization_model	DGCluster	DGCluster	600	0.7050711157501629
+4	Optimization Model	optimization_model	DGCluster	DGCluster	1200	0.6611807410306966
+4	Optimization Model	optimization_model	DGCluster	DGCluster	1800	0.6952307834993093
+4	Optimization Model	optimization_model	DGCluster	DGCluster	2400	0.6809439383713684
+4	Optimization Model	optimization_model	DGCluster	DGCluster	3000	0.6745459982103376
+4	Optimization Model	optimization_model	DGCluster	DGCluster	3600	0.6580851216492213
+4	Optimization Model	optimization_model	DGCluster	DGCluster	4200	0.6601914754405349
+4	Optimization Model	optimization_model	DGCluster	DGCluster	4800	0.6583341726504236
+4	Optimization Model	optimization_model	DGCluster	DGCluster	5400	0.6543581493527273
+4	Optimization Model	optimization_model	DGCluster	DGCluster	6000	0.6443254334008878
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	600	0.6427888985639446
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	1200	0.6408902435885602
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	1800	0.652119645332807
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	2400	0.6469108505691581
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	3000	0.636105182082646
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	3600	0.6257585355085269
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	4200	0.6468162238327221
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	4800	0.6352752842217053
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	5400	0.6441827992231878
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	6000	0.6033015191499285
+4	Optimization Model	optimization_model	UCODE	UCoDe	600	0.159730945589911
+4	Optimization Model	optimization_model	UCODE	UCoDe	1200	0.0689749556841958
+4	Optimization Model	optimization_model	UCODE	UCoDe	1800	0.078151586321165
+4	Optimization Model	optimization_model	UCODE	UCoDe	2400	0.016892493239271
+4	Optimization Model	optimization_model	UCODE	UCoDe	3000	0.0283470562409415
+4	Optimization Model	optimization_model	UCODE	UCoDe	3600	0.0578063365496232
+4	Optimization Model	optimization_model	UCODE	UCoDe	4200	0.0408972674182458
+4	Optimization Model	optimization_model	UCODE	UCoDe	4800	0.048649479558178
+4	Optimization Model	optimization_model	UCODE	UCoDe	5400	0.0434247949643037
+4	Optimization Model	optimization_model	UCODE	UCoDe	6000	0.0375205362297929

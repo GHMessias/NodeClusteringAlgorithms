@@ -1,0 +1,96 @@
+# source_csv: outputs/csvs/heterophily_results.csv
+# metric: nmi
+# x_column: scenario_value
+# x_label: Heterophily
+# columns: panel_index taxonomy_class taxonomy_slug model display_model x y
+panel_index	taxonomy_class	taxonomy_slug	model	display_model	x	y
+1	Reformulation Model	reformulation_model	CoANE	CoANE	0.1	0.638343090587844
+1	Reformulation Model	reformulation_model	CoANE	CoANE	0.2	0.5051903514757854
+1	Reformulation Model	reformulation_model	CoANE	CoANE	0.3	0.5140427248265521
+1	Reformulation Model	reformulation_model	CoANE	CoANE	0.4	0.4710131254066769
+1	Reformulation Model	reformulation_model	CoANE	CoANE	0.5	0.3414263125446544
+1	Reformulation Model	reformulation_model	CoANE	CoANE	0.6	0.2891522768514864
+1	Reformulation Model	reformulation_model	CoANE	CoANE	0.7	0.1220188708426297
+1	Reformulation Model	reformulation_model	CoANE	CoANE	0.8	0.0437574362163585
+1	Reformulation Model	reformulation_model	CoANE	CoANE	0.9	0.0110300216862041
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	0.1	0.7198630048348342
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	0.2	0.6825200860739745
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	0.3	0.6560224267156581
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	0.4	0.6514588048768611
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	0.5	0.5668117972645872
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	0.6	0.4909814814935687
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	0.7	0.3707628264544874
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	0.8	0.2751058410508632
+1	Reformulation Model	reformulation_model	CoANE_topk	CoANE top-k	0.9	0.0778350137287099
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	0.1	0.6616094017939574
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	0.2	0.6105160964078513
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	0.3	0.5149114443121103
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	0.4	0.3181104904310944
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	0.5	0.2208560024244764
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	0.6	0.1135218531052649
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	0.7	0.0532675103985357
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	0.8	0.0249177712179998
+1	Reformulation Model	reformulation_model	DSAGC	DSAGC	0.9	0.0119609479515665
+1	Reformulation Model	reformulation_model	SANECE	SANECE	0.1	0.7688342990977973
+1	Reformulation Model	reformulation_model	SANECE	SANECE	0.2	0.6156003621175661
+1	Reformulation Model	reformulation_model	SANECE	SANECE	0.3	0.520506117694239
+1	Reformulation Model	reformulation_model	SANECE	SANECE	0.4	0.4211562813001674
+1	Reformulation Model	reformulation_model	SANECE	SANECE	0.5	0.2711903168385565
+1	Reformulation Model	reformulation_model	SANECE	SANECE	0.6	0.1082469144492643
+1	Reformulation Model	reformulation_model	SANECE	SANECE	0.7	0.0454397464597348
+1	Reformulation Model	reformulation_model	SANECE	SANECE	0.8	0.0243605641802801
+1	Reformulation Model	reformulation_model	SANECE	SANECE	0.9	0.0194149183026766
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	0.1	0.8067595425662938
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	0.2	0.7925068117735488
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	0.3	0.7310816340317063
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	0.4	0.6679185115054728
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	0.5	0.5693320178155419
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	0.6	0.5494378226674513
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	0.7	0.3754067143737303
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	0.8	0.3567109360405009
+2	KL-Div Model	kl_div_model	DGC	DGC-EFR	0.9	0.1396
+3	Topological Model	topological_model	NS4GC	NS4GC	0.1	0.8140602646934693
+3	Topological Model	topological_model	NS4GC	NS4GC	0.2	0.6553074832982576
+3	Topological Model	topological_model	NS4GC	NS4GC	0.3	0.5353932874112065
+3	Topological Model	topological_model	NS4GC	NS4GC	0.4	0.4451098853295255
+3	Topological Model	topological_model	NS4GC	NS4GC	0.5	0.3013388305599555
+3	Topological Model	topological_model	NS4GC	NS4GC	0.6	0.1579724859155203
+3	Topological Model	topological_model	NS4GC	NS4GC	0.7	0.0804731726048187
+3	Topological Model	topological_model	NS4GC	NS4GC	0.8	0.0230845074914601
+3	Topological Model	topological_model	NS4GC	NS4GC	0.9	0.0089880834445214
+3	Topological Model	topological_model	SOLI	SOLI	0.1	0.6796741896605201
+3	Topological Model	topological_model	SOLI	SOLI	0.2	0.5897780511845031
+3	Topological Model	topological_model	SOLI	SOLI	0.3	0.4857614044025158
+3	Topological Model	topological_model	SOLI	SOLI	0.4	0.3848104117817434
+3	Topological Model	topological_model	SOLI	SOLI	0.5	0.3140688818268782
+3	Topological Model	topological_model	SOLI	SOLI	0.6	0.2107973719995895
+3	Topological Model	topological_model	SOLI	SOLI	0.7	0.0652356462979192
+3	Topological Model	topological_model	SOLI	SOLI	0.8	0.0272775759579531
+3	Topological Model	topological_model	SOLI	SOLI	0.9	0.0132948866354134
+4	Optimization Model	optimization_model	DGCluster	DGCluster	0.1	0.8304700051033809
+4	Optimization Model	optimization_model	DGCluster	DGCluster	0.2	0.6562644661589765
+4	Optimization Model	optimization_model	DGCluster	DGCluster	0.3	0.4855018863789794
+4	Optimization Model	optimization_model	DGCluster	DGCluster	0.4	0.3825559876401029
+4	Optimization Model	optimization_model	DGCluster	DGCluster	0.5	0.2513468386640343
+4	Optimization Model	optimization_model	DGCluster	DGCluster	0.6	0.1422401308619405
+4	Optimization Model	optimization_model	DGCluster	DGCluster	0.7	0.0612511835846885
+4	Optimization Model	optimization_model	DGCluster	DGCluster	0.8	0.0356214750269634
+4	Optimization Model	optimization_model	DGCluster	DGCluster	0.9	0.026755476406668
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	0.1	0.7375522944900056
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	0.2	0.6415313433438053
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	0.3	0.5616272911189357
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	0.4	0.4758395738846722
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	0.5	0.3625218064639961
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	0.6	0.2446594339855111
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	0.7	0.1383110472893601
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	0.8	0.0676836367732338
+4	Optimization Model	optimization_model	EGC_VGAE	EG-VGAE	0.9	0.0289406040090552
+4	Optimization Model	optimization_model	UCODE	UCoDe	0.1	0.5807637000889985
+4	Optimization Model	optimization_model	UCODE	UCoDe	0.2	0.461459212485748
+4	Optimization Model	optimization_model	UCODE	UCoDe	0.3	0.3419377977237513
+4	Optimization Model	optimization_model	UCODE	UCoDe	0.4	0.2653754588199607
+4	Optimization Model	optimization_model	UCODE	UCoDe	0.5	0.0908556032953481
+4	Optimization Model	optimization_model	UCODE	UCoDe	0.6	0.0400120512558725
+4	Optimization Model	optimization_model	UCODE	UCoDe	0.7	0.0225871702001792
+4	Optimization Model	optimization_model	UCODE	UCoDe	0.8	0.0206490271621782
+4	Optimization Model	optimization_model	UCODE	UCoDe	0.9	0.0100562425060441

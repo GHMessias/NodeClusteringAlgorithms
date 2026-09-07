@@ -1,0 +1,25 @@
+$ /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/UCODE/main.py --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_6 --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/comm_collapse/graph_comm_colapse_6.pt --epochs 300 --device cuda
+Calculating modularity for undirected graph
+graph_comm_colapse_6.pt
+torch.Size([1, 1080, 60])
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:00<00:00,  1.14it/s]
+100%|██████████| 1/1 [00:00<00:00,  1.14it/s]
+nmi:0.31315301258316197
+
+
+Baseline scores:
+NMI: 0.31315301258316197 0.0
+Fscore: 0.3301828675183192 0.0
+Conductance: 0.5376363396644592 0.0
+Modularity: 0.30400770902633667 0.0
+Kmeans scores:
+NMI: 0.2226738421782934 0.0
+Fscore: 0.36429386465373476 0.0
+Conductance: 0.4560000002384186 0.0
+Modularity: 0.23535944521427155 0.0
+UCODE labels saved in: /home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_6/UCODE_20260525_1524_labels.npy
+
+[exit_status=0]
+

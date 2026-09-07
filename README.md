@@ -26,6 +26,48 @@ The adapted models are available through the root dispatcher:
 python3 main.py --model MODEL_NAME --data_pt PATH_TO_DATA_PT --output_dir outputs --epochs 300 --device cpu
 ```
 
+## Results Export
+
+To consolidate the benchmark outputs for both experiment sweeps (`*_hetero_*` and `*_*_edges`), run:
+
+```bash
+venv/bin/python3 export_heterophily_csv.py
+```
+
+This generates:
+
+```text
+outputs/benchmark_results.csv          # long format, one row per model/run
+outputs/heterophily_results.csv        # only heterophily rows
+outputs/edge_results.csv               # only edge-sweep rows
+outputs/summaries/model_means.csv      # mean score per model and scenario
+outputs/summaries/heterophily_*.csv    # pivot tables by metric
+outputs/summaries/edges_*.csv          # pivot tables by metric
+```
+
+The pivot tables are the easiest files to inspect when comparing models side by side across each sweep value.
+
+To consolidate the `outputs/comm_collapse` experiment, run:
+
+```bash
+venv/bin/python3 export_comm_collapse_csv.py
+```
+
+This generates:
+
+```text
+outputs/comm_collapse_results.csv              # long format, one row per model/collapse level
+outputs/comm_collapse_summaries/model_means.csv
+outputs/comm_collapse_summaries/comm_collapse_*.csv
+```
+
+Each benchmark run also writes execution diagnostics inside the chosen `output_dir`:
+
+```text
+run_status.json         # status/error per model
+runner_logs/<MODEL>.log # full stdout/stderr captured for that model
+```
+
 Currently supported in the root `main.py`:
 
 ```text

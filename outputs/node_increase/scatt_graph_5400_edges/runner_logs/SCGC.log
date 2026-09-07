@@ -1,0 +1,24 @@
+$ /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/SCGC/train.py --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_5400_edges --device cuda --model SCGC --iterations 1 --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/node_increase/scatt_graph_5400_edges.pt --epochs 300
+/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/profiler/profiler.py:224: UserWarning: Warning: Profiler clears events at the end of each cycle.Only events from the current cycle will be reported.To keep events across cycles, set acc_events=True.
+  _warn_once(
+/home/gmessias/NodeClusteringAlgorithms/models/SCGC/utils.py:147: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  return torch.sparse_coo_tensor(indices, values, shape, check_invariants=False).coalesce()
+Namespace(name='reut', k=3, lr=0.001, n_clusters=6, n_z=10, data_path='/content/drive/MyDrive/001_Clustering/_Dataset_SDCN', data_pt='/home/gmessias/NodeClusteringAlgorithms/datasets/custom/node_increase/scatt_graph_5400_edges.pt', output_dir='/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_5400_edges', pretrain_path=None, model='SCGC', mode='full', influence=False, epochs=300, iterations=1, verbosity=0, note='-', alpha=2.0, beta=0.1, batch_size=2048, order=2, tau=1.0, seed=42, device='cuda', cuda=True, n_input=512)
+---------------PROFILING CODE--------------
+Warning: no pretrained AE provided. Using random initialization.
+Loaded PAE acc:0.2717  nmi:0.0444  ari:0.0328  f1:0.2721
+error numclass1:6 != numclass2:5
+Traceback (most recent call last):
+  File "/home/gmessias/NodeClusteringAlgorithms/models/SCGC/train.py", line 480, in <module>
+    if args.model =='SCGC': best_Z, vals, labels = train_scgc(dataset)
+                                                   ~~~~~~~~~~^^^^^^^^^
+  File "/home/gmessias/NodeClusteringAlgorithms/models/SCGC/train.py", line 235, in train_scgc
+    eva(y, res1, str(epoch) + 'Q', kmeans_Q, NMI_Q, ARI_Q, F1_Q, verbosity=args.verbosity)
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gmessias/NodeClusteringAlgorithms/models/SCGC/evaluation.py", line 67, in eva
+    acc, f1 = cluster_acc(y_true, y_pred)
+    ^^^^^^^
+TypeError: cannot unpack non-iterable NoneType object
+
+[exit_status=1]
+

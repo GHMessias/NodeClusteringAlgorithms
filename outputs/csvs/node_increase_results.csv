@@ -1,0 +1,251 @@
+dataset,dataset_base,scenario,scenario_value,scenario_label,status,file,n_samples,n_clusters,model,acc,nmi,ari,f1_macro,f1_micro,error
+scatt_graph_600_edges,scatt_graph,edges,600,edges=600,ok,outputs/node_increase/scatt_graph_600_edges/CoANE_20260518_1541_labels.npy,600,6,CoANE,0.7916666666666666,0.5947659691478574,0.5484246608842962,0.7949140812644006,0.7916666666666666,
+scatt_graph_600_edges,scatt_graph,edges,600,edges=600,ok,outputs/node_increase/scatt_graph_600_edges/CoANE_topk_20260518_1541_labels.npy,600,6,CoANE_topk,0.8416666666666667,0.694764946491231,0.649957204005409,0.8428486339576814,0.8416666666666667,
+scatt_graph_600_edges,scatt_graph,edges,600,edges=600,ok,outputs/node_increase/scatt_graph_600_edges/DGC_20260518_1542_labels.npy,600,6,DGC,0.8216666666666667,0.6330737620251086,0.6192482549257067,0.8215806748042859,0.8216666666666667,
+scatt_graph_600_edges,scatt_graph,edges,600,edges=600,ok,outputs/node_increase/scatt_graph_600_edges/DGCluster_20260518_1543_labels.npy,600,9,DGCluster,0.8666666666666667,0.7050711157501629,0.7319897268375875,0.8672683513449533,0.8666666666666667,
+scatt_graph_600_edges,scatt_graph,edges,600,edges=600,ok,outputs/node_increase/scatt_graph_600_edges/DSAGC_20260518_1545_labels.npy,600,6,DSAGC,0.8216666666666667,0.6004187786197369,0.6162826987283372,0.8219432172945424,0.8216666666666667,
+scatt_graph_600_edges,scatt_graph,edges,600,edges=600,ok,outputs/node_increase/scatt_graph_600_edges/EGC_VGAE_20260518_1545_labels.npy,600,6,EGC_VGAE,0.81,0.6427888985639446,0.5977402380088851,0.8137275826153786,0.81,
+scatt_graph_600_edges,scatt_graph,edges,600,edges=600,ok,outputs/node_increase/scatt_graph_600_edges/NS4GC_20260518_1543_labels.npy,600,6,NS4GC,0.8666666666666667,0.6876148963659487,0.7065886572023338,0.8655983341392758,0.8666666666666667,
+scatt_graph_600_edges,scatt_graph,edges,600,edges=600,ok,outputs/node_increase/scatt_graph_600_edges/SANECE_20260518_1543_labels.npy,600,6,SANECE,0.88,0.7401710785070856,0.7341464153004721,0.8809584774956946,0.88,
+scatt_graph_600_edges,scatt_graph,edges,600,edges=600,ok,outputs/node_increase/scatt_graph_600_edges/SCGC_20260518_1546_labels.npy,600,6,SCGC,0.6933333333333334,0.5001581783276154,0.47742627012895106,0.6644478902810763,0.6933333333333334,
+scatt_graph_600_edges,scatt_graph,edges,600,edges=600,ok,outputs/node_increase/scatt_graph_600_edges/SOLI_20260518_1543_labels.npy,600,6,SOLI,0.79,0.5856890245218804,0.5661139942972325,0.7880217075568026,0.79,
+scatt_graph_600_edges,scatt_graph,edges,600,edges=600,ok,outputs/node_increase/scatt_graph_600_edges/UCODE_20260518_1543_labels.npy,600,6,UCODE,0.32,0.15973094558991102,0.10404450700129113,0.23307850817739387,0.32,
+scatt_graph_1200_edges,scatt_graph,edges,1200,edges=1200,ok,outputs/node_increase/scatt_graph_1200_edges/CoANE_20260518_1034_labels.npy,1200,6,CoANE,0.7716666666666666,0.5489895099102682,0.5289314803640693,0.7706928677549924,0.7716666666666666,
+scatt_graph_1200_edges,scatt_graph,edges,1200,edges=1200,ok,outputs/node_increase/scatt_graph_1200_edges/CoANE_topk_20260518_1035_labels.npy,1200,6,CoANE_topk,0.8383333333333334,0.6754266841091281,0.6542650880528441,0.8357091616235338,0.8383333333333334,
+scatt_graph_1200_edges,scatt_graph,edges,1200,edges=1200,ok,outputs/node_increase/scatt_graph_1200_edges/DGC_20260518_1036_labels.npy,1200,6,DGC,0.9183333333333333,0.7920819255390139,0.8152361371987106,0.9175649550345647,0.9183333333333333,
+scatt_graph_1200_edges,scatt_graph,edges,1200,edges=1200,ok,outputs/node_increase/scatt_graph_1200_edges/DGCluster_20260518_1037_labels.npy,1200,10,DGCluster,0.8483333333333334,0.6611807410306966,0.6923276871945727,0.8487232749963387,0.8483333333333334,
+scatt_graph_1200_edges,scatt_graph,edges,1200,edges=1200,ok,outputs/node_increase/scatt_graph_1200_edges/DSAGC_20260518_1045_labels.npy,1200,6,DSAGC,0.7825,0.5340414259464199,0.5447507454641779,0.7829654529661552,0.7825,
+scatt_graph_1200_edges,scatt_graph,edges,1200,edges=1200,ok,outputs/node_increase/scatt_graph_1200_edges/EGC_VGAE_20260518_1044_labels.npy,1200,6,EGC_VGAE,0.7733333333333333,0.6408902435885602,0.5089172138150349,0.7865950480946088,0.7733333333333333,
+scatt_graph_1200_edges,scatt_graph,edges,1200,edges=1200,ok,outputs/node_increase/scatt_graph_1200_edges/NS4GC_20260518_1037_labels.npy,1200,6,NS4GC,0.8591666666666666,0.6670040163637787,0.692725074078734,0.8576848526924321,0.8591666666666666,
+scatt_graph_1200_edges,scatt_graph,edges,1200,edges=1200,ok,outputs/node_increase/scatt_graph_1200_edges/SANECE_20260518_1038_labels.npy,1200,6,SANECE,0.8625,0.6863626318095934,0.699021127194517,0.8606782880757301,0.8625,
+scatt_graph_1200_edges,scatt_graph,edges,1200,edges=1200,ok,outputs/node_increase/scatt_graph_1200_edges/SCGC_20260518_1046_labels.npy,1200,6,SCGC,0.7808333333333334,0.5471802994971338,0.5498268285770955,0.7790809231237641,0.7808333333333334,
+scatt_graph_1200_edges,scatt_graph,edges,1200,edges=1200,ok,outputs/node_increase/scatt_graph_1200_edges/SOLI_20260518_1037_labels.npy,1200,6,SOLI,0.7816666666666666,0.5992963143711618,0.5619208281650979,0.7782379689498148,0.7816666666666666,
+scatt_graph_1200_edges,scatt_graph,edges,1200,edges=1200,ok,outputs/node_increase/scatt_graph_1200_edges/UCODE_20260518_1037_labels.npy,1200,6,UCODE,0.2625,0.06897495568419583,0.042148741462603716,0.19582597150355605,0.2625,
+scatt_graph_1800_edges,scatt_graph,edges,1800,edges=1800,ok,outputs/node_increase/scatt_graph_1800_edges/CoANE_20260518_1047_labels.npy,1800,6,CoANE,0.755,0.5257547195279104,0.5008007289493652,0.7539414606401595,0.755,
+scatt_graph_1800_edges,scatt_graph,edges,1800,edges=1800,ok,outputs/node_increase/scatt_graph_1800_edges/CoANE_topk_20260518_1048_labels.npy,1800,6,CoANE_topk,0.8244444444444444,0.6932499424734955,0.6305459060169681,0.8228948521705889,0.8244444444444444,
+scatt_graph_1800_edges,scatt_graph,edges,1800,edges=1800,ok,outputs/node_increase/scatt_graph_1800_edges/DGC_20260518_1050_labels.npy,1800,6,DGC,0.9072222222222223,0.7733271083351769,0.7903253498571293,0.9069725529839833,0.9072222222222223,
+scatt_graph_1800_edges,scatt_graph,edges,1800,edges=1800,ok,outputs/node_increase/scatt_graph_1800_edges/DGCluster_20260518_1051_labels.npy,1800,7,DGCluster,0.87,0.6952307834993093,0.7184958923686389,0.867740688607339,0.87,
+scatt_graph_1800_edges,scatt_graph,edges,1800,edges=1800,ok,outputs/node_increase/scatt_graph_1800_edges/DSAGC_20260518_1058_labels.npy,1800,6,DSAGC,0.7927777777777778,0.5638898746898869,0.5679779015466008,0.7893566295075045,0.7927777777777778,
+scatt_graph_1800_edges,scatt_graph,edges,1800,edges=1800,ok,outputs/node_increase/scatt_graph_1800_edges/EGC_VGAE_20260518_1057_labels.npy,1800,6,EGC_VGAE,0.7866666666666666,0.652119645332807,0.5471898378718987,0.7957674879603319,0.7866666666666666,
+scatt_graph_1800_edges,scatt_graph,edges,1800,edges=1800,ok,outputs/node_increase/scatt_graph_1800_edges/NS4GC_20260518_1051_labels.npy,1800,6,NS4GC,0.865,0.6838878806178088,0.7058924074406854,0.8630123882362044,0.865,
+scatt_graph_1800_edges,scatt_graph,edges,1800,edges=1800,ok,outputs/node_increase/scatt_graph_1800_edges/SANECE_20260518_1052_labels.npy,1800,6,SANECE,0.8816666666666667,0.7148482818757641,0.7402715365173796,0.8803390662391243,0.8816666666666667,
+scatt_graph_1800_edges,scatt_graph,edges,1800,edges=1800,ok,outputs/node_increase/scatt_graph_1800_edges/SCGC_20260518_1059_labels.npy,1800,6,SCGC,0.6483333333333333,0.5051079438553949,0.4002860405863123,0.6352408714058785,0.6483333333333333,
+scatt_graph_1800_edges,scatt_graph,edges,1800,edges=1800,ok,outputs/node_increase/scatt_graph_1800_edges/SOLI_20260518_1050_labels.npy,1800,6,SOLI,0.755,0.5640909142220762,0.5303120162228365,0.7469752044778767,0.755,
+scatt_graph_1800_edges,scatt_graph,edges,1800,edges=1800,ok,outputs/node_increase/scatt_graph_1800_edges/UCODE_20260518_1051_labels.npy,1800,6,UCODE,0.27,0.07815158632116505,0.05413387743466313,0.19478588160227184,0.27,
+scatt_graph_2400_edges,scatt_graph,edges,2400,edges=2400,ok,outputs/node_increase/scatt_graph_2400_edges/CoANE_20260518_1100_labels.npy,2400,6,CoANE,0.7675,0.5421498325353729,0.530711230979897,0.7633653470217139,0.7675,
+scatt_graph_2400_edges,scatt_graph,edges,2400,edges=2400,ok,outputs/node_increase/scatt_graph_2400_edges/CoANE_topk_20260518_1103_labels.npy,2400,6,CoANE_topk,0.8441666666666666,0.6901781430162609,0.6686902232815256,0.8451797886276352,0.8441666666666666,
+scatt_graph_2400_edges,scatt_graph,edges,2400,edges=2400,ok,outputs/node_increase/scatt_graph_2400_edges/DGC_20260518_1104_labels.npy,2400,6,DGC,0.87875,0.7017029483511524,0.7310520781126554,0.8780946874586025,0.87875,
+scatt_graph_2400_edges,scatt_graph,edges,2400,edges=2400,ok,outputs/node_increase/scatt_graph_2400_edges/DGCluster_20260518_1106_labels.npy,2400,6,DGCluster,0.8645833333333334,0.6809439383713684,0.7059970586153217,0.8621800929712732,0.8645833333333334,
+scatt_graph_2400_edges,scatt_graph,edges,2400,edges=2400,ok,outputs/node_increase/scatt_graph_2400_edges/DSAGC_20260518_1116_labels.npy,2400,6,DSAGC,0.6641666666666667,0.4862893335593181,0.4484346792367526,0.6188557588874323,0.6641666666666667,
+scatt_graph_2400_edges,scatt_graph,edges,2400,edges=2400,ok,outputs/node_increase/scatt_graph_2400_edges/EGC_VGAE_20260518_1116_labels.npy,2400,6,EGC_VGAE,0.7695833333333333,0.6469108505691581,0.5199184638512867,0.7796191782296993,0.7695833333333333,
+scatt_graph_2400_edges,scatt_graph,edges,2400,edges=2400,ok,outputs/node_increase/scatt_graph_2400_edges/NS4GC_20260518_1106_labels.npy,2400,6,NS4GC,0.865,0.6831433363999476,0.7074501749775396,0.8624531338584948,0.865,
+scatt_graph_2400_edges,scatt_graph,edges,2400,edges=2400,ok,outputs/node_increase/scatt_graph_2400_edges/SANECE_20260518_1108_labels.npy,2400,6,SANECE,0.8695833333333334,0.7002989660231289,0.720310629249912,0.8682395415273433,0.8695833333333334,
+scatt_graph_2400_edges,scatt_graph,edges,2400,edges=2400,ok,outputs/node_increase/scatt_graph_2400_edges/SCGC_20260518_1117_labels.npy,2400,6,SCGC,0.6358333333333334,0.47148312681593685,0.38600262312087597,0.6030352518317855,0.6358333333333334,
+scatt_graph_2400_edges,scatt_graph,edges,2400,edges=2400,ok,outputs/node_increase/scatt_graph_2400_edges/SOLI_20260518_1105_labels.npy,2400,6,SOLI,0.7616666666666667,0.5741727887274767,0.5407431833015854,0.753424150415008,0.7616666666666667,
+scatt_graph_2400_edges,scatt_graph,edges,2400,edges=2400,ok,outputs/node_increase/scatt_graph_2400_edges/UCODE_20260518_1106_labels.npy,2400,6,UCODE,0.20333333333333334,0.01689249323927105,0.0038688210901091096,0.13725875503607565,0.20333333333333334,
+scatt_graph_3000_edges,scatt_graph,edges,3000,edges=3000,ok,outputs/node_increase/scatt_graph_3000_edges/CoANE_20260518_1119_labels.npy,3000,6,CoANE,0.727,0.47007186191041606,0.4645852692363322,0.7217103282127955,0.727,
+scatt_graph_3000_edges,scatt_graph,edges,3000,edges=3000,ok,outputs/node_increase/scatt_graph_3000_edges/CoANE_topk_20260518_1123_labels.npy,3000,6,CoANE_topk,0.855,0.710761941628068,0.6873940250568805,0.8544795935410706,0.855,
+scatt_graph_3000_edges,scatt_graph,edges,3000,edges=3000,ok,outputs/node_increase/scatt_graph_3000_edges/DGC_20260518_1124_labels.npy,3000,6,DGC,0.9096666666666666,0.765741362547128,0.7964597893776529,0.9096053409853658,0.9096666666666666,
+scatt_graph_3000_edges,scatt_graph,edges,3000,edges=3000,ok,outputs/node_increase/scatt_graph_3000_edges/DGCluster_20260518_1126_labels.npy,3000,6,DGCluster,0.8586666666666667,0.6745459982103376,0.6941633387195755,0.8560282122545676,0.8586666666666667,
+scatt_graph_3000_edges,scatt_graph,edges,3000,edges=3000,ok,outputs/node_increase/scatt_graph_3000_edges/DSAGC_20260518_1140_labels.npy,3000,6,DSAGC,0.817,0.5946721205906044,0.6129693238367443,0.8172472662749893,0.817,
+scatt_graph_3000_edges,scatt_graph,edges,3000,edges=3000,ok,outputs/node_increase/scatt_graph_3000_edges/EGC_VGAE_20260518_1140_labels.npy,3000,6,EGC_VGAE,0.7743333333333333,0.636105182082646,0.5299070197510956,0.7806983834169946,0.7743333333333333,
+scatt_graph_3000_edges,scatt_graph,edges,3000,edges=3000,ok,outputs/node_increase/scatt_graph_3000_edges/NS4GC_20260518_1126_labels.npy,3000,6,NS4GC,0.8603333333333333,0.6753572075936967,0.6963369471163304,0.8580906511421321,0.8603333333333333,
+scatt_graph_3000_edges,scatt_graph,edges,3000,edges=3000,ok,outputs/node_increase/scatt_graph_3000_edges/SANECE_20260518_1128_labels.npy,3000,6,SANECE,0.8646666666666667,0.6864153247192739,0.7058340586107119,0.8638149378481071,0.8646666666666667,
+scatt_graph_3000_edges,scatt_graph,edges,3000,edges=3000,ok,outputs/node_increase/scatt_graph_3000_edges/SCGC_20260518_1141_labels.npy,3000,6,SCGC,0.6986666666666667,0.5180962609417831,0.5105417527183385,0.6466616036058427,0.6986666666666667,
+scatt_graph_3000_edges,scatt_graph,edges,3000,edges=3000,error,/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_3000_edges/runner_logs/SOLI.log,3000,,SOLI,,,,,,"exit status 1: /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/SOLI/SOLI_GAE/main.py --dataset cora --device cuda --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_3000_edges --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/node_increase/scatt_graph_3000_edges.pt --epochs 300
+    )
+    ^
+  File ""/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/autograd/__init__.py"", line 381, in backward
+    _engine_run_backward(
+    ~~~~~~~~~~~~~~~~~~~~^
+        tensors,
+        ^^^^^^^^
+    ...<5 lines>...
+        accumulate_grad=True,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File ""/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/autograd/graph.py"", line 869, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        t_outputs, *args, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )  # Calls into the C++ engine to run the backward pass
+    ^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 5.48 GiB. GPU 0 has a total capacity of 10.57 GiB of which 4.71 GiB is free. Including non-PyTorch memory, this process has 5.80 GiB memory in use. Of the allocated memory 106.26 MiB is allocated by PyTorch, and 5.51 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)"
+scatt_graph_3000_edges,scatt_graph,edges,3000,edges=3000,ok,outputs/node_increase/scatt_graph_3000_edges/UCODE_20260518_1126_labels.npy,3000,6,UCODE,0.23266666666666666,0.028347056240941523,0.008092022456208858,0.16055529500451823,0.23266666666666666,
+scatt_graph_3600_edges,scatt_graph,edges,3600,edges=3600,ok,outputs/node_increase/scatt_graph_3600_edges/CoANE_20260518_1144_labels.npy,3600,6,CoANE,0.3213888888888889,0.26225661655379723,0.093513798019611,0.2814046760909833,0.3213888888888889,
+scatt_graph_3600_edges,scatt_graph,edges,3600,edges=3600,ok,outputs/node_increase/scatt_graph_3600_edges/CoANE_topk_20260518_1149_labels.npy,3600,6,CoANE_topk,0.8533333333333334,0.6987885918747291,0.6868128096105465,0.8526854566707689,0.8533333333333334,
+scatt_graph_3600_edges,scatt_graph,edges,3600,edges=3600,ok,outputs/node_increase/scatt_graph_3600_edges/DGC_20260518_1151_labels.npy,3600,6,DGC,0.8936111111111111,0.7422018533009324,0.7626511826761907,0.8930904922194531,0.8936111111111111,
+scatt_graph_3600_edges,scatt_graph,edges,3600,edges=3600,ok,outputs/node_increase/scatt_graph_3600_edges/DGCluster_20260518_1155_labels.npy,3600,6,DGCluster,0.8544444444444445,0.6580851216492213,0.6847120789865108,0.8522552232656687,0.8544444444444445,
+scatt_graph_3600_edges,scatt_graph,edges,3600,edges=3600,ok,outputs/node_increase/scatt_graph_3600_edges/DSAGC_20260518_1213_labels.npy,3600,6,DSAGC,0.6708333333333333,0.4955300954173088,0.46918614386284485,0.6168582260511476,0.6708333333333333,
+scatt_graph_3600_edges,scatt_graph,edges,3600,edges=3600,ok,outputs/node_increase/scatt_graph_3600_edges/EGC_VGAE_20260518_1212_labels.npy,3600,6,EGC_VGAE,0.7633333333333333,0.6257585355085269,0.4957664202982792,0.7762668716223629,0.7633333333333333,
+scatt_graph_3600_edges,scatt_graph,edges,3600,edges=3600,ok,outputs/node_increase/scatt_graph_3600_edges/NS4GC_20260518_1154_labels.npy,3600,6,NS4GC,0.8575,0.6644022146424431,0.6903653091684998,0.8553074780834494,0.8575,
+scatt_graph_3600_edges,scatt_graph,edges,3600,edges=3600,ok,outputs/node_increase/scatt_graph_3600_edges/SANECE_20260518_1157_labels.npy,3600,6,SANECE,0.8497222222222223,0.6504610749638502,0.6765275702290644,0.8486777751180262,0.8497222222222223,
+scatt_graph_3600_edges,scatt_graph,edges,3600,edges=3600,error,/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_3600_edges/runner_logs/SCGC.log,3600,,SCGC,,,,,,"exit status 1: /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/SCGC/train.py --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_3600_edges --device cuda --model SCGC --iterations 1 --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/node_increase/scatt_graph_3600_edges.pt --epochs 300
+/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/profiler/profiler.py:224: UserWarning: Warning: Profiler clears events at the end of each cycle.Only events from the current cycle will be reported.To keep events across cycles, set acc_events=True.
+  _warn_once(
+/home/gmessias/NodeClusteringAlgorithms/models/SCGC/utils.py:147: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  return torch.sparse_coo_tensor(indices, values, shape, check_invariants=False).coalesce()
+Namespace(name='reut', k=3, lr=0.001, n_clusters=6, n_z=10, data_path='/content/drive/MyDrive/001_Clustering/_Dataset_SDCN', data_pt='/home/gmessias/NodeClusteringAlgorithms/datasets/custom/node_increase/scatt_graph_3600_edges.pt', output_dir='/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_3600_edges', pretrain_path=None, model='SCGC', mode='full', influence=False, epochs=300, iterations=1, verbosity=0, note='-', alpha=2.0, beta=0.1, batch_size=2048, order=2, tau=1.0, seed=42, device='cuda', cuda=True, n_input=512)
+---------------PROFILING CODE--------------
+Warning: no pretrained AE provided. Using random initialization.
+Loaded PAE acc:0.3339  nmi:0.0708  ari:0.0603  f1:0.3325
+error numclass1:6 != numclass2:5
+Traceback (most recent call last):
+  File ""/home/gmessias/NodeClusteringAlgorithms/models/SCGC/train.py"", line 480, in <module>
+    if args.model =='SCGC': best_Z, vals, labels = train_scgc(dataset)
+                                                   ~~~~~~~~~~^^^^^^^^^
+  File ""/home/gmessias/NodeClusteringAlgorithms/models/SCGC/train.py"", line 235, in train_scgc
+    eva(y, res1, str(epoch) + 'Q', kmeans_Q, NMI_Q, ARI_Q, F1_Q, verbosity=args.verbosity)
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/gmessias/NodeClusteringAlgorithms/models/SCGC/evaluation.py"", line 67, in eva
+    acc, f1 = cluster_acc(y_true, y_pred)
+    ^^^^^^^
+TypeError: cannot unpack non-iterable NoneType object"
+scatt_graph_3600_edges,scatt_graph,edges,3600,edges=3600,ok,outputs/node_increase/scatt_graph_3600_edges/SOLI_20260518_1152_labels.npy,3600,6,SOLI,0.7255555555555555,0.5538198309353534,0.4985943202928422,0.7124256159694785,0.7255555555555555,
+scatt_graph_3600_edges,scatt_graph,edges,3600,edges=3600,ok,outputs/node_increase/scatt_graph_3600_edges/UCODE_20260518_1154_labels.npy,3600,6,UCODE,0.2758333333333333,0.057806336549623215,0.04076979982043222,0.19253442302794047,0.2758333333333333,
+scatt_graph_4200_edges,scatt_graph,edges,4200,edges=4200,ok,outputs/node_increase/scatt_graph_4200_edges/CoANE_20260518_1216_labels.npy,4200,6,CoANE,0.735,0.495009704730136,0.4630921267172253,0.7324270487919269,0.735,
+scatt_graph_4200_edges,scatt_graph,edges,4200,edges=4200,ok,outputs/node_increase/scatt_graph_4200_edges/CoANE_topk_20260518_1222_labels.npy,4200,6,CoANE_topk,0.8511904761904762,0.6952590746596103,0.6806124483940076,0.8508404514673679,0.8511904761904762,
+scatt_graph_4200_edges,scatt_graph,edges,4200,edges=4200,ok,outputs/node_increase/scatt_graph_4200_edges/DGC_20260518_1224_labels.npy,4200,6,DGC,0.9011904761904762,0.7587150338260684,0.7786677439341423,0.9009428255939799,0.9011904761904762,
+scatt_graph_4200_edges,scatt_graph,edges,4200,edges=4200,ok,outputs/node_increase/scatt_graph_4200_edges/DGCluster_20260518_1228_labels.npy,4200,6,DGCluster,0.8526190476190476,0.6601914754405349,0.6831989160306,0.8495947260518687,0.8526190476190476,
+scatt_graph_4200_edges,scatt_graph,edges,4200,edges=4200,ok,outputs/node_increase/scatt_graph_4200_edges/DSAGC_20260518_1250_labels.npy,4200,6,DSAGC,0.7966666666666666,0.5634735585327114,0.5792942205634188,0.7932876062834553,0.7966666666666666,
+scatt_graph_4200_edges,scatt_graph,edges,4200,edges=4200,ok,outputs/node_increase/scatt_graph_4200_edges/EGC_VGAE_20260518_1250_labels.npy,4200,6,EGC_VGAE,0.7576190476190476,0.6468162238327221,0.4918914885553803,0.7710188589397614,0.7576190476190476,
+scatt_graph_4200_edges,scatt_graph,edges,4200,edges=4200,ok,outputs/node_increase/scatt_graph_4200_edges/NS4GC_20260518_1227_labels.npy,4200,6,NS4GC,0.8542857142857143,0.6657328230523949,0.6859636663575364,0.8512580228392793,0.8542857142857143,
+scatt_graph_4200_edges,scatt_graph,edges,4200,edges=4200,ok,outputs/node_increase/scatt_graph_4200_edges/SANECE_20260518_1231_labels.npy,4200,6,SANECE,0.8542857142857143,0.6638958089273945,0.689311666240917,0.8521828196744169,0.8542857142857143,
+scatt_graph_4200_edges,scatt_graph,edges,4200,edges=4200,ok,outputs/node_increase/scatt_graph_4200_edges/SCGC_20260518_1251_labels.npy,4200,6,SCGC,0.5119047619047619,0.3807635029484682,0.2902462565406922,0.42196845598930066,0.5119047619047619,
+scatt_graph_4200_edges,scatt_graph,edges,4200,edges=4200,error,/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_4200_edges/runner_logs/SOLI.log,4200,,SOLI,,,,,,"exit status 1: /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/SOLI/SOLI_GAE/main.py --dataset cora --device cuda --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_4200_edges --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/node_increase/scatt_graph_4200_edges.pt --epochs 300
+    )
+    ^
+  File ""/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/autograd/__init__.py"", line 381, in backward
+    _engine_run_backward(
+    ~~~~~~~~~~~~~~~~~~~~^
+        tensors,
+        ^^^^^^^^
+    ...<5 lines>...
+        accumulate_grad=True,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File ""/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/autograd/graph.py"", line 869, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        t_outputs, *args, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )  # Calls into the C++ engine to run the backward pass
+    ^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 7.67 GiB. GPU 0 has a total capacity of 10.57 GiB of which 2.50 GiB is free. Including non-PyTorch memory, this process has 8.01 GiB memory in use. Of the allocated memory 141.82 MiB is allocated by PyTorch, and 7.68 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)"
+scatt_graph_4200_edges,scatt_graph,edges,4200,edges=4200,ok,outputs/node_increase/scatt_graph_4200_edges/UCODE_20260518_1227_labels.npy,4200,6,UCODE,0.2373809523809524,0.04089726741824587,0.02511092436591601,0.173791107446529,0.2373809523809524,
+scatt_graph_4800_edges,scatt_graph,edges,4800,edges=4800,ok,outputs/node_increase/scatt_graph_4800_edges/CoANE_20260518_1255_labels.npy,4800,6,CoANE,0.71,0.4486497602493169,0.42053333675033977,0.7084224035818152,0.71,
+scatt_graph_4800_edges,scatt_graph,edges,4800,edges=4800,error,/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_4800_edges/runner_logs/CoANE_topk.log,4800,,CoANE_topk,,,,,,"exit status 1: /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/CoANE/CoANE topk with attributes preservation/main_CoANE_topk.py --dataset cora --device cuda --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_4800_edges --kmeans --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/node_increase/scatt_graph_4800_edges.pt --num_epochs 300
+ Avg. Loss:  {:34.42} -p {:1.06} -n {:0.38} -m {:32.98}
+ Epoch [3/300],
+ Avg. Loss:  {:32.52} -p {:0.16} -n {:0.25} -m {:32.11}
+ Epoch [4/300],
+ Avg. Loss:  {:32.06} -p {:0.21} -n {:0.21} -m {:31.64}
+ Epoch [5/300],
+ Avg. Loss:  {:31.84} -p {:0.19} -n {:0.22} -m {:31.43}
+Traceback (most recent call last):
+  File ""/home/gmessias/NodeClusteringAlgorithms/models/CoANE/CoANE topk with attributes preservation/main_CoANE_topk.py"", line 97, in <module>
+    PAR_emb, CoANE = Train(PAR, Context, args)
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^
+  File ""/home/gmessias/NodeClusteringAlgorithms/models/CoANE/CoANE topk with attributes preservation/CoANE/CoANE_Train.py"", line 225, in Train
+    PAR = eval_emb(model, x[0], x[2], nb_filter, V_BATCH_SIZE, PAR, n_c_)
+  File ""/home/gmessias/NodeClusteringAlgorithms/models/CoANE/CoANE topk with attributes preservation/CoANE/CoANE_Train.py"", line 247, in eval_emb
+    v_win_list_b, labels_b, labels_b_set, _ = win_b_extract(index_b, x_win, x_tar, n_c_, n_c_s, rand = False)
+                                              ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/gmessias/NodeClusteringAlgorithms/models/CoANE/CoANE topk with attributes preservation/CoANE/CoANE_Train.py"", line 50, in win_b_extract
+    index_w = np.concatenate(index_w, 0).astype(int)
+              ~~~~~~~~~~~~~~^^^^^^^^^^^^
+ValueError: need at least one array to concatenate"
+scatt_graph_4800_edges,scatt_graph,edges,4800,edges=4800,ok,outputs/node_increase/scatt_graph_4800_edges/DGC_20260518_1258_labels.npy,4800,6,DGC,0.8929166666666667,0.7377589876125942,0.7641986714338561,0.8911904231623465,0.8929166666666667,
+scatt_graph_4800_edges,scatt_graph,edges,4800,edges=4800,ok,outputs/node_increase/scatt_graph_4800_edges/DGCluster_20260518_1302_labels.npy,4800,6,DGCluster,0.8533333333333334,0.6583341726504236,0.6839747739757754,0.8506221379346711,0.8533333333333334,
+scatt_graph_4800_edges,scatt_graph,edges,4800,edges=4800,ok,outputs/node_increase/scatt_graph_4800_edges/DSAGC_20260518_1331_labels.npy,4800,6,DSAGC,0.685,0.433184286439789,0.42304957695909023,0.6580462794315571,0.685,
+scatt_graph_4800_edges,scatt_graph,edges,4800,edges=4800,ok,outputs/node_increase/scatt_graph_4800_edges/EGC_VGAE_20260518_1331_labels.npy,4800,6,EGC_VGAE,0.7664583333333334,0.6352752842217053,0.5004538374464798,0.7804600299188292,0.7664583333333334,
+scatt_graph_4800_edges,scatt_graph,edges,4800,edges=4800,ok,outputs/node_increase/scatt_graph_4800_edges/NS4GC_20260518_1302_labels.npy,4800,6,NS4GC,0.8602083333333334,0.6728975131952892,0.6973861590892231,0.85751341989753,0.8602083333333334,
+scatt_graph_4800_edges,scatt_graph,edges,4800,edges=4800,ok,outputs/node_increase/scatt_graph_4800_edges/SANECE_20260518_1306_labels.npy,4800,6,SANECE,0.8472916666666667,0.6532214887096245,0.6754144944759719,0.8464261701349672,0.8472916666666667,
+scatt_graph_4800_edges,scatt_graph,edges,4800,edges=4800,ok,outputs/node_increase/scatt_graph_4800_edges/SCGC_20260518_1332_labels.npy,4800,6,SCGC,0.6722916666666666,0.4577724036358448,0.4358792923760742,0.6205638211182171,0.6722916666666666,
+scatt_graph_4800_edges,scatt_graph,edges,4800,edges=4800,error,/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_4800_edges/runner_logs/SOLI.log,4800,,SOLI,,,,,,"exit status 1: /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/SOLI/SOLI_GAE/main.py --dataset cora --device cuda --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_4800_edges --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/node_increase/scatt_graph_4800_edges.pt --epochs 300
+    )
+    ^
+  File ""/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/autograd/__init__.py"", line 381, in backward
+    _engine_run_backward(
+    ~~~~~~~~~~~~~~~~~~~~^
+        tensors,
+        ^^^^^^^^
+    ...<5 lines>...
+        accumulate_grad=True,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File ""/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/autograd/graph.py"", line 869, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        t_outputs, *args, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )  # Calls into the C++ engine to run the backward pass
+    ^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 8.76 GiB. GPU 0 has a total capacity of 10.57 GiB of which 1.39 GiB is free. Including non-PyTorch memory, this process has 9.12 GiB memory in use. Of the allocated memory 154.74 MiB is allocated by PyTorch, and 8.78 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)"
+scatt_graph_4800_edges,scatt_graph,edges,4800,edges=4800,ok,outputs/node_increase/scatt_graph_4800_edges/UCODE_20260518_1302_labels.npy,4800,6,UCODE,0.24333333333333335,0.048649479558178,0.025202952996046493,0.15944077416883154,0.24333333333333335,
+scatt_graph_5400_edges,scatt_graph,edges,5400,edges=5400,ok,outputs/node_increase/scatt_graph_5400_edges/CoANE_20260518_1337_labels.npy,5400,6,CoANE,0.725925925925926,0.4860102455953367,0.45577073290544506,0.7204747881015178,0.725925925925926,
+scatt_graph_5400_edges,scatt_graph,edges,5400,edges=5400,ok,outputs/node_increase/scatt_graph_5400_edges/CoANE_topk_20260518_1345_labels.npy,5400,6,CoANE_topk,0.8457407407407408,0.6885598315433799,0.6764748701941155,0.8445627696897638,0.8457407407407408,
+scatt_graph_5400_edges,scatt_graph,edges,5400,edges=5400,ok,outputs/node_increase/scatt_graph_5400_edges/DGC_20260518_1348_labels.npy,5400,6,DGC,0.8992592592592593,0.7523520876296644,0.7769859733101251,0.8992515752585005,0.8992592592592593,
+scatt_graph_5400_edges,scatt_graph,edges,5400,edges=5400,ok,outputs/node_increase/scatt_graph_5400_edges/DGCluster_20260518_1356_labels.npy,5400,6,DGCluster,0.8494444444444444,0.6543581493527273,0.6773431707526487,0.8459899904129337,0.8494444444444444,
+scatt_graph_5400_edges,scatt_graph,edges,5400,edges=5400,ok,outputs/node_increase/scatt_graph_5400_edges/DSAGC_20260518_1430_labels.npy,5400,6,DSAGC,0.7051851851851851,0.45343274157093516,0.43825347374375306,0.7041641295765956,0.7051851851851851,
+scatt_graph_5400_edges,scatt_graph,edges,5400,edges=5400,ok,outputs/node_increase/scatt_graph_5400_edges/EGC_VGAE_20260518_1430_labels.npy,5400,6,EGC_VGAE,0.767962962962963,0.6441827992231878,0.5014947214880271,0.7830613124938726,0.767962962962963,
+scatt_graph_5400_edges,scatt_graph,edges,5400,edges=5400,ok,outputs/node_increase/scatt_graph_5400_edges/NS4GC_20260518_1356_labels.npy,5400,6,NS4GC,0.8561111111111112,0.6671973054027031,0.6893640113689757,0.8530538269690373,0.8561111111111112,
+scatt_graph_5400_edges,scatt_graph,edges,5400,edges=5400,ok,outputs/node_increase/scatt_graph_5400_edges/SANECE_20260518_1401_labels.npy,5400,6,SANECE,0.8501851851851852,0.6536996758965646,0.6803836804880355,0.848124235675851,0.8501851851851852,
+scatt_graph_5400_edges,scatt_graph,edges,5400,edges=5400,error,/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_5400_edges/runner_logs/SCGC.log,5400,,SCGC,,,,,,"exit status 1: /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/SCGC/train.py --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_5400_edges --device cuda --model SCGC --iterations 1 --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/node_increase/scatt_graph_5400_edges.pt --epochs 300
+/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/profiler/profiler.py:224: UserWarning: Warning: Profiler clears events at the end of each cycle.Only events from the current cycle will be reported.To keep events across cycles, set acc_events=True.
+  _warn_once(
+/home/gmessias/NodeClusteringAlgorithms/models/SCGC/utils.py:147: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  return torch.sparse_coo_tensor(indices, values, shape, check_invariants=False).coalesce()
+Namespace(name='reut', k=3, lr=0.001, n_clusters=6, n_z=10, data_path='/content/drive/MyDrive/001_Clustering/_Dataset_SDCN', data_pt='/home/gmessias/NodeClusteringAlgorithms/datasets/custom/node_increase/scatt_graph_5400_edges.pt', output_dir='/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_5400_edges', pretrain_path=None, model='SCGC', mode='full', influence=False, epochs=300, iterations=1, verbosity=0, note='-', alpha=2.0, beta=0.1, batch_size=2048, order=2, tau=1.0, seed=42, device='cuda', cuda=True, n_input=512)
+---------------PROFILING CODE--------------
+Warning: no pretrained AE provided. Using random initialization.
+Loaded PAE acc:0.2717  nmi:0.0444  ari:0.0328  f1:0.2721
+error numclass1:6 != numclass2:5
+Traceback (most recent call last):
+  File ""/home/gmessias/NodeClusteringAlgorithms/models/SCGC/train.py"", line 480, in <module>
+    if args.model =='SCGC': best_Z, vals, labels = train_scgc(dataset)
+                                                   ~~~~~~~~~~^^^^^^^^^
+  File ""/home/gmessias/NodeClusteringAlgorithms/models/SCGC/train.py"", line 235, in train_scgc
+    eva(y, res1, str(epoch) + 'Q', kmeans_Q, NMI_Q, ARI_Q, F1_Q, verbosity=args.verbosity)
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/gmessias/NodeClusteringAlgorithms/models/SCGC/evaluation.py"", line 67, in eva
+    acc, f1 = cluster_acc(y_true, y_pred)
+    ^^^^^^^
+TypeError: cannot unpack non-iterable NoneType object"
+scatt_graph_5400_edges,scatt_graph,edges,5400,edges=5400,ok,outputs/node_increase/scatt_graph_5400_edges/SOLI_20260518_1350_labels.npy,5400,6,SOLI,0.7568518518518519,0.5679635425143529,0.5403793358946941,0.7445274159231108,0.7568518518518519,
+scatt_graph_5400_edges,scatt_graph,edges,5400,edges=5400,ok,outputs/node_increase/scatt_graph_5400_edges/UCODE_20260518_1356_labels.npy,5400,6,UCODE,0.2337037037037037,0.04342479496430375,0.023392581683111546,0.1804768193403056,0.2337037037037037,
+scatt_graph_6000_edges,scatt_graph,edges,6000,edges=6000,ok,outputs/node_increase/scatt_graph_6000_edges/CoANE_20260518_1436_labels.npy,6000,6,CoANE,0.7131666666666666,0.454219059347712,0.44069090127818966,0.7071504234851637,0.7131666666666666,
+scatt_graph_6000_edges,scatt_graph,edges,6000,edges=6000,ok,outputs/node_increase/scatt_graph_6000_edges/CoANE_topk_20260518_1445_labels.npy,6000,6,CoANE_topk,0.6658333333333334,0.5973904741082481,0.49450464039206815,0.6540560216867926,0.6658333333333334,
+scatt_graph_6000_edges,scatt_graph,edges,6000,edges=6000,ok,outputs/node_increase/scatt_graph_6000_edges/DGC_20260518_1449_labels.npy,6000,6,DGC,0.888,0.730634430948361,0.7528469230356951,0.8860305244544949,0.888,
+scatt_graph_6000_edges,scatt_graph,edges,6000,edges=6000,ok,outputs/node_increase/scatt_graph_6000_edges/DGCluster_20260518_1455_labels.npy,6000,6,DGCluster,0.8456666666666667,0.6443254334008878,0.6684235312208947,0.8427813047647122,0.8456666666666667,
+scatt_graph_6000_edges,scatt_graph,edges,6000,edges=6000,ok,outputs/node_increase/scatt_graph_6000_edges/DSAGC_20260518_1539_labels.npy,6000,6,DSAGC,0.8108333333333333,0.5872097194925228,0.6024766685223659,0.8071585610581189,0.8108333333333333,
+scatt_graph_6000_edges,scatt_graph,edges,6000,edges=6000,ok,outputs/node_increase/scatt_graph_6000_edges/EGC_VGAE_20260518_1539_labels.npy,6000,6,EGC_VGAE,0.6808333333333333,0.6033015191499285,0.4058439917281373,0.6772158901546707,0.6808333333333333,
+scatt_graph_6000_edges,scatt_graph,edges,6000,edges=6000,ok,outputs/node_increase/scatt_graph_6000_edges/NS4GC_20260518_1455_labels.npy,6000,6,NS4GC,0.8516666666666667,0.6574440986903813,0.6799917905180777,0.8488287873882375,0.8516666666666667,
+scatt_graph_6000_edges,scatt_graph,edges,6000,edges=6000,ok,outputs/node_increase/scatt_graph_6000_edges/SANECE_20260518_1502_labels.npy,6000,6,SANECE,0.8448333333333333,0.6465090578570666,0.6681436061442245,0.8439039711697981,0.8448333333333333,
+scatt_graph_6000_edges,scatt_graph,edges,6000,edges=6000,ok,outputs/node_increase/scatt_graph_6000_edges/SCGC_20260518_1540_labels.npy,6000,6,SCGC,0.6168333333333333,0.4509279637819061,0.38090694397367536,0.5863776523053537,0.6168333333333333,
+scatt_graph_6000_edges,scatt_graph,edges,6000,edges=6000,error,/home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges/runner_logs/SOLI.log,6000,,SOLI,,,,,,"exit status 1: /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/SOLI/SOLI_GAE/main.py --dataset cora --device cuda --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/node_increase/scatt_graph_6000_edges --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/node_increase/scatt_graph_6000_edges.pt --epochs 300
+    )
+    ^
+  File ""/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/autograd/__init__.py"", line 381, in backward
+    _engine_run_backward(
+    ~~~~~~~~~~~~~~~~~~~~^
+        tensors,
+        ^^^^^^^^
+    ...<5 lines>...
+        accumulate_grad=True,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File ""/home/gmessias/NodeClusteringAlgorithms/venv/lib/python3.13/site-packages/torch/autograd/graph.py"", line 869, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        t_outputs, *args, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )  # Calls into the C++ engine to run the backward pass
+    ^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 10.95 GiB. GPU 0 has a total capacity of 10.57 GiB of which 10.11 GiB is free. Including non-PyTorch memory, this process has 406.00 MiB memory in use. Of the allocated memory 172.21 MiB is allocated by PyTorch, and 45.79 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)"
+scatt_graph_6000_edges,scatt_graph,edges,6000,edges=6000,ok,outputs/node_increase/scatt_graph_6000_edges/UCODE_20260518_1455_labels.npy,6000,6,UCODE,0.23116666666666666,0.03752053622979292,0.018796684818957878,0.15479003498561286,0.23116666666666666,

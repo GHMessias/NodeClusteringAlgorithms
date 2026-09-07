@@ -1,0 +1,43 @@
+$ /home/gmessias/NodeClusteringAlgorithms/venv/bin/python3 /home/gmessias/NodeClusteringAlgorithms/models/DSAGC/main.py --output_dir /home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_6 --data_pt /home/gmessias/NodeClusteringAlgorithms/datasets/custom/comm_collapse/graph_comm_colapse_6.pt --epochs 300 --device cuda
+/home/gmessias/NodeClusteringAlgorithms/models/DSAGC/utils.py:94: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  dataset.adj = torch.sparse_coo_tensor(
+use cuda: True
+Namespace(name='Cora', data_pt='/home/gmessias/NodeClusteringAlgorithms/datasets/custom/comm_collapse/graph_comm_colapse_6.pt', output_dir='/home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_6', epochs=300, device='cuda', pretrain_path='pretrain/GAE_Cora.pkl', max_epoch=100, lr=0.0001, n_clusters=9, update_interval=1, hidden_size=256, embedding_size=16, weight_decay=0.005, alpha=0.2, cuda=True, k=None, input_dim=60)
+GAT(
+  (conv1): GATLayer (60 -> 256)
+  (conv2): GATLayer (256 -> 16)
+)
+Could not load pretrain weights from pretrain/GAE_Cora.pkl: Error(s) in loading state_dict for GAT:
+	size mismatch for conv1.W: copying a param with shape torch.Size([1433, 256]) from checkpoint, the shape in current model is torch.Size([60, 256]).
+Continuing with randomly initialized GAT weights.
+epoch pretrain-Kmeans:acc 0.4583, nmi 0.5483, ari 0.3245, f1 0.4358
+可信赖样本的个数 1059
+epoch pretrain-可信赖样本:acc 0.4580, nmi 0.5486, ari 0.3233, f1 0.4370
+Counter({3: 161, 1: 155, 6: 143, 7: 126, 0: 123, 2: 98, 5: 92, 8: 84, 4: 77})
+Counter({np.int64(0): 200, np.int64(3): 200, np.int64(6): 200, np.int64(1): 80, np.int64(2): 80, np.int64(4): 80, np.int64(5): 80, np.int64(7): 80, np.int64(8): 80})
+自监督训练开始,  GAT模型结构图：
+GAT(
+  (attention_0): GraphAttentionLayer (60 -> 8)
+  (attention_1): GraphAttentionLayer (60 -> 8)
+  (attention_2): GraphAttentionLayer (60 -> 8)
+  (attention_3): GraphAttentionLayer (60 -> 8)
+  (attention_4): GraphAttentionLayer (60 -> 8)
+  (attention_5): GraphAttentionLayer (60 -> 8)
+  (attention_6): GraphAttentionLayer (60 -> 8)
+  (attention_7): GraphAttentionLayer (60 -> 8)
+  (out_att): GraphAttentionLayer (64 -> 9)
+)
+epoch - Train 0:acc 0.3399, nmi 0.2979, ari 0.1868, f1 0.2544
+epoch 0:acc 0.3685, nmi 0.2888, ari 0.1915, f1 0.2300
+epoch - Train 5:acc 0.4249, nmi 0.4371, ari 0.2687, f1 0.3544
+epoch 5:acc 0.3991, nmi 0.4352, ari 0.2743, f1 0.2958
+epoch - Train 6:acc 0.4287, nmi 0.4787, ari 0.3193, f1 0.3234
+epoch 6:acc 0.4333, nmi 0.4907, ari 0.3311, f1 0.2673
+epoch - Train 7:acc 0.4551, nmi 0.5279, ari 0.3503, f1 0.3388
+epoch 7:acc 0.4463, nmi 0.5354, ari 0.3572, f1 0.2820
+epoch - Train 8:acc 0.4684, nmi 0.5821, ari 0.3825, f1 0.3079
+epoch 8:acc 0.5074, nmi 0.6034, ari 0.4156, f1 0.2951
+DSAGC labels saved in: /home/gmessias/NodeClusteringAlgorithms/outputs/comm_collapse/graph_comm_colapse_6/DSAGC_20260525_1526_labels.npy
+
+[exit_status=0]
+
