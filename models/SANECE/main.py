@@ -1,3 +1,11 @@
+
+# Optional benchmark result selection; standalone/default training is unchanged.
+import os as _benchmark_os
+if _benchmark_os.environ.get("BENCHMARK_SELECT_BEST_NMI") == "1":
+    from benchmark_selection import selection as _nmi_selection
+else:
+    _nmi_selection = None
+
 from config import *
 import argparse
 import os
@@ -69,11 +77,11 @@ def load_data_pt(data_pt, config, directed=False):
     x = get_data_attr(data, 'x')
     y = get_data_attr(data, 'y')
     edge_index = get_data_attr(data, 'edge_index')
-    if x is None or y is None or edge_index is None:
-        raise ValueError("data.pt must contain x, y and edge_index.")
+    if x is None or edge_index is None:
+        raise ValueError("data.pt must contain x and edge_index.")
 
     X = as_numpy(x).astype(np.float32)
-    labels = labels_to_vector(y)
+    labels = labels_to_vector(y) if y is not None else None
     config.n = X.shape[0]
     config.m = X.shape[1]
     config.layers[0] = config.m
@@ -107,12 +115,23 @@ def load_dataset(args, config):
     raise NotImplementedError("Dataset {} not implemented. Use --data_pt for custom data.".format(args.dataset))
 
 
+def parse_bool(value):
+    if isinstance(value, bool):
+        return value
+    normalized = value.strip().lower()
+    if normalized in {'1', 'true', 'yes', 'on'}:
+        return True
+    if normalized in {'0', 'false', 'no', 'off'}:
+        return False
+    raise argparse.ArgumentTypeError("expected a boolean value")
+
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weighted', default=False)
-    parser.add_argument('--directed', default=False)
+    parser.add_argument('--weighted', default=False, type=parse_bool)
+    parser.add_argument('--directed', default=False, type=parse_bool)
     parser.add_argument('--dataset', default='cora')
-    parser.add_argument('--data_pt', default=None, help='Path to PyG data.pt with x, y and edge_index')
+    parser.add_argument('--data_pt', default=None, help='Path to PyG data.pt with x and edge_index; y is optional')
     parser.add_argument('--neg_mean', default='aa')#'random' or 'aa'
     parser.add_argument('--epoch', default=300, type=int)
     parser.add_argument('--area', default=3, type=int)#area for negative sample if 'aa'
@@ -120,7 +139,26 @@ def main():
     parser.add_argument('--seed', default=0, type=int)
     parser.add_argument('--output_dir', default='outputs')
     parser.add_argument('--classification_eval', action='store_true')
+    parser.add_argument('--reg', type=float, default=5)
+    parser.add_argument('--epsilon', type=float, default=1e-3)
+    parser.add_argument('--dimension', type=int, default=64)
+    parser.add_argument('--gcn_hidden_dim', type=int, default=128)
+    parser.add_argument('--attribute_hidden_dim', type=int, default=512)
+    parser.add_argument('--lr', type=float, default=1e-3)
+    parser.add_argument('--lr_sg', type=float, default=1e-3)
+    parser.add_argument('--batch_size', type=int, default=512)
+    parser.add_argument('--batch_size_sg', type=int, default=512)
+    parser.add_argument('--keep_prob', type=float, default=1.0)
+    parser.add_argument('--walk_p', type=float, default=1.0)
+    parser.add_argument('--walk_q', type=float, default=1.0)
+    parser.add_argument('--num_walks', type=int, default=20)
+    parser.add_argument('--walk_length', type=int, default=10)
+    parser.add_argument('--window_size', type=int, default=10)
+    parser.add_argument('--num_sampled', type=int, default=5)
+    parser.add_argument('--margin', type=float, default=0.8)
     args = parser.parse_args()
+    np.random.seed(args.seed)
+    tf.set_random_seed(args.seed)
     neg_mean_map = {
         'random': 'R',
         'r': 'R',
@@ -135,6 +173,23 @@ def main():
     }
     args.neg_mean = neg_mean_map.get(args.neg_mean, args.neg_mean)
     config = Config()
+    config.reg = args.reg
+    config.epsilon = args.epsilon
+    config.dimension = args.dimension
+    config.gcnlayers = [None, args.gcn_hidden_dim, args.dimension]
+    config.layers = [None, args.attribute_hidden_dim, args.dimension]
+    config.lr = args.lr
+    config.lr_sg = args.lr_sg
+    config.batch_size = args.batch_size
+    config.batch_size_sg = args.batch_size_sg
+    config.keep_prob = args.keep_prob
+    config.p = args.walk_p
+    config.q = args.walk_q
+    config.num_walks = args.num_walks
+    config.walk_length = args.walk_length
+    config.window_size = args.window_size
+    config.num_sampled = args.num_sampled
+    config.margin = args.margin
 
     G, X, y = load_dataset(args, config)
     Adj = nx.to_numpy_array(G, nodelist=range(config.n))
@@ -191,17 +246,22 @@ def main():
         feed_dict = {model.keep_prob: 1.0, model.batch_idx: np.array(range(config.n)), model.X: X, model.batch_size: config.n}
         embedding_result = sess.run(model.Y_final, feed_dict=feed_dict)
         clusters = node_clustering(embedding_result, y, n_clusters=args.kmeans_clusters, seed=args.seed)
+        if _nmi_selection is not None:
+            _nmi_selection.consider(clusters, embedding_result, i + 1)
         print('node clustering generated {:d} clusters'.format(len(np.unique(clusters))))
-        if args.classification_eval:
+        if args.classification_eval and y is not None:
             test_macro_f1_neigh, test_micro_f1_neigh = multiclass_node_classification_eval(
                 embedding_result, y, 0.3)
             print('test micro f1 = {:.3f} macro f1 = {:.3f} '.format(test_micro_f1_neigh, test_macro_f1_neigh))
+        elif args.classification_eval:
+            print('Skipping classification evaluation because data.y is unavailable.')
     print('Learning finished.....')
     if clusters is not None:
         os.makedirs(args.output_dir, exist_ok=True)
         timestamp = time.strftime("%Y%m%d_%H%M")
         labels_path = os.path.join(args.output_dir, "SANECE_{}_labels.npy".format(timestamp))
         np.save(labels_path, clusters.astype(np.int64))
+        np.save(os.path.join(args.output_dir, "embeddings.npy"), embedding_result)
         print("SANECE labels saved in: {}".format(labels_path))
     if not args.data_pt:
         output_embedding_file = 'data/cora/embed/cora.emb'

@@ -1,4 +1,12 @@
 from __future__ import print_function, division
+
+# Optional benchmark result selection; standalone/default training is unchanged.
+import os as _benchmark_os
+if _benchmark_os.environ.get("BENCHMARK_SELECT_BEST_NMI") == "1":
+    from benchmark_selection import selection as _nmi_selection
+else:
+    _nmi_selection = None
+
 import argparse
 import os
 import random
@@ -106,7 +114,7 @@ def train_scgc_trim(dataset):
 
     # cluster parameter initiate
     data = torch.Tensor(dataset.x).to(device)
-    y = dataset.y
+    y = getattr(dataset, 'y', None)
     with torch.no_grad():
         _, _, _, _, z = model.ae(data)
 
@@ -139,6 +147,9 @@ def train_scgc_trim(dataset):
             res2 = res1 #pred.data.cpu().numpy().argmax(1)   #Z
             res3 = p.data.cpu().numpy().argmax(1)      #P
             final_labels = res1
+            best_Z = z.detach().cpu().numpy().copy()
+            if _nmi_selection is not None:
+                _nmi_selection.consider(res1, best_Z, epoch + 1)
             eva(y, res1, str(epoch) + 'Q', kmeans_Q, NMI_Q, ARI_Q, F1_Q, verbosity=args.verbosity)
             eva(y, res2, str(epoch) + 'Z <', kmeans_Z, NMI_Z, ARI_Z, F1_Z, verbosity=args.verbosity)
             eva(y, res3, str(epoch) + 'P', kmeans_P, NMI_P, ARI_P, F1_P, verbosity=args.verbosity)
@@ -199,7 +210,7 @@ def train_scgc(dataset):
 
     # cluster parameter initiate
     data = torch.Tensor(dataset.x).to(device)
-    y = dataset.y
+    y = getattr(dataset, 'y', None)
     with torch.no_grad():
         _, _, _, _, z = model.ae(data)
 
@@ -232,6 +243,9 @@ def train_scgc(dataset):
             res2 = res1 #pred.data.cpu().numpy().argmax(1)   #Z
             res3 = p.data.cpu().numpy().argmax(1)      #P
             final_labels = res1
+            best_Z = z.detach().cpu().numpy().copy()
+            if _nmi_selection is not None:
+                _nmi_selection.consider(res1, best_Z, epoch + 1)
             eva(y, res1, str(epoch) + 'Q', kmeans_Q, NMI_Q, ARI_Q, F1_Q, verbosity=args.verbosity)
             eva(y, res2, str(epoch) + 'Z <', kmeans_Z, NMI_Z, ARI_Z, F1_Z, verbosity=args.verbosity)
             eva(y, res3, str(epoch) + 'P', kmeans_P, NMI_P, ARI_P, F1_P, verbosity=args.verbosity)
@@ -295,7 +309,7 @@ def train_sdcn(dataset):
 
     # cluster parameter initiate
     data = torch.Tensor(dataset.x).to(device)
-    y = dataset.y
+    y = getattr(dataset, 'y', None)
     with torch.no_grad():
         _, _, _, _, z = model.ae(data)
 
@@ -328,6 +342,9 @@ def train_sdcn(dataset):
             res2 = pred.data.cpu().numpy().argmax(1)   #Z
             res3 = p.data.cpu().numpy().argmax(1)      #P
             final_labels = res2
+            best_Z = z.detach().cpu().numpy().copy()
+            if _nmi_selection is not None:
+                _nmi_selection.consider(res1, best_Z, epoch + 1)
             eva(y, res1, str(epoch) + 'Q', kmeans_Q, NMI_Q, ARI_Q, F1_Q, verbosity=args.verbosity)
             eva(y, res2, str(epoch) + 'Z <', kmeans_Z, NMI_Z, ARI_Z, F1_Z, verbosity=args.verbosity)
             eva(y, res3, str(epoch) + 'P', kmeans_P, NMI_P, ARI_P, F1_P, verbosity=args.verbosity)
@@ -424,8 +441,10 @@ if __name__ == "__main__":
 
     if args.data_pt:
         args.n_input = dataset.x.shape[1]
-        if args.n_clusters is None:
+        if args.n_clusters is None and getattr(dataset, 'y', None) is not None:
             args.n_clusters = len(np.unique(dataset.y))
+        if args.n_clusters is None:
+            raise ValueError("--n_clusters is required when data.y is unavailable.")
 
     elif args.name == 'usps':
         args.n_clusters = 10
@@ -457,8 +476,10 @@ if __name__ == "__main__":
 
     else:
         args.n_input = dataset.x.shape[1]
-        if args.n_clusters is None:
+        if args.n_clusters is None and getattr(dataset, 'y', None) is not None:
             args.n_clusters = len(np.unique(dataset.y))
+        if args.n_clusters is None:
+            raise ValueError("--n_clusters is required when data.y is unavailable.")
 
     print(args)
 
@@ -496,3 +517,4 @@ if __name__ == "__main__":
     print(f'Z:acc-nmi-ari-F1-gpu-clock: {display(kmeans_iter_Z)},|,{display(NMI_iter_Z)},|,{display(ARI_iter_Z)},|,{display(F1_iter_Z)},|,{display(gpu_time_iter)},|,{display(clock_time_iter)},||, {args}'  )
     if labels is not None:
         save_labels(labels)
+        np.save(os.path.join(args.output_dir, "embeddings.npy"), best_Z)

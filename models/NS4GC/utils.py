@@ -67,14 +67,15 @@ def load_data(data_pt):
     X = get_data_attr(data, 'x')
     Y = get_data_attr(data, 'y')
     edge_index = get_data_attr(data, 'edge_index')
-    if X is None or Y is None or edge_index is None:
-        raise ValueError("data_pt must contain x, y and edge_index.")
+    if X is None or edge_index is None:
+        raise ValueError("data_pt must contain x and edge_index.")
 
     X = as_tensor(X).float()
-    Y = as_tensor(Y)
-    if Y.dim() > 1:
-        Y = torch.argmax(Y, dim=1)
-    Y = Y.long().view(-1)
+    if Y is not None:
+        Y = as_tensor(Y)
+        if Y.dim() > 1:
+            Y = torch.argmax(Y, dim=1)
+        Y = Y.long().view(-1)
     A = edge_index_to_sparse_adj(edge_index, X.shape[0])
     return A, X, Y
 

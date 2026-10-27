@@ -128,7 +128,7 @@ def Scan_Context_process(PAR, args):
         index = [j for j in Preindex if i!=j and Comatrix[i,j]==0][:nb_negative]
         ##if neg samples are not enough 
         while len(index) < nb_negative:
-            x=int(np.random.choice(ALL_Win[:, 0], 1, replace=False, p=[(x/sum(ALL_Win[:, 1])) for x in ALL_Win[:, 1]]))
+            x=int(np.random.choice(ALL_Win[:, 0], 1, replace=False, p=[(x/sum(ALL_Win[:, 1])) for x in ALL_Win[:, 1]])[0])
             if i!=x and Comatrix[i,x]==0:
                 index.append(x)
         ##save id    

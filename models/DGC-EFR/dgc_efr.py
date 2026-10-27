@@ -1,4 +1,12 @@
 from __future__ import print_function, division
+
+# Optional benchmark result selection; standalone/default training is unchanged.
+import os as _benchmark_os
+if _benchmark_os.environ.get("BENCHMARK_SELECT_BEST_NMI") == "1":
+    from benchmark_selection import selection as _nmi_selection
+else:
+    _nmi_selection = None
+
 import argparse
 import os
 import sys
@@ -55,17 +63,18 @@ class AE(nn.Module):
 
 # graph autoencoder
 class GAE(nn.Module):
-    def __init__(self, num_features, hidden1_size, hidden2_size, embedding_size, alpha):
+    def __init__(self, num_features, hidden1_size, hidden2_size, embedding_size, alpha, sigma=0.1):
         super(GAE, self).__init__()
         # encoder
         self.embedding_size = embedding_size
         self.alpha = alpha
+        self.sigma = sigma
         self.conv1 = GraphAttentionLayer(num_features, hidden1_size, alpha)
         self.conv2 = GraphAttentionLayer(hidden1_size, hidden2_size, alpha)
         self.conv3 = GraphAttentionLayer(hidden2_size, embedding_size, alpha)
 
     def forward(self, x, adj, M, enc_feat1, enc_feat2, enc_feat3):
-        sigma = 0.1
+        sigma = self.sigma
         h = self.conv1(x, adj, M)
         h = self.conv2((1-sigma)*h + sigma*enc_feat1, adj, M)
         h = self.conv3((1-sigma)*h + sigma*enc_feat2, adj, M)
@@ -93,6 +102,8 @@ class DataPtDataset(torch.utils.data.Dataset):
         return self.x.shape[0]
 
     def __getitem__(self, idx):
+        if self.y is None:
+            return torch.from_numpy(np.array(self.x[idx])), torch.from_numpy(np.array(idx))
         return torch.from_numpy(np.array(self.x[idx])), \
                torch.from_numpy(np.array(self.y[idx])), \
                torch.from_numpy(np.array(idx))
@@ -128,16 +139,17 @@ def load_data_pt(path):
     y = get_data_attr(data, 'y')
     edge_index = get_data_attr(data, 'edge_index')
 
-    if x is None or y is None or edge_index is None:
-        raise ValueError("Expected data.pt with x, y and edge_index attributes.")
+    if x is None or edge_index is None:
+        raise ValueError("Expected data.pt with x and edge_index attributes.")
 
     x = as_numpy(x).astype(np.float32)
-    y = as_numpy(y)
-    if y.ndim == 2 and y.shape[1] == 1:
-        y = y.reshape(-1)
-    elif y.ndim > 1:
-        y = np.argmax(y, axis=1)
-    y = y.astype(int)
+    if y is not None:
+        y = as_numpy(y)
+        if y.ndim == 2 and y.shape[1] == 1:
+            y = y.reshape(-1)
+        elif y.ndim > 1:
+            y = np.argmax(y, axis=1)
+        y = y.astype(int)
 
     edge_index = as_numpy(edge_index).astype(np.int64)
     if edge_index.shape[0] != 2:
@@ -169,7 +181,7 @@ def load_graph_from_edge_index(edge_index, num_nodes):
     return adj, adj_label
 
 class DGCEFR(nn.Module):
-    def __init__(self, num_features, hidden1_size, hidden2_size, embedding_size, alpha, num_clusters, n_z, v=1):
+    def __init__(self, num_features, hidden1_size, hidden2_size, embedding_size, alpha, num_clusters, n_z, sigma=0.1, v=1):
         super(DGCEFR, self).__init__()
         self.embedding_size = embedding_size
         self.alpha = alpha
@@ -180,7 +192,7 @@ class DGCEFR(nn.Module):
         self.pre_ae =  AE(hidden1_size, hidden2_size, embedding_size, embedding_size, hidden2_size, hidden1_size, num_features, n_z = n_z)
         self.pre_ae.load_state_dict(torch.load(args.preae_path, map_location='cpu'))
         # pre-trained gae
-        self.pre_gae = GAE(num_features, hidden1_size, hidden2_size, embedding_size, alpha)
+        self.pre_gae = GAE(num_features, hidden1_size, hidden2_size, embedding_size, alpha, sigma=sigma)
         self.pre_gae.load_state_dict(torch.load(args.pregae_path, map_location='cpu'))
 
         # cluster layer
@@ -202,7 +214,8 @@ class DGCEFR(nn.Module):
 def train(dataset, args):
     # load initialized model
     model = DGCEFR(num_features=args.input_dim, hidden1_size=args.hidden1_dim, hidden2_size=args.hidden2_dim,
-                  embedding_size=args.hidden3_dim, alpha=args.alpha, num_clusters=args.n_clusters, n_z=args.n_z ).to(device)
+                  embedding_size=args.hidden3_dim, alpha=args.alpha, num_clusters=args.n_clusters,
+                  n_z=args.n_z, sigma=args.sigma).to(device)
     print(model)
     optimizer = Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, float(args.epochs))
@@ -213,7 +226,7 @@ def train(dataset, args):
         adj, adj_label = load_graph(args.name, args.k)
     adj_dense = adj.to_dense()
     adj_numpy = adj_dense.data.cpu().numpy()
-    t =10
+    t = args.diffusion_steps
     tran_prob = normalize(adj_numpy, norm="l1", axis=0)
     M_numpy = sum([np.linalg.matrix_power(tran_prob, i) for i in range(1, t + 1)]) / t
     M = torch.Tensor(M_numpy).to(device)
@@ -228,13 +241,14 @@ def train(dataset, args):
     with torch.no_grad():
          _, z,_, _ = model(data, adj, M)
 
-    kmeans = KMeans(n_clusters=args.n_clusters, n_init=20)
+    kmeans = KMeans(n_clusters=args.n_clusters, n_init=args.kmeans_n_init)
     y_pred = kmeans.fit_predict(z.data.cpu().numpy())
     model.cluster_layer.data = torch.tensor(kmeans.cluster_centers_).to(device)
     acc, nmi, ari, f1 = eva(y, y_pred, 'pae')
     logging.info('epoch %d acc %.4f nmi %.4f ari %.4f f1 %.4f', 0, acc, nmi, ari, f1)
     acc_best, nmi_best, ari_best, f1_best, epoch_best = 0.0, 0.0, 0.0, 0.0, 0
     labels_best = y_pred.astype(np.int64)
+    embeddings_best = z.detach().cpu().numpy().copy()
     for epoch in range(args.epochs):
         model.train()
         if epoch % args.update_interval == 0:
@@ -250,18 +264,25 @@ def train(dataset, args):
             logging.info('epoch %s acc %.4f nmi %.4f ari %.4f f1 %.4f', str(epoch) + ' P', acc, nmi, ari, f1)
             acc, nmi, ari, f1 = eva(y, res1, str(epoch) + 'Q')
             logging.info('epoch %s acc %.4f nmi %.4f ari %.4f f1 %.4f', str(epoch) + ' Q', acc, nmi, ari, f1)
-            if acc > acc_best:
+            if y is None or acc > acc_best:
                 acc_best, nmi_best, ari_best, f1_best = acc, nmi, ari, f1
                 epoch_best = epoch
                 labels_best = res1.astype(np.int64)
+                embeddings_best = z.detach().cpu().numpy().copy()
 
         A_pred, z, q, x_bar = model(data, adj, M)
+        if _nmi_selection is not None:
+            _nmi_selection.consider(q.detach().argmax(1), z, epoch + 1)
 
         kl_loss = F.kl_div(q.log(), p, reduction='batchmean')
         re_loss_gae = F.binary_cross_entropy(A_pred.view(-1), adj_label.to_dense().view(-1))
         re_loss_ae = F.mse_loss(x_bar, data)
         # loss function with 3 parts
-        loss = args.lambda1 * kl_loss + 1.0*re_loss_gae + 10*re_loss_ae
+        loss = (
+            args.lambda1 * kl_loss
+            + args.gae_reconstruction_weight * re_loss_gae
+            + args.ae_reconstruction_weight * re_loss_ae
+        )
 
         optimizer.zero_grad()
         loss.backward()
@@ -273,6 +294,7 @@ def train(dataset, args):
     timestamp = time.strftime("%Y%m%d_%H%M")
     output_path = os.path.join(args.output_dir, "DGC_{}_labels.npy".format(timestamp))
     np.save(output_path, labels_best)
+    np.save(os.path.join(args.output_dir, "embeddings.npy"), embeddings_best)
     print("DGC-EFR labels saved in: {}".format(output_path))
 
 if __name__ == "__main__":
@@ -280,7 +302,7 @@ if __name__ == "__main__":
         description='train',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--name', type=str, default='acm')
-    parser.add_argument('--data_pt', type=str, default=None, help='Optional PyG data.pt path with x, y and edge_index')
+    parser.add_argument('--data_pt', type=str, default=None, help='Optional PyG data.pt path with x and edge_index; y is optional')
     parser.add_argument('--lr', type=float, default=0.001)
     parser.add_argument('--k',type=int, default=5)
     parser.add_argument('--epochs', type=int, default=200 )
@@ -292,20 +314,39 @@ if __name__ == "__main__":
     parser.add_argument('--hidden2_dim', default=256, type=int)
     parser.add_argument('--hidden3_dim', default=16, type=int)
     parser.add_argument('--n_z', default=10, type=int)
-    parser.add_argument('--weight_decay', type=int, default=5e-3)
+    parser.add_argument('--weight_decay', type=float, default=5e-3)
     parser.add_argument('--alpha', type=float, default=0.2, help='Alpha for the leaky_relu.')
+    parser.add_argument('--sigma', type=float, default=0.1)
+    parser.add_argument('--diffusion_steps', type=int, default=10)
+    parser.add_argument('--kmeans_n_init', type=int, default=20)
+    parser.add_argument('--gae_reconstruction_weight', type=float, default=1.0)
+    parser.add_argument('--ae_reconstruction_weight', type=float, default=10.0)
     parser.add_argument('--gamma', type=float, default=0.97, help='learning rate decay')
     parser.add_argument('--decay_period', type=int, default=1, help='epochs between two learning rate decays')
     parser.add_argument('--save', type=str, default='')
     parser.add_argument('--preae_path', type=str, default=None)
     parser.add_argument('--pregae_path', type=str, default=None)
     parser.add_argument('--output_dir', type=str, default='outputs')
+    parser.add_argument('--save_dir', type=str, default=None, help='Root directory for experiment logs and snapshots')
+    parser.add_argument('--device', type=str, default='auto', choices=['auto', 'cpu', 'cuda'])
+    parser.add_argument('--seed', type=int, default=None)
     args = parser.parse_args()
-    args.cuda = torch.cuda.is_available()
+    if args.seed is not None:
+        np.random.seed(args.seed)
+        torch.manual_seed(args.seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(args.seed)
+    if args.device == 'cuda' and not torch.cuda.is_available():
+        raise RuntimeError("CUDA was requested but is not available.")
+    args.cuda = torch.cuda.is_available() and args.device != 'cpu'
     print("use cuda: {}".format(args.cuda))
     device = torch.device("cuda" if args.cuda else "cpu")
 
-    args.save = './exp/eval-{}-{}'.format(args.save, time.strftime("%Y%m%d-%H%M%S"))
+    if args.save_dir:
+        os.makedirs(args.save_dir, exist_ok=True)
+        args.save = os.path.join(args.save_dir, 'eval-{}'.format(time.strftime("%Y%m%d-%H%M%S")))
+    else:
+        args.save = './exp/eval-{}-{}'.format(args.save, time.strftime("%Y%m%d-%H%M%S"))
     create_exp_dir(args.save, scripts_to_save=glob.glob('*.py'))
 
     log_format = '%(asctime)s %(message)s'
@@ -323,8 +364,10 @@ if __name__ == "__main__":
 
     if args.input_dim is None:
         args.input_dim = dataset.x.shape[1]
-    if args.n_clusters is None:
+    if args.n_clusters is None and dataset.y is not None:
         args.n_clusters = len(set(np.asarray(dataset.y).reshape(-1).tolist()))
+    if args.n_clusters is None:
+        raise ValueError("--n_clusters is required when data.y is unavailable.")
 
     # load pre-trained models
     if args.pregae_path is None:

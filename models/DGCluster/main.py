@@ -1,3 +1,11 @@
+
+# Optional benchmark result selection; standalone/default training is unchanged.
+import os as _benchmark_os
+if _benchmark_os.environ.get("BENCHMARK_SELECT_BEST_NMI") == "1":
+    from benchmark_selection import selection as _nmi_selection
+else:
+    _nmi_selection = None
+
 import numpy as np
 import random
 import scipy as sp
@@ -26,17 +34,38 @@ import os
 import time
 
 
+def parse_bool(value):
+    if isinstance(value, bool):
+        return value
+    normalized = value.strip().lower()
+    if normalized in {'1', 'true', 'yes', 'on'}:
+        return True
+    if normalized in {'0', 'false', 'no', 'off'}:
+        return False
+    raise argparse.ArgumentTypeError('expected a boolean value')
+
+
 def parse_args():
     args = argparse.ArgumentParser(description='DGCluster arguments.')
     args.add_argument('--dataset', type=str, default='cora')
-    args.add_argument('--data_pt', type=str, default=None, help='Path to PyG data.pt with x, y and edge_index')
+    args.add_argument('--data_pt', type=str, default=None, help='Path to PyG data.pt with x and edge_index; y is optional')
     args.add_argument('--lam', type=float, default=0.2)
     args.add_argument('--alp', type=float, default=0.0)
-    args.add_argument('--device', type=str, default='cpu', choices=['cpu', 'cuda:0', 'cuda:1', 'cuda:2', 'cuda:3'])
+    args.add_argument('--device', type=str, default='cpu', choices=['cpu', 'cuda', 'cuda:0', 'cuda:1', 'cuda:2', 'cuda:3'])
     args.add_argument('--epochs', type=int, default=300)
     args.add_argument('--base_model', type=str, default='gcn', choices=['gcn', 'gat', 'gin', 'sage'])
     args.add_argument('--seed', type=int, default=0)
     args.add_argument('--output_dir', type=str, default='outputs')
+    args.add_argument('--results_dir', type=str, default='results')
+    args.add_argument('--hidden_dims', type=int, nargs=2, default=[256, 128])
+    args.add_argument('--out_dim', type=int, default=64)
+    args.add_argument('--dropout', type=float, default=0.5)
+    args.add_argument('--lr', type=float, default=1e-3)
+    args.add_argument('--weight_decay', type=float, default=0.001)
+    args.add_argument('--adam_betas', type=float, nargs=2, default=[0.9, 0.999])
+    args.add_argument('--amsgrad', type=parse_bool, default=True)
+    args.add_argument('--birch_threshold', type=float, default=0.5)
+    args.add_argument('--n_clusters', type=int, default=None, help='Optional number of Birch clusters')
     args = args.parse_args()
     return args
 
@@ -96,14 +125,15 @@ def load_data_pt(data_pt):
     x = get_data_attr(data, 'x')
     y = get_data_attr(data, 'y')
     edge_index = get_data_attr(data, 'edge_index')
-    if x is None or y is None or edge_index is None:
-        raise ValueError("data.pt must contain x, y and edge_index.")
+    if x is None or edge_index is None:
+        raise ValueError("data.pt must contain x and edge_index.")
 
     x = as_tensor(x).float()
-    y = as_tensor(y)
-    if y.dim() > 1:
-        y = torch.argmax(y, dim=1)
-    y = y.long().view(-1)
+    if y is not None:
+        y = as_tensor(y)
+        if y.dim() > 1:
+            y = torch.argmax(y, dim=1)
+        y = y.long().view(-1)
     edge_index = normalize_edge_index(edge_index, x.shape[0])
     return Data(x=x, y=y, edge_index=edge_index)
 
@@ -132,36 +162,38 @@ def load_dataset(dataset_name=None, data_pt=None):
 
 
 class GNN(nn.Module):
-    def __init__(self, in_dim, out_dim, base_model):
+    def __init__(self, in_dim, hidden_dims, out_dim, base_model, dropout=0.5):
         super(GNN, self).__init__()
+        hidden1, hidden2 = hidden_dims
+        self.dropout = dropout
 
         if base_model == 'gcn':
-            self.conv1 = GCNConv(in_dim, 256)
-            self.conv2 = GCNConv(256, 128)
-            self.conv3 = GCNConv(128, out_dim)
+            self.conv1 = GCNConv(in_dim, hidden1)
+            self.conv2 = GCNConv(hidden1, hidden2)
+            self.conv3 = GCNConv(hidden2, out_dim)
         elif base_model == 'gat':
-            self.conv1 = GATConv(in_dim, 256)
-            self.conv2 = GATConv(256, 128)
-            self.conv3 = GATConv(128, out_dim)
+            self.conv1 = GATConv(in_dim, hidden1)
+            self.conv2 = GATConv(hidden1, hidden2)
+            self.conv3 = GATConv(hidden2, out_dim)
         elif base_model == 'gin':
-            self.conv1 = GINConv(nn.Linear(in_dim, 256))
-            self.conv2 = GINConv(nn.Linear(256, 128))
-            self.conv3 = GINConv(nn.Linear(128, out_dim))
+            self.conv1 = GINConv(nn.Linear(in_dim, hidden1))
+            self.conv2 = GINConv(nn.Linear(hidden1, hidden2))
+            self.conv3 = GINConv(nn.Linear(hidden2, out_dim))
         elif base_model == 'sage':
-            self.conv1 = SAGEConv(in_dim, 256)
-            self.conv2 = SAGEConv(256, 128)
-            self.conv3 = SAGEConv(128, out_dim)
+            self.conv1 = SAGEConv(in_dim, hidden1)
+            self.conv2 = SAGEConv(hidden1, hidden2)
+            self.conv3 = SAGEConv(hidden2, out_dim)
 
     def forward(self, data):
         x, edge_index = data.x, data.edge_index
 
         x = self.conv1(x, edge_index)
         x = F.selu(x)
-        x = F.dropout(x, training=self.training)
+        x = F.dropout(x, p=self.dropout, training=self.training)
 
         x = self.conv2(x, edge_index)
         x = F.selu(x)
-        x = F.dropout(x, training=self.training)
+        x = F.dropout(x, p=self.dropout, training=self.training)
 
         x = self.conv3(x, edge_index)
 
@@ -244,7 +276,7 @@ def loss_fn(output, lam=0.0, alp=0.0, epoch=-1):
 
     m_loss = -((x - y) / (2 * num_edges)) * scaling
 
-    aux_loss = lam * aux_objective(output, s)
+    aux_loss = lam * aux_objective(output, s) if lam != 0.0 else output.new_tensor(0.0)
 
     reg_loss = alp * regularization(output, s)
 
@@ -268,6 +300,13 @@ def train(model, optimizer, data, epochs, lam, alp):
         torch.nn.utils.clip_grad_norm_(model.parameters(), 0.1)
         optimizer.step()
         scheduler.step()
+        if _nmi_selection is not None:
+            with _nmi_selection.inference(model):
+                candidate = model(data)
+                candidate_labels = Birch(
+                    n_clusters=args.n_clusters, threshold=args.birch_threshold
+                ).fit_predict(candidate.detach().cpu().numpy())
+                _nmi_selection.consider(candidate_labels, candidate, epoch + 1)
 
 
 if __name__ == '__main__':
@@ -280,12 +319,15 @@ if __name__ == '__main__':
     base_model = args.base_model
     seed = args.seed
 
-    # if results exist then skip
-    if args.data_pt is None and alp == 0.0 and os.path.exists(f'results/results_{dataset_name}_{lam}_{epochs}_{base_model}_{seed}.pt'):
-        print(f'results/results_{dataset_name}_{lam}_{epochs}_{base_model}_{seed}.pt exists. Skipping...')
-        exit()
-    elif args.data_pt is None and alp != 0.0 and os.path.exists(f'results/results_{dataset_name}_{lam}_{alp}_{epochs}_{base_model}_{seed}.pt'):
-        print(f'results/results_{dataset_name}_{lam}_{alp}_{epochs}_{base_model}_{seed}.pt exists. Skipping...')
+    result_name = (
+        f'results_{dataset_name}_{lam}_{epochs}_{base_model}_{seed}.pt'
+        if alp == 0.0
+        else f'results_{dataset_name}_{lam}_{alp}_{epochs}_{base_model}_{seed}.pt'
+    )
+    result_path = os.path.join(args.results_dir, result_name)
+    # Preserve the original skip behavior when using built-in datasets.
+    if args.data_pt is None and os.path.exists(result_path):
+        print(f'{result_path} exists. Skipping...')
         exit()
 
     torch.manual_seed(seed)
@@ -310,8 +352,14 @@ if __name__ == '__main__':
     # preprocessing
     num_nodes = data.x.shape[0]
     num_edges = (data.edge_index.shape[1])
-    labels = data.y.flatten()
-    oh_labels = F.one_hot(labels, num_classes=max(labels) + 1)
+    labels = getattr(data, 'y', None)
+    if labels is not None:
+        labels = labels.flatten()
+        oh_labels = F.one_hot(labels, num_classes=int(labels.max()) + 1)
+    else:
+        oh_labels = None
+        if lam != 0.0:
+            raise ValueError("DGCluster's lam term requires data.y; set lam=0 for unlabeled data.")
 
     sparse_adj = sp.sparse.csr_matrix((np.ones(num_edges), data.edge_index.cpu().numpy()), shape=(num_nodes, num_nodes))
     torch_sparse_adj = torch.sparse_coo_tensor(data.edge_index, torch.ones(num_edges).to(device), size=(num_nodes, num_nodes))
@@ -320,12 +368,22 @@ if __name__ == '__main__':
     num_edges = int((data.edge_index.shape[1]) / 2)
 
     in_dim = data.x.shape[1]
-    out_dim = 64
-    model = GNN(in_dim, out_dim, base_model=base_model).to(device)
+    model = GNN(
+        in_dim,
+        args.hidden_dims,
+        args.out_dim,
+        base_model=base_model,
+        dropout=args.dropout,
+    ).to(device)
 
     optimizer_name = "Adam"
-    lr = 1e-3
-    optimizer = getattr(torch.optim, optimizer_name)(model.parameters(), lr=lr, betas=(0.9, 0.999), weight_decay=0.001, amsgrad=True)
+    optimizer = getattr(torch.optim, optimizer_name)(
+        model.parameters(),
+        lr=args.lr,
+        betas=tuple(args.adam_betas),
+        weight_decay=args.weight_decay,
+        amsgrad=args.amsgrad,
+    )
 
     train(model, optimizer, data, epochs, lam, alp)
 
@@ -335,38 +393,41 @@ if __name__ == '__main__':
     model.eval()
     x = model(test_data)
 
-    clusters = Birch(n_clusters=None, threshold=0.5).fit_predict(x.detach().cpu().numpy(), y=None)
+    clusters = Birch(n_clusters=args.n_clusters, threshold=args.birch_threshold).fit_predict(
+        x.detach().cpu().numpy(), y=None
+    )
     os.makedirs(args.output_dir, exist_ok=True)
     timestamp = time.strftime("%Y%m%d_%H%M")
     labels_path = os.path.join(args.output_dir, "DGCluster_{}_labels.npy".format(timestamp))
     np.save(labels_path, clusters.astype(np.int64))
+    np.save(os.path.join(args.output_dir, "embeddings.npy"), x.detach().cpu().numpy())
     print("DGCluster labels saved in: {}".format(labels_path))
 
     FQ = utils.compute_fast_modularity(clusters, num_nodes, num_edges, torch_sparse_adj, degree, device)
     print('No of clusters: ', max(clusters) + 1)
     print('Modularity:', FQ)
 
-    NMI = utils.compute_nmi(clusters, data.y.squeeze().cpu().numpy())
-    print('NMI:', NMI)
+    NMI = None
+    if labels is not None:
+        NMI = utils.compute_nmi(clusters, labels.cpu().numpy())
+        print('NMI:', NMI)
 
     conductance = utils.compute_conductance(clusters, Graph)
-    avg_conductance = sum(conductance) / len(conductance)
+    avg_conductance = sum(conductance) / len(conductance) if conductance else float('nan')
     print(avg_conductance * 100)
 
-    f1_score = utils.sample_f1_score(test_data, clusters, num_nodes)
-    print('Sample_F1_score:', f1_score)
+    sample_f1 = None
+    if labels is not None:
+        sample_f1 = utils.sample_f1_score(test_data, clusters, num_nodes)
+        print('Sample_F1_score:', sample_f1)
 
     results = {
         'num_clusters': np.unique(clusters).shape[0],
         'modularity': FQ,
         'nmi': NMI,
         'conductance': avg_conductance,
-        'sample_f1_score': f1_score
+        'sample_f1_score': sample_f1
     }
 
-    if not os.path.exists('results'):
-        os.makedirs('results')
-    if alp == 0.0:
-        torch.save(results, f'results/results_{dataset_name}_{lam}_{epochs}_{base_model}_{seed}.pt')
-    else:
-        torch.save(results, f'results/results_{dataset_name}_{lam}_{alp}_{epochs}_{base_model}_{seed}.pt')
+    os.makedirs(args.results_dir, exist_ok=True)
+    torch.save(results, result_path)

@@ -128,8 +128,8 @@ def pyg_data_pt_process(args, data_pt):
     y = _get_data_attr(data, 'y')
     edge_index = _get_data_attr(data, 'edge_index')
 
-    if x is None or y is None or edge_index is None:
-        raise ValueError("Expected data.pt with x, y and edge_index attributes.")
+    if x is None or edge_index is None:
+        raise ValueError("Expected data.pt with x and edge_index attributes.")
 
     features_np = _as_numpy(x).astype('float64')
     edge_index = _as_numpy(edge_index).astype(np.int64)
@@ -147,10 +147,13 @@ def pyg_data_pt_process(args, data_pt):
         adj = adj.maximum(adj.T).tocsr()
 
     features = sparse.csr_matrix(features_np)
-    dict_NtoC = _labels_to_dict(y)
+    dict_NtoC = _labels_to_dict(y) if y is not None else {i: [] for i in range(num_nodes)}
     labels = [label for labels_i in dict_NtoC.values() for label in labels_i]
     print("Loading PyG data.pt: ", data_pt)
-    print("Data with node: ", features.shape[0], "feature:", features.shape[1], "classes: ", len(set(labels)))
+    print(
+        "Data with node: ", features.shape[0], "feature:", features.shape[1],
+        "classes: ", len(set(labels)) if labels else "unavailable",
+    )
     return (adj, features, dict_NtoC)
 
 def read_dataset(args):

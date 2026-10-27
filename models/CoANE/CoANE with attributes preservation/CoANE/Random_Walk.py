@@ -450,7 +450,9 @@ def random_walk(network_tuple, args):
         cata_sentences.append(sens)
         i += 1
 
-    cata_sentences = np.array(cata_sentences)
+    # Walks may be shorter for nodes isolated by the link-prediction split.
+    # Keep the nested structure without asking NumPy to build a rectangular array.
+    cata_sentences = np.array(cata_sentences, dtype=object)
     
     
     output_k = ['cata_sentences', 'edges', 'gl', 'dict_NtoC', 'id2word', 'word2id', 'subsamples', 'sentences', 'adj_train', 'feat', 'adj', 'nb_id']

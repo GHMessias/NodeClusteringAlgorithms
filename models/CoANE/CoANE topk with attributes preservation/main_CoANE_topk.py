@@ -2,6 +2,7 @@ import argparse
 import os
 import pickle
 import torch
+import numpy as np
 
 from CoANE.Data_Processing import *
 from CoANE.Random_Walk import *
@@ -25,21 +26,32 @@ def load_obj(name ):
         return pickle.load(f, encoding='latin1')
 
 
+def parse_bool(value):
+    if isinstance(value, bool):
+        return value
+    normalized = value.strip().lower()
+    if normalized in {'1', 'true', 'yes', 'on'}:
+        return True
+    if normalized in {'0', 'false', 'no', 'off'}:
+        return False
+    raise argparse.ArgumentTypeError('expected a boolean value')
+
+
 def parse_args():
     #Parses the arguments.
     parser = argparse.ArgumentParser(description="CoANE")
     parser.add_argument('--data_dir', type=str, default='./datasets', help='Directory of Datasets folder')
     parser.add_argument('--dataset', type=str, default='cora', help='Name of Datasets folder')
-    parser.add_argument('--data_pt', type=str, default=None, help='Optional PyG data.pt path with x, y and edge_index')
+    parser.add_argument('--data_pt', type=str, default=None, help='Optional PyG data.pt path with x and edge_index; y is optional')
     parser.add_argument('--device', type=str, default='cuda', help='Training run on gpu("cuda") or cpu("cpu")')
 
-    parser.add_argument('--verbose', type=bool, default=True, help='Print log')
-    parser.add_argument('--reload', type=bool, default=False, help='Learning by assigned "PAR"&"Context" (exist in the data folder)')
-    parser.add_argument('--save', type=bool, default=False, help='Save data & parameters ("network_tuple", "PAR", "HPAR", "Context" and "model")')
-    parser.add_argument('--Spliting', type=bool, default=True, help='If data is needed to split')
-    parser.add_argument('--dircted', type=bool, default=False, help='If network is directed')
-    parser.add_argument('--eval', type=bool, default=True, help='Run evaluation')
-    parser.add_argument('--eval_iter', type=bool, default=False, help='print evaluation for each epoch')
+    parser.add_argument('--verbose', type=parse_bool, default=True, help='Print log')
+    parser.add_argument('--reload', type=parse_bool, default=False, help='Learning by assigned "PAR"&"Context" (exist in the data folder)')
+    parser.add_argument('--save', type=parse_bool, default=False, help='Save data & parameters ("network_tuple", "PAR", "HPAR", "Context" and "model")')
+    parser.add_argument('--Spliting', type=parse_bool, default=True, help='If data is needed to split')
+    parser.add_argument('--dircted', type=parse_bool, default=False, help='If network is directed')
+    parser.add_argument('--eval', type=parse_bool, default=True, help='Run evaluation')
+    parser.add_argument('--eval_iter', type=parse_bool, default=False, help='print evaluation for each epoch')
     parser.add_argument('--kmeans', action='store_true', help='Run KMeans on learned embeddings')
     parser.add_argument('--kmeans_clusters', type=int, default=None, help='Number of KMeans clusters. Defaults to number of labels')
     parser.add_argument('--output_dir', type=str, default='outputs', help='Directory to save KMeans labels as a .npy file')
@@ -102,8 +114,10 @@ if __name__ == "__main__":
     accuracy = evaluation(PAR_emb)
 
     if args.kmeans:
+        os.makedirs(args.output_dir, exist_ok=True)
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
         output_path = os.path.join(args.output_dir, "CoANE_topk_{0}_labels.npy".format(timestamp))
         kmeans_on_embeddings(PAR_emb, output_path, n_clusters=args.kmeans_clusters, seed=args.seed)
+        np.save(os.path.join(args.output_dir, "embeddings.npy"), PAR_emb["embeddings"])
 
     # save_obj(PAR_emb, "CoANE_{0}_emb".format(args.dataset))

@@ -93,20 +93,22 @@ def load_data_pt(path):
     data = unwrap_data_pt(torch_load(path))
     x = get_data_attr(data, 'x')
     y = get_data_attr(data, 'y')
-    if x is None or y is None:
-        raise ValueError("Expected data.pt with x and y attributes.")
+    if x is None:
+        raise ValueError("Expected data.pt with an x attribute.")
 
     x = as_numpy(x).astype(np.float32)
-    y = as_numpy(y)
-    if y.ndim == 2 and y.shape[1] == 1:
-        y = y.reshape(-1)
-    elif y.ndim > 1:
-        y = np.argmax(y, axis=1)
-    return x, y.astype(int)
+    if y is not None:
+        y = as_numpy(y)
+        if y.ndim == 2 and y.shape[1] == 1:
+            y = y.reshape(-1)
+        elif y.ndim > 1:
+            y = np.argmax(y, axis=1)
+        y = y.astype(int)
+    return x, y
 
 # pre-train the autoencoder model
 def pretrain_ae(model, dataset, args, y):
-    train_loader = DataLoader(dataset, batch_size=256, shuffle=True)
+    train_loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True)
     print(model)
     optimizer = Adam(model.parameters(), lr=args.lr)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, float(args.epochs))
@@ -126,7 +128,7 @@ def pretrain_ae(model, dataset, args, y):
             x_bar, z = model(x)
             loss = F.mse_loss(x_bar, x)
             print('{} loss: {}'.format(epoch, loss))
-            kmeans = KMeans(n_clusters=args.n_clusters, n_init=20).fit(z.data.cpu().numpy())
+            kmeans = KMeans(n_clusters=args.n_clusters, n_init=args.kmeans_n_init).fit(z.data.cpu().numpy())
             eva(y, kmeans.labels_, epoch)
 
     output_dir = os.path.dirname(args.preae_path)
@@ -140,18 +142,32 @@ if __name__ == "__main__":
         description='train',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--name', type=str, default='acm')
-    parser.add_argument('--data_pt', type=str, default=None, help='Optional PyG data.pt path with x and y')
+    parser.add_argument('--data_pt', type=str, default=None, help='Optional PyG data.pt path with x; y is optional')
     parser.add_argument('--k', type=int, default=3)
     parser.add_argument('--epochs', type=int, default=50)
     parser.add_argument('--lr', type=float, default=1e-3)
     parser.add_argument('--n_clusters', default=None, type=int)
     parser.add_argument('--n_input', default=None, type=int)
     parser.add_argument('--n_z', default=10, type=int)
+    parser.add_argument('--hidden1_dim', default=1024, type=int)
+    parser.add_argument('--hidden2_dim', default=256, type=int)
+    parser.add_argument('--hidden3_dim', default=16, type=int)
+    parser.add_argument('--batch_size', default=256, type=int)
+    parser.add_argument('--kmeans_n_init', default=20, type=int)
     parser.add_argument('--preae_path', type=str, default=None)
     parser.add_argument('--gamma', type=float, default=0.97, help='learning rate decay')
     parser.add_argument('--decay_period', type=int, default=1, help='epochs between two learning rate decays')
+    parser.add_argument('--device', type=str, default='auto', choices=['auto', 'cpu', 'cuda'])
+    parser.add_argument('--seed', type=int, default=None)
     args = parser.parse_args()
-    args.cuda = torch.cuda.is_available()
+    if args.seed is not None:
+        np.random.seed(args.seed)
+        torch.manual_seed(args.seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(args.seed)
+    if args.device == 'cuda' and not torch.cuda.is_available():
+        raise RuntimeError("CUDA was requested but is not available.")
+    args.cuda = torch.cuda.is_available() and args.device != 'cpu'
     print("use cuda: {}".format(args.cuda))
     device = torch.device("cuda" if args.cuda else "cpu")
 
@@ -185,18 +201,20 @@ if __name__ == "__main__":
 
     if args.n_input is None:
         args.n_input = x.shape[1]
-    if args.n_clusters is None:
+    if args.n_clusters is None and y is not None:
         args.n_clusters = len(set(np.asarray(y).reshape(-1).tolist()))
+    if args.n_clusters is None:
+        raise ValueError("--n_clusters is required when data.y is unavailable.")
     if args.preae_path is None:
         args.preae_path = 'data/preae_{}.pkl'.format(args.name)
 
     model = AE(
-            n_enc_1=1024,
-            n_enc_2=256,
-            n_enc_3=16,
-            n_dec_1=16,
-            n_dec_2=256,
-            n_dec_3=1024,
+            n_enc_1=args.hidden1_dim,
+            n_enc_2=args.hidden2_dim,
+            n_enc_3=args.hidden3_dim,
+            n_dec_1=args.hidden3_dim,
+            n_dec_2=args.hidden2_dim,
+            n_dec_3=args.hidden1_dim,
             n_input=args.n_input,
             n_z=args.n_z,).to(device)
 

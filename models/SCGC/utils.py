@@ -58,16 +58,15 @@ def _load_data_pt(data_pt):
 
     if x is None:
         raise ValueError(f'{data_pt} precisa conter data.x')
-    if y is None:
-        raise ValueError(f'{data_pt} precisa conter data.y')
     if edge_index is None:
         raise ValueError(f'{data_pt} precisa conter data.edge_index')
 
     x = x.astype(np.float32)
-    y = np.asarray(y)
-    if y.ndim > 1:
-        y = y.argmax(axis=-1)
-    y = y.reshape(-1).astype(np.int64)
+    if y is not None:
+        y = np.asarray(y)
+        if y.ndim > 1:
+            y = y.argmax(axis=-1)
+        y = y.reshape(-1).astype(np.int64)
     edge_index = np.asarray(edge_index, dtype=np.int64)
     if edge_index.ndim != 2:
         raise ValueError('data.edge_index precisa ser uma matriz 2D')
@@ -162,6 +161,8 @@ class load_data(Dataset):
         return self.x.shape[0]
 
     def __getitem__(self, idx):
+        if self.y is None:
+            return torch.from_numpy(np.array(self.x[idx])), torch.from_numpy(np.array(idx))
         return torch.from_numpy(np.array(self.x[idx])),\
                torch.from_numpy(np.array(self.y[idx])),\
                torch.from_numpy(np.array(idx))

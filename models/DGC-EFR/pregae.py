@@ -24,6 +24,8 @@ class DataPtDataset(Dataset):
         return self.x.shape[0]
 
     def __getitem__(self, idx):
+        if self.y is None:
+            return torch.from_numpy(np.array(self.x[idx])), torch.from_numpy(np.array(idx))
         return torch.from_numpy(np.array(self.x[idx])), \
                torch.from_numpy(np.array(self.y[idx])), \
                torch.from_numpy(np.array(idx))
@@ -59,16 +61,17 @@ def load_data_pt(path):
     y = get_data_attr(data, 'y')
     edge_index = get_data_attr(data, 'edge_index')
 
-    if x is None or y is None or edge_index is None:
-        raise ValueError("Expected data.pt with x, y and edge_index attributes.")
+    if x is None or edge_index is None:
+        raise ValueError("Expected data.pt with x and edge_index attributes.")
 
     x = as_numpy(x).astype(np.float32)
-    y = as_numpy(y)
-    if y.ndim == 2 and y.shape[1] == 1:
-        y = y.reshape(-1)
-    elif y.ndim > 1:
-        y = np.argmax(y, axis=1)
-    y = y.astype(int)
+    if y is not None:
+        y = as_numpy(y)
+        if y.ndim == 2 and y.shape[1] == 1:
+            y = y.reshape(-1)
+        elif y.ndim > 1:
+            y = np.argmax(y, axis=1)
+        y = y.astype(int)
 
     edge_index = as_numpy(edge_index).astype(np.int64)
     if edge_index.shape[0] != 2:
@@ -136,7 +139,7 @@ def pretrain_gae(dataset, args):
         adj, adj_label = load_graph(args.name, args.k)
     adj_dense = adj.to_dense()
     adj_numpy = adj_dense.data.cpu().numpy()
-    t=10
+    t = args.diffusion_steps
     tran_prob = normalize(adj_numpy, norm="l1", axis=0)
     M_numpy = sum([np.linalg.matrix_power(tran_prob, i) for i in range(1, t + 1)]) / t
     M = torch.Tensor(M_numpy).to(device)
@@ -158,7 +161,7 @@ def pretrain_gae(dataset, args):
 
         with torch.no_grad():
             _,z = model(data, adj, M)
-            kmeans = KMeans(n_clusters=args.n_clusters, n_init=20).fit(z.data.cpu().numpy())
+            kmeans = KMeans(n_clusters=args.n_clusters, n_init=args.kmeans_n_init).fit(z.data.cpu().numpy())
             eva(y, kmeans.labels_, epoch)
 
     output_dir = os.path.dirname(args.pregae_path)
@@ -172,7 +175,7 @@ if __name__ == "__main__":
         description='train',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--name', type=str, default='acm')
-    parser.add_argument('--data_pt', type=str, default=None, help='Optional PyG data.pt path with x, y and edge_index')
+    parser.add_argument('--data_pt', type=str, default=None, help='Optional PyG data.pt path with x and edge_index; y is optional')
     parser.add_argument('--lr', type=float, default=0.001)
     parser.add_argument('--epochs', type=int, default=50)
     parser.add_argument('--k', type=int, default=5) 
@@ -181,11 +184,22 @@ if __name__ == "__main__":
     parser.add_argument('--hidden1_dim', default=1024, type=int)
     parser.add_argument('--hidden2_dim', default=256, type=int)
     parser.add_argument('--hidden3_dim', default=16, type=int)
-    parser.add_argument('--weight_decay', type=int, default=5e-3)
+    parser.add_argument('--weight_decay', type=float, default=5e-3)
     parser.add_argument('--alpha', type=float, default=0.2, help='Alpha for the leaky_relu.')
+    parser.add_argument('--diffusion_steps', type=int, default=10)
+    parser.add_argument('--kmeans_n_init', type=int, default=20)
     parser.add_argument('--pregae_path', type=str, default=None)
+    parser.add_argument('--device', type=str, default='auto', choices=['auto', 'cpu', 'cuda'])
+    parser.add_argument('--seed', type=int, default=None)
     args = parser.parse_args()
-    args.cuda = torch.cuda.is_available()
+    if args.seed is not None:
+        np.random.seed(args.seed)
+        torch.manual_seed(args.seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(args.seed)
+    if args.device == 'cuda' and not torch.cuda.is_available():
+        raise RuntimeError("CUDA was requested but is not available.")
+    args.cuda = torch.cuda.is_available() and args.device != 'cpu'
     print("use cuda: {}".format(args.cuda))
     device = torch.device("cuda" if args.cuda else "cpu")
 
@@ -216,8 +230,10 @@ if __name__ == "__main__":
 
     if args.input_dim is None:
         args.input_dim = dataset.x.shape[1]
-    if args.n_clusters is None:
+    if args.n_clusters is None and dataset.y is not None:
         args.n_clusters = len(set(np.asarray(dataset.y).reshape(-1).tolist()))
+    if args.n_clusters is None:
+        raise ValueError("--n_clusters is required when data.y is unavailable.")
     if args.pregae_path is None:
         args.pregae_path = 'data/pregae_{}.pkl'.format(args.name)
 

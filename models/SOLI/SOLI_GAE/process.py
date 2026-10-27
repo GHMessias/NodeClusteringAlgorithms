@@ -60,11 +60,11 @@ def load_data_pt(path, seed=0):
     y = get_data_attr(data, 'y')
     edge_index = get_data_attr(data, 'edge_index')
 
-    if x is None or y is None or edge_index is None:
-        raise ValueError("Expected data.pt with x, y and edge_index attributes.")
+    if x is None or edge_index is None:
+        raise ValueError("Expected data.pt with x and edge_index attributes.")
 
     features = sp.csr_matrix(as_numpy(x).astype(np.float32))
-    labels = labels_to_one_hot(as_numpy(y))
+    labels = labels_to_one_hot(as_numpy(y)) if y is not None else None
     edge_index = as_numpy(edge_index).astype(np.int64)
     if edge_index.shape[0] != 2:
         edge_index = edge_index.T

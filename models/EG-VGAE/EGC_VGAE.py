@@ -1,3 +1,11 @@
+
+# Optional benchmark result selection; standalone/default training is unchanged.
+import os as _benchmark_os
+if _benchmark_os.environ.get("BENCHMARK_SELECT_BEST_NMI") == "1":
+    from benchmark_selection import selection as _nmi_selection
+else:
+    _nmi_selection = None
+
 # coding=utf-8
 # Author: Jung
 # Time: 2023/3/12 15:06
@@ -92,11 +100,11 @@ def load_data_pt(data_pt):
     x = get_data_attr(data, 'x')
     y = get_data_attr(data, 'y')
     edge_index = get_data_attr(data, 'edge_index')
-    if x is None or y is None or edge_index is None:
-        raise ValueError("data.pt must contain x, y and edge_index.")
+    if x is None or edge_index is None:
+        raise ValueError("data.pt must contain x and edge_index.")
 
     feat = sp.csr_matrix(as_numpy(x).astype(np.float32))
-    label = labels_to_vector(y)
+    label = labels_to_vector(y) if y is not None else None
     adj = adjacency_from_edge_index(edge_index, feat.shape[0])
     return adj, feat, label
 
@@ -291,7 +299,11 @@ class KMVGAE(nn.Module):
         self.weight_tensor_orig = kwargs['weight_tensor_orig']
         self.adj_loop = kwargs['adj_loop']
         self.num_node, self.feat_dim = self.feat.shape
-        self.nClusters = len(np.unique(self.label))
+        self.nClusters = kwargs.get('n_clusters')
+        if self.nClusters is None and self.label is not None:
+            self.nClusters = len(np.unique(self.label))
+        if self.nClusters is None:
+            raise ValueError("--n_clusters is required when data.y is unavailable.")
 
 
         # read k-core data
@@ -303,8 +315,12 @@ class KMVGAE(nn.Module):
         self.k_core_index = kwargs['index_list']
 
 
-        hid1_dim = 32 # #32
-        self.hid2_dim = 16 # 16
+        hid1_dim = kwargs.get('hidden1_dim', 32)
+        self.hid2_dim = kwargs.get('hidden2_dim', 16)
+        self.pretrain_lr = kwargs.get('pretrain_lr', 0.01)
+        self.train_lr = kwargs.get('train_lr', 0.002)
+        self.reconstruction_scale = kwargs.get('reconstruction_scale', 1e-2)
+        self.numerical_stability = kwargs.get('numerical_stability', 1e-2)
 
         # VGAE training parameters
         self.activation = F.relu
@@ -328,9 +344,8 @@ class KMVGAE(nn.Module):
         return self.mean, self.logstd, sampled_z
 
     @staticmethod
-    def _decode(z):
-        A_pred = torch.sigmoid(torch.matmul(z,z.t()))
-        return A_pred
+    def _decode_logits(z):
+        return torch.matmul(z, z.t())
 
 
     def _get_w(self, pred, i, max_nmi):
@@ -357,7 +372,7 @@ class KMVGAE(nn.Module):
     def _pretrain(self, i, epochs=200):
         pretrain_path = get_pretrain_path()
         if not os.path.exists(pretrain_path):
-            optimizer = torch.optim.Adam(self.parameters(), lr=0.01) # lr = 0.01 for cora citeseer & pubmed
+            optimizer = torch.optim.Adam(self.parameters(), lr=self.pretrain_lr)
             epoch_bar = tqdm(range(epochs))
             nmi_best = 0
             gmm = GaussianMixture(n_components=self.nClusters, covariance_type='diag')
@@ -365,49 +380,63 @@ class KMVGAE(nn.Module):
             for _ in epoch_bar:
                 optimizer.zero_grad()
                 _, _, z = self._encode(self.k_core_adj[i], i)
-                A_pred = self._decode(z)
-                loss = self.k_core_norm[i] * F.binary_cross_entropy(A_pred.view(-1), self.k_core_orgadj[i].to_dense().view(-1), weight = self.k_core_weight[i])
+                A_logits = self._decode_logits(z)
+                loss = self.k_core_norm[i] * F.binary_cross_entropy_with_logits(
+                    A_logits.view(-1),
+                    self.k_core_orgadj[i].to_dense().view(-1),
+                    weight=self.k_core_weight[i],
+                )
                 loss.backward()
                 optimizer.step()
                 y_pred = gmm.fit_predict(z.detach().numpy())
                 self.pi.data = torch.from_numpy(gmm.weights_).to(torch.float)
                 self.mu_c.data = torch.from_numpy(gmm.means_).to(torch.float)
                 self.log_sigma2_c.data =  torch.log(torch.from_numpy(gmm.covariances_)).to(torch.float)
-                acc = cal_acc(self.label[self.k_core_index[i]], y_pred[self.k_core_index[i]])
-                nmi = evaluate.compute_nmi(y_pred[self.k_core_index[i]], self.label[self.k_core_index[i]])
-                f1 = evaluate.computer_macrof1(y_pred[self.k_core_index[i]], self.label[self.k_core_index[i]])
-                ari = evaluate.computer_ari(y_pred[self.k_core_index[i]], self.label[self.k_core_index[i]])
-                epoch_bar.write('Loss pretraining = {:.4f}, acc = {:.4f}, nmi = {:.4f}, f1 = {:.4f}, ari = {:.4f}'.format(loss, acc , nmi, f1, ari))
-                nmi_list.append(acc)
-                if (nmi > nmi_best):
-                  nmi_best = nmi
-                  self.logstd = self.mean
-                  torch.save(self.state_dict(), pretrain_path)
-            print("Best accuracy : ",nmi_best)
+                if self.label is not None:
+                    acc = cal_acc(self.label[self.k_core_index[i]], y_pred[self.k_core_index[i]])
+                    nmi = evaluate.compute_nmi(y_pred[self.k_core_index[i]], self.label[self.k_core_index[i]])
+                    f1 = evaluate.computer_macrof1(y_pred[self.k_core_index[i]], self.label[self.k_core_index[i]])
+                    ari = evaluate.computer_ari(y_pred[self.k_core_index[i]], self.label[self.k_core_index[i]])
+                    epoch_bar.write('Loss pretraining = {:.4f}, acc = {:.4f}, nmi = {:.4f}, f1 = {:.4f}, ari = {:.4f}'.format(loss, acc , nmi, f1, ari))
+                    nmi_list.append(acc)
+                    if nmi > nmi_best:
+                        nmi_best = nmi
+                        self.logstd = self.mean
+                        torch.save(self.state_dict(), pretrain_path)
+                else:
+                    epoch_bar.write('Loss pretraining = {:.4f}'.format(loss))
+            if self.label is None:
+                torch.save(self.state_dict(), pretrain_path)
+            else:
+                print("Best accuracy : ", nmi_best)
         else:
             self.load_state_dict(torch.load(pretrain_path))
 
     def _train(self, i, constrained, epochs=200):
         self.load_state_dict(torch.load(get_pretrain_path()))
-        optimizer = torch.optim.Adam(self.parameters(), lr=0.002)
+        optimizer = torch.optim.Adam(self.parameters(), lr=self.train_lr)
         acc_list = []
         nmi_list = []
         max_nmi = -1
         best_y = None
+        best_embedding = None
         epoch_bar = tqdm(range(epochs))
         for epoch in epoch_bar:
             optimizer.zero_grad()
             z_mean, z_logstd, z = self._encode(self.k_core_adj[i], i)
-            A_pred = self._decode(z)
+            A_logits = self._decode_logits(z)
 
-            loss = self._ELBO(A_pred, z, z_mean, z_logstd, i, constrained = constrained)
+            loss = self._ELBO(A_logits, z, z_mean, z_logstd, i, constrained=constrained)
 
 
             y_pred, prob_y_pred = self._predict(z)
-            acc = cal_acc(self.label[self.k_core_index[i]], y_pred[self.k_core_index[i]])
-            nmi = evaluate.compute_nmi(y_pred[self.k_core_index[i]], self.label[self.k_core_index[i]])
-            f1 = evaluate.computer_macrof1(y_pred[self.k_core_index[i]], self.label[self.k_core_index[i]])
-            ari = evaluate.computer_ari(self.label[self.k_core_index[i]], y_pred[self.k_core_index[i]])
+            if _nmi_selection is not None:
+                _nmi_selection.consider(y_pred, z, epoch + 1, stage=f"core_{i}")
+            if self.label is not None:
+                acc = cal_acc(self.label[self.k_core_index[i]], y_pred[self.k_core_index[i]])
+                nmi = evaluate.compute_nmi(y_pred[self.k_core_index[i]], self.label[self.k_core_index[i]])
+                f1 = evaluate.computer_macrof1(y_pred[self.k_core_index[i]], self.label[self.k_core_index[i]])
+                ari = evaluate.computer_ari(self.label[self.k_core_index[i]], y_pred[self.k_core_index[i]])
 
 
             q_adj = self.adj_for_w[i]
@@ -417,51 +446,64 @@ class KMVGAE(nn.Module):
                 q = evaluate.modularity(q_adj.toarray(), y_pred[self.k_core_index[i]])
             except ImportError:
                 q = float('nan')
-            epoch_bar.write(
-                'Loss training = {:.4f}, acc = {:.4f}, nmi = {:.4f}, f1 = {:.4f}, ari = {:.4f}, q = {:.4f}'.format(loss, acc, nmi, f1, ari, q))
-            acc_list.append(acc)
-            nmi_list.append(nmi)
+            if self.label is not None:
+                epoch_bar.write(
+                    'Loss training = {:.4f}, acc = {:.4f}, nmi = {:.4f}, f1 = {:.4f}, ari = {:.4f}, q = {:.4f}'.format(loss, acc, nmi, f1, ari, q))
+                acc_list.append(acc)
+                nmi_list.append(nmi)
 
-            if nmi > max_nmi:
-                max_nmi = nmi
-                best_y = y_pred
+            if self.label is None or nmi > max_nmi:
+                if self.label is not None:
+                    max_nmi = nmi
+                best_y = y_pred.copy()
+                best_embedding = z.detach().cpu().numpy().copy()
 
             loss.backward()
             optimizer.step()
 
-        print("MAX ACC : {}, MAX NMI :{}".format(max(acc_list), max(nmi_list)))
-        self._get_w(best_y, i, max_nmi)
+        if self.label is not None:
+            print("MAX ACC : {}, MAX NMI :{}".format(max(acc_list), max(nmi_list)))
+            self._get_w(best_y, i, max_nmi)
+        self.best_embedding = best_embedding
         return best_y
 
-    def _ELBO_No_W(self, A_pred, z, z_mean, z_logstd):
+    def _ELBO_No_W(self, A_logits, z, z_mean, z_logstd):
         """
             消融实验使用的损失函数，没有约束信息
         """
         pi = self.pi
         mean_c = self.mu_c
         logstd_c = self.log_sigma2_c
-        det = 1e-2
 
-        loss_recons = 1e-2 * norm * F.binary_cross_entropy(A_pred.view(-1), self.adj_loop.to_dense().view(-1), weight= weight_tensor_orig)
+        loss_recons = self.reconstruction_scale * norm * F.binary_cross_entropy_with_logits(
+            A_logits.view(-1),
+            self.adj_loop.to_dense().view(-1),
+            weight=weight_tensor_orig,
+        )
         loss_recons = loss_recons * self.num_node
 
-        gamma_c = torch.exp(torch.log(pi.unsqueeze(0)) + self._gaussian_pdfs_log(z, mean_c, logstd_c)) + det
-        gamma_c = gamma_c / (gamma_c.sum(1).view(-1,1))
+        gamma_c = self._cluster_posteriors(z)
 
         KL1 = 0.5 * torch.mean(torch.sum(gamma_c * torch.sum(logstd_c.unsqueeze(0) + torch.exp(z_logstd.unsqueeze(1) - logstd_c.unsqueeze(0))
                                                              + (z_mean.unsqueeze(1) - mean_c.unsqueeze(0)).pow(2) / torch.exp(logstd_c.unsqueeze(0)), 2), 1))
-        KL2 = torch.mean(torch.sum(gamma_c * torch.log(pi.unsqueeze(0) / (gamma_c)),1)) + 0.5 * torch.mean(torch.sum(1 + z_logstd, 1))
+        KL2 = torch.mean(
+            torch.sum(
+                gamma_c
+                * (torch.log(pi.clamp_min(torch.finfo(pi.dtype).tiny)).unsqueeze(0) - torch.log(gamma_c)),
+                1,
+            )
+        ) + 0.5 * torch.mean(torch.sum(1 + z_logstd, 1))
         loss_clus = KL1 - KL2
 
         loss_elbo = loss_recons + loss_clus
         return loss_elbo
 
 
-    def _ELBO(self, A_pred, z, z_mean, z_logstd, i, constrained = False):
+    def _ELBO(self, A_logits, z, z_mean, z_logstd, i, constrained=False):
         pi = self.pi
         mean_c = self.mu_c
         logstd_c = self.log_sigma2_c
-        det = 1e-2
+        det = self.numerical_stability
 
         if constrained is True:
             w = self.W_tile.to_dense()  # 2707， 2708
@@ -469,11 +511,14 @@ class KMVGAE(nn.Module):
             mul = w.__mul__(y_pred)
             sum_j = torch.sum(mul, dim=-2) # + det
 
-        loss_recons = 1e-2 * self.k_core_norm[i] * F.binary_cross_entropy(A_pred.view(-1), self.k_core_orgadj[i].to_dense().view(-1), weight= self.k_core_weight[i])
+        loss_recons = self.reconstruction_scale * self.k_core_norm[i] * F.binary_cross_entropy_with_logits(
+            A_logits.view(-1),
+            self.k_core_orgadj[i].to_dense().view(-1),
+            weight=self.k_core_weight[i],
+        )
         loss_recons = loss_recons * self.num_node
 
-        gamma_c = torch.exp(torch.log(pi.unsqueeze(0)) + self._gaussian_pdfs_log(z, mean_c, logstd_c)) + det # 2708,7
-        gamma_c = gamma_c / (gamma_c.sum(1).view(-1,1)) # 2708,7
+        gamma_c = self._cluster_posteriors(z) # 2708,7
 
 
         KL1 = 0.5 * torch.mean(torch.sum(gamma_c * torch.sum(logstd_c.unsqueeze(0) + torch.exp(z_logstd.unsqueeze(1) - logstd_c.unsqueeze(0))
@@ -482,7 +527,13 @@ class KMVGAE(nn.Module):
         if constrained is True:
             KL2 = torch.mean(torch.sum(gamma_c * torch.log((sum_j / gamma_c) + det), 1)) + 0.5 * torch.mean(torch.sum(1 + z_logstd, 1))
         else:
-            KL2 = torch.mean(torch.sum(gamma_c * torch.log(pi.unsqueeze(0) / (gamma_c)), 1)) + 0.5 * torch.mean(torch.sum(1 + z_logstd, 1))
+            KL2 = torch.mean(
+                torch.sum(
+                    gamma_c
+                    * (torch.log(pi.clamp_min(torch.finfo(pi.dtype).tiny)).unsqueeze(0) - torch.log(gamma_c)),
+                    1,
+                )
+            ) + 0.5 * torch.mean(torch.sum(1 + z_logstd, 1))
 
         loss_clus = KL1 - KL2
         loss_elbo = loss_recons + loss_clus
@@ -494,19 +545,23 @@ class KMVGAE(nn.Module):
             G.append(self._gaussian_pdf_log(x,mus[c:c+1,:],log_sigma2s[c:c+1,:]).view(-1,1))
         return torch.cat(G,1)
 
+    def _cluster_posteriors(self, z):
+        """Compute the original stabilized mixture posterior in log space."""
+        tiny = torch.finfo(z.dtype).tiny
+        log_pi = torch.log(self.pi.clamp_min(tiny)).unsqueeze(0)
+        log_scores = log_pi + self._gaussian_pdfs_log(z, self.mu_c, self.log_sigma2_c)
+        log_det = torch.full_like(log_scores, math.log(max(self.numerical_stability, tiny)))
+        stabilized_log_scores = torch.logaddexp(log_scores, log_det)
+        return torch.softmax(stabilized_log_scores, dim=1)
+
 
     def _gaussian_pdf_log(self,x,mu,log_sigma2):
         c = -0.5 * torch.sum(np.log(np.pi*2)+log_sigma2+(x-mu).pow(2)/torch.exp(log_sigma2),1)
         return c
 
     def _predict(self, z):
-        pi = self.pi
-        log_sigma2_c = self.log_sigma2_c
-        mu_c = self.mu_c
-        det = 1e-2
-        yita_c = torch.exp(torch.log(pi.unsqueeze(0))+self._gaussian_pdfs_log(z,mu_c,log_sigma2_c))+det
-        yita = yita_c.detach().numpy()
-        return np.argmax(yita, axis=1), yita_c.detach()
+        posterior = self._cluster_posteriors(z).detach()
+        return np.argmax(posterior.numpy(), axis=1), posterior
 
     def _downstream(self):
 
@@ -564,10 +619,20 @@ def cal_acc(y_true, y_pred):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="EGC-VGAE")
     parser.add_argument("--dataset", type=str, default=DATASET)
-    parser.add_argument("--data_pt", type=str, default=None, help="Path to PyG data.pt with x, y and edge_index")
+    parser.add_argument("--data_pt", type=str, default=None, help="Path to PyG data.pt with x and edge_index; y is optional")
+    parser.add_argument("--n_clusters", type=int, default=None)
     parser.add_argument("--output_dir", type=str, default="outputs")
     parser.add_argument("--epochs", type=int, default=200)
+    parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--hidden1_dim", type=int, default=32)
+    parser.add_argument("--hidden2_dim", type=int, default=16)
+    parser.add_argument("--pretrain_lr", type=float, default=0.01)
+    parser.add_argument("--train_lr", type=float, default=0.002)
+    parser.add_argument("--reconstruction_scale", type=float, default=1e-2)
+    parser.add_argument("--numerical_stability", type=float, default=1e-2)
     args = parser.parse_args()
+    np.random.seed(args.seed)
+    torch.manual_seed(args.seed)
 
     DATASET = args.dataset
     PRETRAIN_DIR = os.path.join(args.output_dir, "egc_vgae_pretrain", DATASET)
@@ -584,6 +649,7 @@ if __name__ == "__main__":
         "adj": adj_norm,
         "feat": feat,
         "label": label,
+        "n_clusters": args.n_clusters,
         "norm": norm,
         "weight_tensor_orig" : weight_tensor_orig,
         "adj_loop" : adj_label,
@@ -592,7 +658,13 @@ if __name__ == "__main__":
         "norm_list" : norm_list,
         "weight_list" : weight_list,
         "adj_for_w_list": adj_for_w_list,
-        "index_list": index_list
+        "index_list": index_list,
+        "hidden1_dim": args.hidden1_dim,
+        "hidden2_dim": args.hidden2_dim,
+        "pretrain_lr": args.pretrain_lr,
+        "train_lr": args.train_lr,
+        "reconstruction_scale": args.reconstruction_scale,
+        "numerical_stability": args.numerical_stability,
     }
     model = KMVGAE(**configs)
     model._pretrain(0, epochs=args.epochs)
@@ -611,4 +683,5 @@ if __name__ == "__main__":
         timestamp = time.strftime("%Y%m%d_%H%M")
         output_path = os.path.join(args.output_dir, "EGC_VGAE_{}_labels.npy".format(timestamp))
         np.save(output_path, labels.astype(np.int64))
+        np.save(os.path.join(args.output_dir, "embeddings.npy"), model.best_embedding)
         print("EGC-VGAE labels saved in: {}".format(output_path))

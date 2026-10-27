@@ -9,6 +9,11 @@ from sklearn import metrics
 
 # similar to https://github.com/karenlatong/AGC-master/blob/master/metrics.py
 def cluster_acc(y_true, y_pred):
+    # The original implementation rewrites ``y_pred`` below when the true and
+    # predicted partitions have different cardinalities.  Work on local copies:
+    # callers may still need the original cluster assignments for training.
+    y_true = np.asarray(y_true).copy()
+    y_pred = np.asarray(y_pred).copy()
     y_true = y_true - np.min(y_true)
 
     l1 = list(set(y_true))
@@ -66,10 +71,13 @@ def cluster_acc(y_true, y_pred):
 
 
 def eva(y_true, y_pred, epoch=0, show=False):
+    if y_true is None:
+        if show:
+            print(f"epoch {epoch}: ground-truth labels unavailable; skipping external metrics")
+        return float('nan'), float('nan'), float('nan'), float('nan')
     acc, f1 = cluster_acc(y_true, y_pred)
     nmi = nmi_score(y_true, y_pred, average_method="arithmetic")
     ari = ari_score(y_true, y_pred)
     if show:
         print(f"epoch {epoch}:acc {acc:.4f}, nmi {nmi:.4f}, ari {ari:.4f}, f1 {f1:.4f}")
     return acc, nmi, ari, f1
-

@@ -143,10 +143,10 @@ def get_B(G):
   else:
       print('Invalid graph type')
       raise TypeError
-  Q=np.zeros(A.shape)
   nodes = list(G)
-  for i, j in product(range(len(nodes)),range(len(nodes))):
-    Q[i,j]=A[i,j]-(in_degree[nodes[i]]*out_degree[nodes[j]]/M )
+  in_values = np.asarray([in_degree[node] for node in nodes], dtype=float)
+  out_values = np.asarray([out_degree[node] for node in nodes], dtype=float)
+  Q = A.toarray() - np.outer(in_values, out_values) / M
   return Q/4
 
 

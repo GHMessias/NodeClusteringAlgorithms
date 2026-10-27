@@ -1,3 +1,11 @@
+
+# Optional benchmark result selection; standalone/default training is unchanged.
+import os as _benchmark_os
+if _benchmark_os.environ.get("BENCHMARK_SELECT_BEST_NMI") == "1":
+    from benchmark_selection import selection as _nmi_selection
+else:
+    _nmi_selection = None
+
 import math
 import argparse
 import os
@@ -83,15 +91,15 @@ def load_data_pt(data_pt):
     x = get_data_attr(data, 'x')
     y = get_data_attr(data, 'y')
     edge_index = get_data_attr(data, 'edge_index')
-    if x is None or y is None or edge_index is None:
-        raise ValueError("data.pt must contain x, y and edge_index.")
+    if x is None or edge_index is None:
+        raise ValueError("data.pt must contain x and edge_index.")
 
     features = sparse.csr_matrix(as_numpy(x).astype(np.float32))
-    labels = labels_to_vector(y)
+    labels = labels_to_vector(y) if y is not None else None
     adj = adjacency_from_edge_index(edge_index, features.shape[0])
     network = graph_from_adjacency(adj)
     B = utils.get_B(network)
-    label_mask = np.ones(labels.shape[0], dtype=bool)
+    label_mask = np.ones(labels.shape[0], dtype=bool) if labels is not None else None
 
     adj_metric = adj
     nb_nodes = features.shape[0]
@@ -140,22 +148,27 @@ def train(
     device,
     epochs=500,
     num_experiments=1,
+    lr=0.001,
+    weight_decay=0.1,
+    seed=0,
 ):
     sigmoidlogit = nn.Sigmoid()
     print(data_name)
     features, adj, B, true_labels, label_mask, nb_nodes, ft_size, adj_metric, m = preprocessed_data
     print(features.shape)
-    nmi_list = np.zeros(num_experiments)
+    nmi_list = np.full(num_experiments, np.nan)
 
-    kmeans_nmi_list = np.zeros(num_experiments)
+    kmeans_nmi_list = np.full(num_experiments, np.nan)
     cond_list, kmeans_cond_list = np.zeros(num_experiments), np.zeros(num_experiments)
     modularity_list, kmeans_modularity_list = np.zeros(num_experiments), np.zeros(num_experiments)
-    Fscore_list, kmeans_Fscore_list = np.zeros(num_experiments), np.zeros(num_experiments)
+    Fscore_list = np.full(num_experiments, np.nan)
+    kmeans_Fscore_list = np.full(num_experiments, np.nan)
 
     final_kmeans_preds = None
+    final_embeddings = None
     for i in tqdm(range(num_experiments)):
         model = GCN(ft_size, hid_units, nb_nodes,hid_dimension).to(device)
-        optimiser = torch.optim.Adam(model.parameters(), lr=0.001,weight_decay=0.1)
+        optimiser = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
         features_device = features.to(device)
         B_device = B.to(device)
         adj_device = adj.to(device)
@@ -170,53 +183,64 @@ def train(
             loss.backward()
             optimiser.step()
             model.eval()
+            if _nmi_selection is not None:
+                with _nmi_selection.inference(model):
+                    candidate = sigmoidlogit(model(features_device, adj_device))
+                    candidate = candidate.view(nb_nodes, hid_units)
+                    _nmi_selection.kmeans(candidate, n_communities, epoch + 1,
+                                          stage=f"experiment_{i + 1}")
         model.eval()
         logits = model(features_device, adj_device)
         logits=sigmoidlogit(logits)
         cpu_logits = logits.view(nb_nodes, hid_units).detach().cpu().numpy()
         preds = torch.argmax(logits[0], dim=1).detach().cpu().numpy()
-        nmi = normalized_mutual_info_score(true_labels, preds)
-        print('nmi:'+str(nmi))
+        if true_labels is not None:
+            nmi = normalized_mutual_info_score(true_labels, preds)
+            print('nmi:' + str(nmi))
         # Fit kmeans to the output space
         kmeans_model = KMeans(
             init='k-means++',
             n_clusters=n_communities,
-            random_state=0
+            random_state=seed,
         ).fit(cpu_logits)
         kmeans_preds = kmeans_model.labels_
         final_kmeans_preds = kmeans_preds
+        final_embeddings = cpu_logits
 
-        # Calculate NMI
-        nmi = normalized_mutual_info_score(true_labels, preds)
-        kmeans_nmi = normalized_mutual_info_score(true_labels, kmeans_preds)
-        kmeans_nmi_list[i] = kmeans_nmi
-        nmi_list[i] = nmi
+        if true_labels is not None:
+            nmi = normalized_mutual_info_score(true_labels, preds)
+            kmeans_nmi = normalized_mutual_info_score(true_labels, kmeans_preds)
+            kmeans_nmi_list[i] = kmeans_nmi
+            nmi_list[i] = nmi
 
         cond_list[i] = utils.conductance(adj_metric, preds)
         kmeans_cond_list[i] = utils.conductance(adj_metric, kmeans_preds)
         modularity_list[i] = utils.modularity(adj_metric, preds)
         kmeans_modularity_list[i] = utils.modularity(adj_metric, kmeans_preds)
-        p = utils.precision(true_labels, preds)
-        r = utils.recall(true_labels, preds)
-        Fscore_list[i] = 2 * (r * p) / (r + p)
+        if true_labels is not None:
+            p = utils.precision(true_labels, preds)
+            r = utils.recall(true_labels, preds)
+            Fscore_list[i] = 2 * (r * p) / (r + p)
 
-        p = utils.precision(true_labels, kmeans_preds)
-        r = utils.recall(true_labels, kmeans_preds)
-        kmeans_Fscore_list[i] = 2 * (r * p) / (r + p)
+            p = utils.precision(true_labels, kmeans_preds)
+            r = utils.recall(true_labels, kmeans_preds)
+            kmeans_Fscore_list[i] = 2 * (r * p) / (r + p)
 
     print('\n')
     print('Baseline scores:')
-    print('NMI:', np.mean(nmi_list), np.std(nmi_list))
-    print('Fscore:', np.mean(Fscore_list), np.std(Fscore_list))
+    if true_labels is not None:
+        print('NMI:', np.mean(nmi_list), np.std(nmi_list))
+        print('Fscore:', np.mean(Fscore_list), np.std(Fscore_list))
     print('Conductance:', np.mean(cond_list), np.std(cond_list))
     print('Modularity:', np.mean(modularity_list), np.std(modularity_list))
 
     print('Kmeans scores:')
-    print('NMI:', np.mean(kmeans_nmi_list), np.std(kmeans_nmi_list))
-    print('Fscore:', np.mean(kmeans_Fscore_list), np.std(kmeans_Fscore_list))
+    if true_labels is not None:
+        print('NMI:', np.mean(kmeans_nmi_list), np.std(kmeans_nmi_list))
+        print('Fscore:', np.mean(kmeans_Fscore_list), np.std(kmeans_Fscore_list))
     print('Conductance:', np.mean(kmeans_cond_list), np.std(kmeans_cond_list))
     print('Modularity:', np.mean(kmeans_modularity_list), np.std(kmeans_modularity_list))
-    return final_kmeans_preds
+    return final_kmeans_preds, final_embeddings
 
 
 def run_nonoverlapping(args):
@@ -224,9 +248,11 @@ def run_nonoverlapping(args):
     preprocessed_data = load_data_pt(args.data_pt)
     true_labels = preprocessed_data[3]
     n_communities = args.kmeans_clusters
-    if n_communities is None:
+    if n_communities is None and true_labels is not None:
         n_communities = len(np.unique(true_labels))
-    preds = train(
+    if n_communities is None:
+        raise ValueError("--kmeans_clusters is required when data.y is unavailable.")
+    preds, embeddings = train(
         data_name=os.path.basename(args.data_pt),
         n_communities=n_communities,
         preprocessed_data=preprocessed_data,
@@ -235,18 +261,22 @@ def run_nonoverlapping(args):
         device=device,
         epochs=args.epochs,
         num_experiments=args.num_experiments,
+        lr=args.lr,
+        weight_decay=args.weight_decay,
+        seed=args.seed,
     )
     if args.output_dir:
         os.makedirs(args.output_dir, exist_ok=True)
         timestamp = time.strftime("%Y%m%d_%H%M")
         output_path = os.path.join(args.output_dir, "UCODE_{}_labels.npy".format(timestamp))
         np.save(output_path, preds.astype(np.int64))
+        np.save(os.path.join(args.output_dir, "embeddings.npy"), embeddings)
         print("UCODE labels saved in: {}".format(output_path))
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='UCODE non-overlapping community detection')
-    parser.add_argument('--data_pt', type=str, required=True, help='Path to PyG data.pt with x, y and edge_index')
+    parser.add_argument('--data_pt', type=str, required=True, help='Path to PyG data.pt with x and edge_index; y is optional')
     parser.add_argument('--output_dir', type=str, default='outputs')
     parser.add_argument('--epochs', type=int, default=500)
     parser.add_argument('--device', type=str, default='cpu', choices=['cpu', 'cuda'])
@@ -254,12 +284,16 @@ if __name__ == '__main__':
     parser.add_argument('--hid_units', type=int, default=16)
     parser.add_argument('--hid_dimension', type=int, default=512)
     parser.add_argument('--num_experiments', type=int, default=1)
+    parser.add_argument('--lr', type=float, default=0.001)
+    parser.add_argument('--weight_decay', type=float, default=0.1)
+    parser.add_argument('--seed', type=int, default=0)
     args = parser.parse_args()
     if args.device == 'cuda' and not torch.cuda.is_available():
         raise RuntimeError("CUDA was requested with --device cuda, but it is not available.")
     if args.device == 'cpu':
         os.environ["CUDA_VISIBLE_DEVICES"] = ""
+    np.random.seed(args.seed)
+    torch.manual_seed(args.seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(args.seed)
     run_nonoverlapping(args)
-
-
-

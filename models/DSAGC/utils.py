@@ -71,14 +71,15 @@ def load_data_pt(data_pt):
     x = get_data_attr(data, "x")
     y = get_data_attr(data, "y")
     edge_index = get_data_attr(data, "edge_index")
-    if x is None or y is None or edge_index is None:
-        raise ValueError("data.pt must contain x, y and edge_index.")
+    if x is None or edge_index is None:
+        raise ValueError("data.pt must contain x and edge_index.")
 
     x = as_tensor(x).float()
-    y = as_tensor(y)
-    if y.dim() > 1:
-        y = torch.argmax(y, dim=1)
-    y = y.long().view(-1)
+    if y is not None:
+        y = as_tensor(y)
+        if y.dim() > 1:
+            y = torch.argmax(y, dim=1)
+        y = y.long().view(-1)
     edge_index = normalize_edge_index(edge_index, x.shape[0])
     return Data(x=x, y=y, edge_index=edge_index)
 
@@ -88,7 +89,8 @@ def data_preprocessing(dataset):
         dataset = load_data_pt(dataset)
 
     dataset.x = as_tensor(dataset.x).float()
-    dataset.y = as_tensor(dataset.y).long().view(-1)
+    if getattr(dataset, 'y', None) is not None:
+        dataset.y = as_tensor(dataset.y).long().view(-1)
     dataset.edge_index = normalize_edge_index(dataset.edge_index, dataset.x.shape[0])
 
     dataset.adj = torch.sparse_coo_tensor(
@@ -109,4 +111,3 @@ def get_M(adj):
     tran_prob = normalize(adj_numpy, norm="l1", axis=0)
     M_numpy = sum([np.linalg.matrix_power(tran_prob, i) for i in range(1, t + 1)]) / t
     return torch.Tensor(M_numpy)
-

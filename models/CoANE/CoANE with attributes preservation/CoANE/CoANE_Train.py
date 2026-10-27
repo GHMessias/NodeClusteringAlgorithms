@@ -1,3 +1,11 @@
+
+# Optional benchmark result selection; standalone/default training is unchanged.
+import os as _benchmark_os
+if _benchmark_os.environ.get("BENCHMARK_SELECT_BEST_NMI") == "1":
+    from benchmark_selection import selection as _nmi_selection
+else:
+    _nmi_selection = None
+
 import torch
 import torch.nn as nn
 import numpy as np
@@ -168,6 +176,20 @@ def Train(PAR, Context, args):
             sentence_step += 1 
             torch.cuda.empty_cache()
             
+        if _nmi_selection is not None:
+            with _nmi_selection.inference(model):
+                candidate = np.zeros((nb_node, nb_filter))
+                m = V_BATCH_SIZE
+                for k in range(R_SIZE):
+                    for l in range(1, int(np.ceil(candidate.shape[0] / m)) + 1):
+                        batch = slice((l - 1) * m + 1, l * m + 1)
+                        candidate[batch, :] += model([X[k][0][batch], X[k][1][batch], t_feat])[-1].detach().cpu().squeeze().numpy()
+                candidate /= R_SIZE
+                id_list = [PAR['word2id'][str(i)] for i in PAR['gl']]
+                candidate = candidate[id_list]
+                candidate_k = args.kmeans_clusters or int(np.unique(_nmi_selection.labels).size)
+                _nmi_selection.kmeans(candidate, candidate_k, epoch + 1, n_init=10)
+
     #Renew
     print("Renewing embeddings...")
     embeddings = np.zeros((nb_node, nb_filter))

@@ -1,3 +1,11 @@
+
+# Optional benchmark result selection; standalone/default training is unchanged.
+import os as _benchmark_os
+if _benchmark_os.environ.get("BENCHMARK_SELECT_BEST_NMI") == "1":
+    from benchmark_selection import selection as _nmi_selection
+else:
+    _nmi_selection = None
+
 # train
 import torch
 import torch.nn as nn
@@ -225,6 +233,11 @@ def Train(PAR, Context, args):
                 PAR = eval_emb(model, x[0], x[2], nb_filter, V_BATCH_SIZE, PAR, n_c_)
                 LP = evaluation(PAR)
 
+        if _nmi_selection is not None:
+            with _nmi_selection.inference(model):
+                candidate_par = eval_emb(model, x[0], x[2], nb_filter, V_BATCH_SIZE, PAR.copy(), n_c_)
+                candidate_k = args.kmeans_clusters or int(np.unique(_nmi_selection.labels).size)
+                _nmi_selection.kmeans(candidate_par['embeddings'], candidate_k, epoch + 1, n_init=10)
         torch.cuda.empty_cache()
             
     #Renew
