@@ -1,0 +1,91 @@
+experiment:
+  dataset: new_polblogs_final
+  data_pt: datasets/PolBlogs/processed/data_identity.pt
+  output_root: results
+  device: cuda
+  seed: 2026
+  runs: 5
+  continue_on_error: true
+
+cluster_count:
+  # Estimate one common K exclusively from graph topology.
+  method: null
+  newman_riolo:
+    burn_in: 1000
+    timeout_seconds: null
+
+output:
+  csv_filename: metrics.csv
+  save_labels: true
+  save_embeddings: true
+  save_logs: true
+  save_metadata: true
+  generate_figures: true
+  figure_dpi: 180
+  figure_max_points: 5000
+  figure_perplexity: 30
+  figure_tsne_iterations: 1000
+
+metrics:
+  # These metrics do not require a single-label ground truth.
+  include:
+    - runtime_seconds
+    - acc
+    - nmi
+    - ari
+    - f1_macro
+    - f1_micro
+    - modularity
+    - n_clusters
+    - silhouette
+    - calinski_harabasz
+    - davies_bouldin
+
+models:
+  densgnn:
+    enabled: true
+    params:
+      encoder_hidden_channels: 128
+      embedding_channels: 32
+      epochs: 200
+      warmup_epochs: 20
+      learning_rate: 0.005
+      clustering_loss_gamma: 1.0
+      update_p_interval: 5
+      point_selection: core
+      point_probability_threshold: 0.5
+      hdbscan_min_cluster_size: 10
+      hdbscan_min_samples: 5
+      hdbscan_cluster_selection_method: eom
+      mrd_k: 5
+      support_distance: mrd
+      save_epoch_nmi: true
+
+
+  deep_densgnn:
+    enabled: true
+    params:
+      encoder_hidden_channels: 128
+      embedding_channels: 32
+      epochs: 200
+      warmup_epochs: 20
+      learning_rate: 0.005
+      weight_decay: 0.0
+      dropout: 0.0
+      clustering_loss_gamma: 1.0
+      update_p_interval: 5
+      point_selection: adaptive
+      point_probability_threshold: 0.5
+      hdbscan_min_cluster_size: 10
+      hdbscan_min_samples: 5
+      hdbscan_cluster_selection_method: eom
+      mrd_k: 5
+      support_distance: mrd
+      candidate_k: [2, 4, 6, 8, 10, 12, 14, 16]
+      density_temperature: 1.0
+      log_density_scales: false
+      verbose: false
+      log_interval: 1
+      evaluation_interval: 10
+      save_epoch_nmi: true
+      encoder_type: gcn

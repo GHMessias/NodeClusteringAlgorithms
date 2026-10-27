@@ -1,0 +1,64 @@
+# DensGNN min_pts sweep: polblogs, gat, min_pts=20; one run.
+# Source: configs/ablation_distance/polblogs/adaptive.yaml
+# hdbscan_min_samples and mrd_k are varied together; all other model parameters are preserved.
+experiment:
+  dataset: polblogs_gat_minpts_20
+  data_pt: datasets/PolBlogs/processed/data_identity.pt
+  output_root: results/ablation_minpts_encoder
+  device: cuda
+  seed: 2030
+  runs: 1
+  continue_on_error: true
+  timeout_seconds: 600
+  ignore_ground_truth: false
+  select_best_nmi: false
+cluster_count:
+  method: newman-riolo
+  newman_riolo:
+    burn_in: 1000
+    timeout_seconds: null
+output:
+  csv_filename: metrics.csv
+  save_labels: true
+  save_embeddings: true
+  save_logs: true
+  save_metadata: true
+  generate_figures: true
+  figure_dpi: 180
+  figure_max_points: 5000
+  figure_perplexity: 30
+  figure_tsne_iterations: 1000
+metrics:
+  include:
+  - runtime_seconds
+  - acc
+  - nmi
+  - ari
+  - f1_macro
+  - f1_micro
+  - modularity
+  - n_clusters
+  - silhouette
+  - calinski_harabasz
+  - davies_bouldin
+  - dbcv
+models:
+  densgnn:
+    enabled: true
+    params:
+      encoder_hidden_channels: 128
+      embedding_channels: 32
+      epochs: 200
+      warmup_epochs: 20
+      learning_rate: 0.005
+      clustering_loss_gamma: 1.0
+      update_p_interval: 5
+      point_selection: adaptive
+      point_probability_threshold: 0.5
+      hdbscan_min_cluster_size: 10
+      hdbscan_min_samples: 20
+      hdbscan_cluster_selection_method: eom
+      mrd_k: 20
+      support_distance: mrd
+      save_epoch_nmi: true
+      encoder_type: gat

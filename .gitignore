@@ -1,1 +1,25 @@
-/venv
+/venv/
+AGENTS.md
+
+# Python-generated files
+__pycache__/
+*.py[cod]
+
+# Locally compiled Newman-Riolo executable
+/scripts/communities/.build/
+
+# New benchmark outputs
+/results/*/runs/
+/results/*/cluster_count/
+/results/
+
+# Legacy output locations are no longer used by the benchmark runner
+/outputs/
+/outputs_old/
+
+# Baseline-generated caches and experiment artifacts
+/models/DGC-EFR/exp/
+/models/DGCluster/results/
+/models/DSAGC/pretrain/self_GCN_*.pkl
+
+/datasets/

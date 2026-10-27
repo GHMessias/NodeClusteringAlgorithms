@@ -7,6 +7,8 @@ scikit-learn==1.8.0
 # PyTorch stack
 torch==2.11.0
 torch-geometric==2.7.0
+# Node2Vec random-walk backend; install the wheel matching the PyTorch/CUDA build.
+torch-cluster==1.6.3
 
 # TensorFlow/Keras models
 tensorflow==2.21.0
@@ -14,6 +16,7 @@ keras==3.14.1
 
 # Graphs, clustering metrics, and data utilities
 networkx==3.6.1
+hdbscan==0.8.44  # Exact DBCV evaluation
 munkres==1.1.4
 h5py==3.14.0
 PyYAML>=6.0.2

@@ -1,0 +1,269 @@
+experiment:
+  dataset: cora_final
+  data_pt: datasets/Cora/processed/data.pt
+  output_root: results
+  device: cpu
+  seed: 2026
+  runs: 5
+  continue_on_error: true
+  # Facebook has overlapping/multilabel targets. The runner creates a derived
+  # input under results/facebook_final/inputs with data.y removed and passes it
+  # to every model, leaving the original dataset untouched.
+  ignore_ground_truth: false
+cluster_count:
+  # Estimate one common K exclusively from graph topology.
+  method: newman-riolo
+  newman_riolo:
+    burn_in: 1000
+    timeout_seconds: null
+
+output:
+  csv_filename: metrics.csv
+  save_labels: true
+  save_embeddings: true
+  save_logs: true
+  save_metadata: true
+  generate_figures: true
+  figure_dpi: 180
+  figure_max_points: 5000
+  figure_perplexity: 30
+  figure_tsne_iterations: 1000
+
+metrics:
+  # These metrics do not require a single-label ground truth.
+  include:
+    - runtime_seconds
+    - acc
+    - nmi
+    - ari
+    - f1_macro
+    - f1_micro
+    - modularity
+    - n_clusters
+    - silhouette
+    - calinski_harabasz
+    - davies_bouldin
+
+models:
+  kmeans_attributes:
+    enabled: true
+    params:
+      n_clusters: null
+      n_init: 20
+      max_iter: 300
+      tol: 0.0001
+      algorithm: lloyd
+
+  node2vec_kmeans:
+    enabled: true
+    params:
+      n_clusters: null
+      embedding_dim: 128
+      walk_length: 20
+      context_size: 10
+      walks_per_node: 10
+      num_negative_samples: 1
+      p: 1.0
+      q: 1.0
+      directed: false
+      epochs: 20
+      batch_size: 1024
+      lr: 0.01
+      num_workers: 0
+      kmeans_n_init: 20
+      kmeans_max_iter: 300
+      log_interval: 1
+
+  gae_kmeans:
+    enabled: true
+    params:
+      n_clusters: null
+      epochs: 200
+      hidden_channels: 128
+      embedding_dim: 32
+      lr: 0.01
+      weight_decay: 0.0
+      dropout: 0.0
+      kmeans_n_init: 20
+      kmeans_max_iter: 300
+      log_interval: 10
+
+  vgae_kmeans:
+    enabled: true
+    params:
+      n_clusters: null
+      epochs: 200
+      hidden_channels: 128
+      embedding_dim: 32
+      lr: 0.01
+      weight_decay: 0.0
+      dropout: 0.0
+      kl_weight: 1.0
+      kmeans_n_init: 20
+      kmeans_max_iter: 300
+      log_interval: 10
+
+  arga_kmeans:
+    enabled: true
+    params:
+      n_clusters: null
+      epochs: 200
+      hidden_channels: 128
+      embedding_dim: 32
+      lr: 0.01
+      weight_decay: 0.0
+      dropout: 0.0
+      discriminator_hidden_channels: 64
+      discriminator_lr: 0.01
+      discriminator_steps: 1
+      adversarial_weight: 1.0
+      kmeans_n_init: 20
+      kmeans_max_iter: 300
+      log_interval: 10
+
+  dgc_efr:
+    enabled: true
+    params:
+      preae:
+        k: 3
+        epochs: 50
+        lr: 0.001
+        n_clusters: null
+        n_z: 10
+        hidden1_dim: 128
+        hidden2_dim: 64
+        hidden3_dim: 32
+        batch_size: 256
+        kmeans_n_init: 20
+        gamma: 0.97
+        decay_period: 1
+      pregae:
+        lr: 0.001
+        epochs: 50
+        k: 5
+        n_clusters: null
+        hidden1_dim: 128
+        hidden2_dim: 64
+        hidden3_dim: 32
+        weight_decay: 0.005
+        alpha: 0.2
+        diffusion_steps: 10
+        kmeans_n_init: 20
+      train:
+        lr: 0.001
+        k: 5
+        epochs: 200
+        lambda1: 1.0
+        n_clusters: null
+        update_interval: 1
+        hidden1_dim: 128
+        hidden2_dim: 64
+        hidden3_dim: 32
+        n_z: 10
+        weight_decay: 0.005
+        alpha: 0.2
+        sigma: 0.1
+        diffusion_steps: 10
+        kmeans_n_init: 20
+        gae_reconstruction_weight: 1.0
+        ae_reconstruction_weight: 10.0
+        gamma: 0.97
+        decay_period: 1
+
+  dgcss:
+    enabled: true
+    # KMeans is used to initialize/select the centroids.
+    params:
+      centroid_method: KMeans
+      n_clusters: null
+      epochs: 200
+      clustering_loss_gamma: 20.0
+      p_interval: 1
+      hidden_layer: 128
+      output_layer: 32
+      b_matrix_degree: 3
+      learning_rate: 0.0005
+      lr_change_gamma: 0.95
+      lr_change_epochs: 50
+      update_clusters_step_size: 0.1
+      rechose_centroids: false
+      not_improving_limit: 100
+      num_layers: 2
+      attention_heads: 2
+      dropout: 0.2
+      concat: true
+      kmeans_random_state: 0
+      kmeans_n_init: auto
+      save_native_plots: false
+      debug: false
+
+  scgc:
+    enabled: true
+    params:
+      k: 3
+      lr: 0.001
+      n_clusters: null
+      n_z: 10
+      model: SCGC
+      mode: full
+      influence: false
+      epochs: 200
+      iterations: 1
+      verbosity: 0
+      alpha: 2.0
+      beta: 0.1
+      batch_size: 2048
+      order: 2
+      tau: 1.0
+
+  densgnn:
+    enabled: true
+    params:
+      encoder_hidden_channels: 128
+      embedding_channels: 32
+      epochs: 200
+      warmup_epochs: 5
+      learning_rate: 0.005
+      weight_decay: 0.0
+      dropout: 0.0
+      clustering_loss_gamma: 1.0
+      update_p_interval: 1
+      point_selection: adaptive
+      point_probability_threshold: 0.5
+      hdbscan_min_cluster_size: 5
+      hdbscan_min_samples: 30
+      hdbscan_cluster_selection_method: eom
+      mrd_k: 30
+      support_distance: mrd
+      verbose: false
+      log_interval: 1
+      evaluation_interval: 10
+      save_epoch_nmi: false
+
+  deep_densgnn:
+    enabled: true
+    params:
+      encoder_hidden_channels: 128
+      embedding_channels: 32
+      epochs: 200
+      warmup_epochs: 5
+      learning_rate: 0.005
+      weight_decay: 0.0
+      dropout: 0.0
+      clustering_loss_gamma: 1.0
+      update_p_interval: 1
+      point_selection: adaptive
+      point_probability_threshold: 0.5
+      hdbscan_min_cluster_size: 5
+      hdbscan_min_samples: 30
+      hdbscan_cluster_selection_method: eom
+      mrd_k: 30
+      support_distance: mrd
+      candidate_k: [2, 4, 6, 8, 10, 12, 14, 16]
+      density_temperature: 1.0
+      log_density_scales: false
+      verbose: false
+      log_interval: 1
+      evaluation_interval: 10
+      save_epoch_nmi: false
+      encoder_type: sage

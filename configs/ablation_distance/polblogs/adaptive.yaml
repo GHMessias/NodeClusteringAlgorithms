@@ -1,0 +1,64 @@
+# Ablation DensGNN: polblogs / adaptive; 7 runs, seeds 2030-2036.
+# Source: configs/core_border_adaptive_densgnn/core_border_adaptive_polblogs/densgnn.yaml
+# Within each dataset, only point_selection differs between variants
+# (besides the experiment identifier). All other settings are shared.
+experiment:
+  dataset: polblogs_adaptive
+  data_pt: datasets/PolBlogs/processed/data_identity.pt
+  output_root: results/ablation_distance
+  device: cuda
+  seed: 2030
+  runs: 7
+  continue_on_error: true
+  timeout_seconds: 600
+  ignore_ground_truth: false
+  select_best_nmi: false
+cluster_count:
+  method: newman-riolo
+  newman_riolo:
+    burn_in: 1000
+    timeout_seconds: null
+output:
+  csv_filename: metrics.csv
+  save_labels: true
+  save_embeddings: true
+  save_logs: true
+  save_metadata: true
+  generate_figures: true
+  figure_dpi: 180
+  figure_max_points: 5000
+  figure_perplexity: 30
+  figure_tsne_iterations: 1000
+metrics:
+  include:
+  - runtime_seconds
+  - acc
+  - nmi
+  - ari
+  - f1_macro
+  - f1_micro
+  - modularity
+  - n_clusters
+  - silhouette
+  - calinski_harabasz
+  - davies_bouldin
+  - dbcv
+models:
+  densgnn:
+    enabled: true
+    params:
+      encoder_hidden_channels: 128
+      embedding_channels: 32
+      epochs: 200
+      warmup_epochs: 20
+      learning_rate: 0.005
+      clustering_loss_gamma: 1.0
+      update_p_interval: 5
+      point_selection: adaptive
+      point_probability_threshold: 0.5
+      hdbscan_min_cluster_size: 10
+      hdbscan_min_samples: 5
+      hdbscan_cluster_selection_method: eom
+      mrd_k: 5
+      support_distance: mrd
+      save_epoch_nmi: true

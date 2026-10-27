@@ -1,0 +1,69 @@
+# DensGNN min_pts sweep: cora, sageconv, min_pts=20; one run.
+# Source: configs/ablation_distance/cora/adaptive.yaml
+# hdbscan_min_samples and mrd_k are varied together; all other model parameters are preserved.
+experiment:
+  dataset: cora_sageconv_minpts_20
+  data_pt: datasets/Cora/processed/data.pt
+  output_root: results/ablation_minpts_encoder
+  device: cuda
+  seed: 2030
+  runs: 1
+  continue_on_error: true
+  timeout_seconds: 600
+  ignore_ground_truth: false
+  select_best_nmi: false
+cluster_count:
+  method: newman-riolo
+  newman_riolo:
+    burn_in: 1000
+    timeout_seconds: null
+output:
+  csv_filename: metrics.csv
+  save_labels: true
+  save_embeddings: true
+  save_logs: true
+  save_metadata: true
+  generate_figures: true
+  figure_dpi: 180
+  figure_max_points: 5000
+  figure_perplexity: 30
+  figure_tsne_iterations: 1000
+metrics:
+  include:
+  - runtime_seconds
+  - acc
+  - nmi
+  - ari
+  - f1_macro
+  - f1_micro
+  - modularity
+  - n_clusters
+  - silhouette
+  - calinski_harabasz
+  - davies_bouldin
+  - dbcv
+models:
+  densgnn:
+    enabled: true
+    params:
+      encoder_hidden_channels: 128
+      embedding_channels: 32
+      epochs: 200
+      warmup_epochs: 5
+      learning_rate: 0.005
+      weight_decay: 0.0
+      dropout: 0.0
+      clustering_loss_gamma: 1.0
+      update_p_interval: 1
+      point_selection: adaptive
+      point_probability_threshold: 0.5
+      hdbscan_min_cluster_size: 5
+      hdbscan_min_samples: 20
+      hdbscan_cluster_selection_method: eom
+      mrd_k: 20
+      support_distance: mrd
+      verbose: false
+      log_interval: 1
+      evaluation_interval: 10
+      save_epoch_nmi: false
+      encoder_type: sage
